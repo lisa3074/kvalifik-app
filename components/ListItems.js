@@ -1,37 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity, TextInput } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 
 import Button from "./Button";
 
 const ListItems = props => {
-  const { todos, setTodos, buttonRef, text } = props;
-  const [editText, setEditText] = useState("");
-  const [isEdited, setIsEdited] = useState(false);
-
-  useEffect(() => {
-    console.log(editText);
-  }, [editText]);
-  useEffect(() => {
-    console.log(isEdited);
-  }, [isEdited]);
+  const { todos, setTodos, buttonRef } = props;
 
   const renderItem = ({ item }) => <Item id={item.id} title={item.title} />;
 
   const Item = ({ title, id }) => (
     <View style={styles.todo}>
-      <Text /* style={isEdited ? styles.hide : ""} */>{title}</Text>
-      <TextInput
-        /* style={!isEdited ? styles.hide : styles.textArea} value={editText} */ style={styles.textArea}
-        onChangeText={setEditText}
-      />
+      <Text>{title}</Text>
       <View style={styles.container}>
-        <Button
-          title={isEdited ? "save" : "edit"}
-          eventHandler={isEdited ? handleSave : handleEdit}
-          id={id}
-          buttonRef={buttonRef}
-        />
-
         <Button title="delete" eventHandler={handleDelete} id={id} buttonRef={buttonRef} />
       </View>
     </View>
@@ -40,22 +20,6 @@ const ListItems = props => {
   const handleDelete = id => {
     console.log(id);
     setTodos(todos.filter(todo => todo.id !== id));
-  };
-  const handleEdit = (id, buttonRef) => {
-    setIsEdited(true);
-  };
-
-  const handleSave = id => {
-    console.log(
-      id,
-      todos.filter(todo => todo.id !== id),
-      editText
-    );
-    setTodos(todos.filter(todo => todo.id !== id));
-    setTodos(todos => [...todos, { title: editText, id: id }]);
-    console.log(todos);
-    /*    setEditText("");
-    setIsEdited(false); */
   };
 
   return (

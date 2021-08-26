@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { TextInput, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 import Button from "./Button";
 
 const Input = props => {
   const { setTodos, buttonRef, text, setText } = props;
-  //const [text, setText] = useState("");
 
   const handleAddTodo = () => {
     //Add the new entry to the array (new array)
@@ -17,10 +16,6 @@ const Input = props => {
     <>
       <TextInput style={styles.input} placeholder="Type a todo" value={text} onChangeText={setText} />
       <Button title="add" eventHandler={handleAddTodo} buttonRef={buttonRef} />
-      {/*      <TouchableOpacity style={styles.button} onPress={handleAddTodo}>
-        <Text style={styles.text}>Add</Text>
-      </TouchableOpacity> */}
-
       <StatusBar style="auto" />
     </>
   );

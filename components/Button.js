@@ -6,7 +6,7 @@ const Button = props => {
   return (
     <TouchableOpacity
       ref={buttonRef}
-      style={[styles.button, title === "delete" ? styles.deleteBtn : title === "add" ? styles.addBtn : ""]}
+      style={[styles.button, title === "add" ? styles.addBtn : ""]}
       onPress={eventHandler.bind(this, id, buttonRef)}>
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
