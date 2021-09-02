@@ -30,22 +30,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 5,
-    width: 500,
+
+    //width: 300,
   },
-  /*   button: {
-    width: 80,
-    backgroundColor: "rgb(33, 150, 243)",
-    height: 35,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    boxShadow: "3px 3px 6px #999999",
-    marginBottom: 10,
-  },
-  text: {
-    color: "white",
-    fontWeight: 500,
-    textTransform: "uppercase",
-  }, */
 });

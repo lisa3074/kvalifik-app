@@ -23,7 +23,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    boxShadow: "3px 3px 6px #999999",
+    shadowColor: "#999999",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 3,
+      width: 3,
+    },
     alignSelf: "flex-end",
   },
   deleteBtn: {
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontWeight: 500,
+    fontWeight: "500",
     textTransform: "uppercase",
   },
 });

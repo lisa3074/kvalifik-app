@@ -43,13 +43,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     display: "flex",
     alignItems: "stretch",
-    width: 505,
+    //width: 300,
   },
   todo: {
     marginBottom: 20,
     padding: 10,
     marginRight: 5,
-    boxShadow: "3px 3px 6px #d8d8d8",
+    shadowColor: "#d8d8d8",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 3,
+      width: 3,
+    },
     borderRadius: 5,
     backgroundColor: "#2196f330",
     flexDirection: "row",
@@ -64,7 +70,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   textArea: {
-    border: "1px solid black",
+    borderColor: "black",
+    borderWidth: 1,
+    borderStyle: "solid",
     display: "flex",
   },
   hide: {
