@@ -1,6 +1,10 @@
 import ChatRoom from "../classModels/ChatRoom";
 import Message from "../classModels/ChatRoom";
 import User from "../classModels/ChatRoom";
+import feminist from "../static/images/feminist.png";
+import golf from "../static/images/golf.png";
+import surf from "../static/images/surf.png";
+import students from "../static/images/students.png";
 
 export const Users = [
   new User("1", "Peter Møller", "Jensen", "dummyUrlLink"),
@@ -16,7 +20,8 @@ export const Messages = [
 ];
 
 export const ChatRooms = [
-  new ChatRoom("1", "urlToImage", "CBS Surf", Messages),
-  new ChatRoom("2", "urlToImage", "CBS Feminist Society", []),
-  new ChatRoom("3", "urlToImage", "CBS Students", []),
+  new ChatRoom("1", surf, "CBS Surf", Messages),
+  new ChatRoom("2", feminist, "CBS Feminist Society", []),
+  new ChatRoom("3", students, "CBS Students", []),
+  new ChatRoom("4", golf, "CBS Golf", []),
 ];

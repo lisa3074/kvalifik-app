@@ -1,30 +1,28 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, FlatList } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Button } from "react-native";
 import jsonMessages from "../../dummyData/messages.json";
+import surf from "../../static/images/surf.png";
+import me from "../../static/images/personChat.png";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import MainScreenStyling from "../../styling/MainScreenStyling";
 // ChatMessageScreen
 const chat1 = props => {
   const [messages, setMessages] = useState(jsonMessages);
-  /*   const container = useRef(null);
-  const scrollList = useRef(null);
-  useEffect(() => {
-    messages
-      ? setTimeout(() => {
-          scrollList.current.scrollTo({ top: container.current.scrollHeight, left: 0, behavior: "smooth" }); //////scroll to bottom (for desktop)
-        }, 400)
-      : console.log();
-  }, [messages]); */
+  const [value, setValue] = useState("");
+
+  const handleSend = () => {
+    // dispatch(newChatMessage(id, value));
+    console.log("value " + value);
+  };
 
   return (
-    <View style={styles.chatContainer} /* ref={scrollList} */>
-      <ScrollView style={styles.scroll} /* ref={container} */>
+    <View style={styles.chatContainer}>
+      <ScrollView style={styles.scroll}>
         {messages.map(message => {
           console.log(message.message);
           return (
             <View style={[styles.message, messageStyle(message.name)]} key={message.id}>
-              <Image
-                style={[styles.profileImage, styles.messageImage, none(message.name)]}
-                source={require("../../static/images/surf.png")}
-              />
+              <Image style={[styles.profileImage, styles.messageImage, none(message.name)]} source={surf} />
               <View>
                 <View style={[styles.messageBg, backgroundColor(message.name)]}>
                   <Text style={backgroundColor(message.name)}>{message.message}</Text>
@@ -37,11 +35,22 @@ const chat1 = props => {
           );
         })}
       </ScrollView>
+
+      {/* Input for writing message */}
+
       <View style={styles.flexRow}>
-        <Image style={styles.profileImage} source={require("../../static/images/personChat.png")} />
+        <Image style={styles.profileImage} source={me} />
         <SafeAreaView style={styles.inputContainer}>
-          <TextInput placeholder="Write message" style={styles.textarea} />
+          <TextInput
+            placeholder="Write message"
+            style={styles.textarea}
+            onChangeText={text => setValue(text)}
+            value={value}
+          />
         </SafeAreaView>
+        <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={handleSend}>
+          <Text>Send</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -60,8 +69,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 10.22,
-
     elevation: 3,
+  },
+  button: {
+    flex: 1,
+    marginLeft: 8,
   },
   chatContainer: {
     padding: 16,
@@ -77,13 +89,17 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 100,
+    marginRight: 8,
   },
   messageImage: {
     marginRight: 8,
   },
 
   textarea: {
-    padding: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 5,
+    paddingBottom: 5,
     backgroundColor: "#EEEEEE",
     borderRadius: 5,
     height: 44,

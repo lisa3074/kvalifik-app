@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from "react-native";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+
 //ChatScreen
 //Each screen component in your app is provided with the navigation prop automatically.
 function ChatScreenHome({ navigation }) {
+  // const chatRooms = useSelector(state => state.chat.chatRooms);
   return (
     <>
       <View style={[MainScreenStyling.center, styles.container]}>
