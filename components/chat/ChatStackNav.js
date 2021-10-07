@@ -1,13 +1,17 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Screen1 from "./Screen1";
-import Screen2 from "./Screen2";
-import Screen3 from "./Screen3";
-import ChatRoom from "./ChatRoom";
+import chat1 from "./chat1";
+import chat2 from "./chat2";
+import chat3 from "./chat3";
+import chat4 from "./chat4";
+import ChatScreenHome from "./ChatScreenHome";
 
 const Stack = createNativeStackNavigator();
-const ChatScreen = () => {
+
+//This is the stack navigator
+
+const ChatStackNav = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -26,33 +30,40 @@ const ChatScreen = () => {
         },
         headerShadowVisible: true,
       }}>
-      {/* Name and component props are required. Name=Home is always displayed first*/}
+      {/* Name and component props are required. The first in the stackis always displayed first */}
       <Stack.Screen
         name="Home"
-        component={ChatRoom}
+        component={ChatScreenHome}
         options={{
           title: "CHAT",
         }}
       />
       <Stack.Screen
-        name="Screen1"
-        component={Screen1}
+        name="chat1"
+        component={chat1}
         options={{
-          title: "PETER",
+          title: "CBS Surf",
         }}
       />
       <Stack.Screen
-        name="Screen2"
-        component={Screen2}
+        name="chat2"
+        component={chat2}
         options={{
-          title: "LASSE",
+          title: "CBS Feminist Society",
         }}
       />
       <Stack.Screen
-        name="Screen3"
-        component={Screen3}
+        name="chat3"
+        component={chat3}
         options={{
-          title: "CHRISTINA",
+          title: "CBS Students",
+        }}
+      />
+      <Stack.Screen
+        name="chat4"
+        component={chat4}
+        options={{
+          title: "CBS Golf",
         }}
       />
     </Stack.Navigator>
@@ -61,4 +72,4 @@ const ChatScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default ChatScreen;
+export default ChatStackNav;

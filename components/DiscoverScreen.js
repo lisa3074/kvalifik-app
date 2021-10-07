@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
-import MainScreenStyling from "../../styling/MainScreenStyling";
+import MainScreenStyling from "../styling/MainScreenStyling";
 
 const DiscoverScreen = ({ navigation }) => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import TabBarBottom from "./components/chat/TabBarBottom";
+import TabBarBottom from "./components/TabBarBottom";
 
 const App = () => {
   return <TabBarBottom />;

@@ -1,13 +1,15 @@
 import React from "react";
+import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts, OpenSans_400Regular, OpenSans_700Bold, Teko_500Medium } from "@expo-google-fonts/dev";
 import HomeScreen from "./HomeScreen";
 import DiscoverScreen from "./DiscoverScreen";
-import ChatScreen from "./ChatScreen.js";
+import ChatStackNav from "./chat/ChatStackNav.js";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Menu from "./Menu";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +19,11 @@ const TabBarBottom = () => {
     OpenSans_700Bold,
     Teko_500Medium,
   });
+  if (!fontsLoaded) {
+    return <AppLoading/>
+  } else {
+    
+
   return (
     <>
       <NavigationContainer>
@@ -26,7 +33,7 @@ const TabBarBottom = () => {
               let iconName;
 
               if (route.name === "Start") {
-                iconName = focused ? "md-home" : "md-home";
+                iconName =/*  focused ?  */"md-home"/*  : "md-home" */;
               } else if (route.name === "Discover") {
                 iconName = focused ? "md-search" : "md-search";
               } else if (route.name === "Chat") {
@@ -66,12 +73,13 @@ const TabBarBottom = () => {
           })}>
           <Tab.Screen name="Start" component={HomeScreen} options={{ title: "HOME" }} />
           <Tab.Screen name="Discover" component={DiscoverScreen} options={{ title: "DISCOVER" }} />
-          <Tab.Screen name="Chat" component={ChatScreen} options={{ title: "CHAT", headerShown: false }} />
+          <Tab.Screen name="Chat" component={ChatStackNav} options={{ title: "CHAT", headerShown: false }} />
           <Tab.Screen name="Menu" component={Menu} options={{ title: "MENU", headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>
     </>
   );
+      }
 };
 const styles = StyleSheet.create({});
 export default TabBarBottom;

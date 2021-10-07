@@ -26,8 +26,13 @@ const MainScreenStyling = StyleSheet.create({
       width: 3,
     },
   },
-  text: {
+  lightText: {
     color: "white",
+    fontWeight: "500",
+    textTransform: "uppercase",
+  },
+  darkText: {
+    color: "#333333",
     fontWeight: "500",
     textTransform: "uppercase",
   },
@@ -48,12 +53,12 @@ const MainScreenStyling = StyleSheet.create({
     color: "#333333",
   },
   darkBtnTxt: {
-    fontFamily: "OpenSans_700Regular",
+    fontFamily: "OpenSans_700Bold",
     fontSize: 11,
     color: "#FFFFFF",
   },
   lightBtnTxt: {
-    fontFamily: "OpenSans_700Regular",
+    fontFamily: "OpenSans_700Bold",
     fontSize: 11,
     color: "#5050A5",
   },

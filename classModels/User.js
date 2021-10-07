@@ -1,12 +1,13 @@
 class User {
-  constructor(uuid, firstName, lastName, email, studyProgramme, chatToggle, imageUrl) {
-    this.uuid = uuid;
-    this.firstName = firstName;
+  constructor(id, firstname, lastname, imageUrl, email, studyProgramme, chatToggle, eventToggle) {
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.imageUrl = imageUrl;
-    this.lastName = lastName;
     this.email = email;
-    this.chatToggle = chatToggle;
     this.studyProgramme = studyProgramme;
+    this.chatToggle = chatToggle;
+    this.eventToggle = eventToggle;
   }
 }
 

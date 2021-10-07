@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import MainScreenStyling from "../../styling/MainScreenStyling";
+import MainScreenStyling from "../styling/MainScreenStyling";
 
 function HomeScreen() {
   return (
