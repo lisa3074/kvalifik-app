@@ -9,7 +9,7 @@ const MainScreenStyling = StyleSheet.create({
   },
   button: {
     maxWidth: 250,
-    backgroundColor: "rgb(33, 150, 243)",
+    backgroundColor: "#5050A5",
     padding: 15,
     paddingBottom: 5,
     paddingTop: 5,
@@ -54,12 +54,12 @@ const MainScreenStyling = StyleSheet.create({
   },
   darkBtnTxt: {
     fontFamily: "OpenSans_700Bold",
-    fontSize: 11,
+    fontSize: 14,
     color: "#FFFFFF",
   },
   lightBtnTxt: {
     fontFamily: "OpenSans_700Bold",
-    fontSize: 11,
+    fontSize: 14,
     color: "#5050A5",
   },
 });

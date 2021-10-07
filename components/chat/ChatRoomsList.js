@@ -4,12 +4,29 @@ import MainScreenStyling from "../../styling/MainScreenStyling";
 
 //ChatScreen
 //Each screen component in your app is provided with the navigation prop automatically.
-function ChatScreenHome({ navigation }) {
+function ChatRoomList({ navigation }) {
   // const chatRooms = useSelector(state => state.chat.chatRooms);
   return (
     <>
       <View style={[MainScreenStyling.center, styles.container]}>
         <TouchableOpacity
+          style={[styles.chatThread, styles.firstChatThread]}
+          onPress={() => navigation.navigate("ChatRoomContainer")}>
+          <View style={styles.flexRow}>
+            <Image style={styles.profileImage} source={require("../../static/images/surf.png")} />
+            <View style={styles.chatPreview}>
+              <View style={styles.flexRowSpaceBetween}>
+                <Text style={styles.text}>CBS Surf</Text>
+                <View style={styles.circle}></View>
+              </View>
+              <View style={styles.flexRowSpaceBetween}>
+                <Text style={styles.text}>This is a preview</Text>
+                <Text style={styles.text}>12:12</Text>
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+        {/*  <TouchableOpacity
           style={[styles.chatThread, styles.firstChatThread]}
           onPress={() => navigation.navigate("chat1")}>
           <View style={styles.flexRow}>
@@ -70,7 +87,7 @@ function ChatScreenHome({ navigation }) {
               </View>
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </>
   );
@@ -124,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatScreenHome;
+export default ChatRoomList;

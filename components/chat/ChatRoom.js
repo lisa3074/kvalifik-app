@@ -1,92 +1,143 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Button } from "react-native";
 
+import jsonMessages from "../../dummyData/messages.json";
+import { Messages } from "../../dummyData/Dummydata";
+import surf from "../../static/images/surf.png";
+import me from "../../static/images/personChat.png";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import MainScreenStyling from "../../styling/MainScreenStyling";
+// ChatMessageScreen
 const ChatRoom = props => {
-  const navigation = useNavigation();
+  console.log(props);
+  const hardCodedUserId = "1";
+  let me = false;
 
-  const lastPos = props.chatroom.messages.length - 1;
-  let lastMessageText,
-    displayTime = "";
-  if (lastPos > -1) {
-    lastMessageText = props.chatroom.messages[lastPos].messageText;
-    const lastTime = props.chatroom.messages[lastPos].messageTimestamp;
-
-    // Should only do this if on the same date as today...
-    displayTime = lastTime.getHours() + ":" + lastTime.getMinutes();
+  if (hardCodedUserId === props.chatmessage.user.id) {
+    me = true;
   }
+  const hours = props.chatmessage.messageTimestamp.getHours();
+  const minutes = props.chatmessage.messageTimestamp.getMinutes();
+
   return (
-    <>
-      <TouchableOpacity onPress={() => navigation.navigate("ChatMessages", { id: props.chatroom.chatRoomId })}>
-        <View style={styles.chatRoom}>
-          <View style={styles.imageView}>
-            <Image style={styles.tinyLogo} source={props.chatroom.imageUrl} />
-          </View>
-          <View style={styles.textView}>
-            <Text style={styles.text}>{props.chatroom.chatRoomName}</Text>
-            <Text ellipsizeMode="tail" numberOfLines={1}>
-              {lastMessageText}
+    <View style={styles.chatContainer}>
+      <ScrollView style={styles.scroll}>
+        <View style={me ? styles.meMessageStyle : styles.youMessageStyle} key={props.chatmessage.messageId}>
+          <Image style={[me ? styles.hide : "", styles.profileImage, styles.messageImage]} source={surf} />
+          <View>
+            <View style={[styles.messageBg, me ? styles.meBgColor : styles.youBgColor]}>
+              <Text style={[me ? styles.meBgColor : styles.youBgColor]}>{props.chatmessage.messageText}</Text>
+            </View>
+            <Text style={[styles.from, me ? styles.meAlignName : ""]}>
+              {!me ? (
+                <Text>
+                  From {props.chatmessage.user.firstname}
+                  {props.chatmessage.user.lastName}{" "}
+                </Text>
+              ) : (
+                ""
+              )}
+              <Text>
+                {hours}:{minutes}
+              </Text>
             </Text>
           </View>
-          <View style={styles.dotView}>
-            <View style={styles.dot}></View>
-            <Text>{displayTime}</Text>
-          </View>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.chatThread, styles.firstChatThread]}
-        onPress={() => navigation.navigate("chat1")}>
-        <View style={styles.flexRow}>
-          <Image style={styles.profileImage} source={require("../../static/images/surf.png")} />
-          <View style={styles.chatPreview}>
-            <View style={styles.flexRowSpaceBetween}>
-              <Text style={styles.text}>CBS Surf</Text>
-              <View style={styles.circle}></View>
-            </View>
-            <View style={styles.flexRowSpaceBetween}>
-              <Text style={styles.text}>This is a preview</Text>
-              <Text style={styles.text}>12:12</Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  chatRoom: {
+  flexRow: {
     flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    alignItems: "center",
+    backgroundColor: "white",
+    paddingTop: 16,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: -5,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 10.22,
+    elevation: 3,
   },
-  textView: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    width: "80%",
+  hide: {
+    display: "none",
   },
-  message: {},
-  text: {
-    fontWeight: "bold",
+
+  button: {
+    flex: 1,
+    marginLeft: 8,
   },
-  dotView: {
-    marginLeft: "auto",
+  chatContainer: {
+    paddingTop: 16,
+    flexDirection: "column",
+    flex: 1,
+    backgroundColor: "white",
   },
-  imageView: {
-    marginTop: -10,
+  inputContainer: {
+    paddingLeft: 16,
+    flex: 1,
   },
-  dot: {
-    height: 12,
-    width: 12,
+  profileImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 100,
+    marginRight: 8,
+  },
+  messageImage: {
+    marginRight: 8,
+  },
+
+  textarea: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: "#EEEEEE",
+    borderRadius: 5,
+    height: 44,
+    flex: 3,
+  },
+  messageBg: {
+    padding: 8,
+    borderRadius: 12,
+  },
+  from: {
+    color: "#707070",
+    fontSize: 12,
+    padding: 5,
+  },
+
+  scroll: {
+    overflow: "scroll",
+  },
+
+  meMessageStyle: {
+    alignItems: "flex-end",
+    marginLeft: 46,
+  },
+  meBgColor: {
     backgroundColor: "#5050A5",
-    borderRadius: 100 / 2,
+    borderBottomRightRadius: 2,
+    color: "#ffffff",
   },
-  tinyLogo: {
-    width: 50,
-    height: 50,
+  meAlignName: {
+    textAlign: "right",
+  },
+  youMessageStyle: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    flex: 1,
+    marginRight: 42,
+  },
+  youBgColor: {
+    backgroundColor: "#EEEEEE",
+    borderBottomLeftRadius: 2,
+    color: "#333333",
   },
 });
+
 export default ChatRoom;
