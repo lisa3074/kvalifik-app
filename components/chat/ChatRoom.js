@@ -1,49 +1,60 @@
-import React, { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Button } from "react-native";
-
-import jsonMessages from "../../dummyData/messages.json";
-import { Messages } from "../../dummyData/Dummydata";
-import surf from "../../static/images/surf.png";
-import me from "../../static/images/personChat.png";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  FlatList,
+  Image,
+  TextInput,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { ChatRooms } from "../../dummyData/Dummydata";
+import ChatMessage from "./ChatMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { newChatMessage } from "./chatStore/ChatAction";
+import logo from "./../../static/images/surf.png";
+import myPic from "./../../static/images/personChat.png";
 import MainScreenStyling from "../../styling/MainScreenStyling";
-// ChatMessageScreen
-const ChatRoom = props => {
-  console.log(props);
-  const hardCodedUserId = "1";
-  let me = false;
 
-  if (hardCodedUserId === props.chatmessage.user.id) {
-    me = true;
-  }
-  const hours = props.chatmessage.messageTimestamp.getHours();
-  const minutes = props.chatmessage.messageTimestamp.getMinutes();
+const ChatRoom = props => {
+  const dispatch = useDispatch();
+  const { id } = props.route.params;
+  const [value, setValue] = useState("");
+  const chatMessages = useSelector(state => state.chat.chatRooms).find(room => room.chatRoomId === id).messages;
+
+  const handleSend = () => {
+    dispatch(newChatMessage(id, value));
+    console.log("value " + value);
+  };
 
   return (
-    <View style={styles.chatContainer}>
-      <ScrollView style={styles.scroll}>
-        <View style={me ? styles.meMessageStyle : styles.youMessageStyle} key={props.chatmessage.messageId}>
-          <Image style={[me ? styles.hide : "", styles.profileImage, styles.messageImage]} source={surf} />
-          <View>
-            <View style={[styles.messageBg, me ? styles.meBgColor : styles.youBgColor]}>
-              <Text style={[me ? styles.meBgColor : styles.youBgColor]}>{props.chatmessage.messageText}</Text>
-            </View>
-            <Text style={[styles.from, me ? styles.meAlignName : ""]}>
-              {!me ? (
-                <Text>
-                  From {props.chatmessage.user.firstname}
-                  {props.chatmessage.user.lastName}{" "}
-                </Text>
-              ) : (
-                ""
-              )}
-              <Text>
-                {hours}:{minutes}
-              </Text>
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.messages}>
+        <FlatList
+          style={styles.chatContainer}
+          data={chatMessages}
+          renderItem={itemData => <ChatMessage chatmessage={itemData.item} image={logo}></ChatMessage>}
+          keyExtractor={item => item.messageId}></FlatList>
+      </View>
+
+      <View style={styles.flexRow}>
+        <Image style={styles.profileImage} source={myPic} />
+
+        <SafeAreaView style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => setValue(text)}
+            value={value}
+            placeholder="Write message"
+          />
+        </SafeAreaView>
+
+        <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={handleSend}>
+          <Text style={[MainScreenStyling.darkBtnTxt]}>Send</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -52,8 +63,10 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "white",
-    paddingTop: 16,
+    paddingTop: 14,
+    paddingBottom: 14,
     shadowColor: "#ccc",
     shadowOffset: {
       width: 0,
@@ -63,22 +76,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10.22,
     elevation: 3,
   },
-  hide: {
-    display: "none",
-  },
-
-  button: {
-    flex: 1,
-    marginLeft: 8,
-  },
-  chatContainer: {
-    paddingTop: 16,
-    flexDirection: "column",
-    flex: 1,
-    backgroundColor: "white",
-  },
   inputContainer: {
-    paddingLeft: 16,
     flex: 1,
   },
   profileImage: {
@@ -86,57 +84,40 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 100,
     marginRight: 8,
+    marginLeft: 16,
   },
-  messageImage: {
-    marginRight: 8,
-  },
-
-  textarea: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 5,
-    paddingBottom: 5,
-    backgroundColor: "#EEEEEE",
-    borderRadius: 5,
-    height: 44,
-    flex: 3,
-  },
-  messageBg: {
-    padding: 8,
-    borderRadius: 12,
-  },
-  from: {
-    color: "#707070",
-    fontSize: 12,
-    padding: 5,
-  },
-
-  scroll: {
-    overflow: "scroll",
-  },
-
-  meMessageStyle: {
-    alignItems: "flex-end",
-    marginLeft: 46,
-  },
-  meBgColor: {
-    backgroundColor: "#5050A5",
-    borderBottomRightRadius: 2,
-    color: "#ffffff",
-  },
-  meAlignName: {
-    textAlign: "right",
-  },
-  youMessageStyle: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+  container: {
     flex: 1,
-    marginRight: 42,
+    justifyContent: "space-between",
   },
-  youBgColor: {
+  messages: {
+    flex: 1,
+  },
+  textInput: {
+    flex: 1,
+    height: 44,
     backgroundColor: "#EEEEEE",
-    borderBottomLeftRadius: 2,
-    color: "#333333",
+    marginLeft: 10,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+  },
+  inputView: {
+    flexDirection: "row",
+    marginTop: 20,
+    marginLeft: 5,
+  },
+
+  chatContainer: {
+    padding: 16,
+    paddingBottom: 100,
+    flexDirection: "column",
+    flex: 1,
+    backgroundColor: "white",
+  },
+  button: {
+    marginRight: 16,
+    marginLeft: 8,
   },
 });
 

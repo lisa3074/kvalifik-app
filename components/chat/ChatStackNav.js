@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ChatRoomsList from "./ChatRoomsList";
-import ChatRoomContainer from "./ChatRoomContainer";
+import ChatRoom from "./ChatRoom";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +31,7 @@ const ChatStackNav = props => {
       }}>
       {/* Name and component props are required. The first in the stack is always displayed first */}
       <Stack.Screen name="CHAT" component={ChatRoomsList} />
-      <Stack.Screen name="ChatRoomContainer" component={ChatRoomContainer} options={{ title: "CHAT ROOM *NAME*" }} />
+      <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title: "CHAT ROOM *NAME*" }} />
     </Stack.Navigator>
   );
 };

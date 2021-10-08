@@ -21,7 +21,7 @@ export const Messages = [
   ),
   new Message(
     "2",
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+    "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
     new Date(2021, 0, 1, 12, 15, 5),
     Users[1]
   ),
@@ -30,8 +30,8 @@ export const Messages = [
 ];
 
 export const ChatRooms = [
-  new ChatRoom("1", surf, "CBS Surf", Messages),
-  new ChatRoom("2", feminist, "CBS Feminist Society", []),
-  new ChatRoom("3", students, "CBS Students", []),
-  new ChatRoom("4", golf, "CBS Golf", []),
+  new ChatRoom("1", surf, "CBS Surf", Messages, false),
+  new ChatRoom("2", feminist, "CBS Feminist Society", [Messages[0], Messages[2]], true),
+  new ChatRoom("3", students, "CBS Students", [Messages[0], Messages[1]], true),
+  new ChatRoom("4", golf, "CBS Golf", [Messages[0]], false),
 ];

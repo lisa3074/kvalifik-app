@@ -1,113 +1,49 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TextInput, FlatList, Text } from "react-native";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import ChatRoomPreview from "./ChatRoomPreview";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleHappy, newChatRoom, deleteChatRoom } from "./chatStore/ChatAction";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 //ChatScreen
 //Each screen component in your app is provided with the navigation prop automatically.
 function ChatRoomList({ navigation }) {
-  // const chatRooms = useSelector(state => state.chat.chatRooms);
+  const [text, setText] = useState("");
+  const chatRooms = useSelector(state => state.chat.chatRooms);
+  const dispatch = useDispatch();
   return (
     <>
       <View style={[MainScreenStyling.center, styles.container]}>
-        <TouchableOpacity
-          style={[styles.chatThread, styles.firstChatThread]}
-          onPress={() => navigation.navigate("ChatRoomContainer")}>
-          <View style={styles.flexRow}>
-            <Image style={styles.profileImage} source={require("../../static/images/surf.png")} />
-            <View style={styles.chatPreview}>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>CBS Surf</Text>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>This is a preview</Text>
-                <Text style={styles.text}>12:12</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        {/*  <TouchableOpacity
-          style={[styles.chatThread, styles.firstChatThread]}
-          onPress={() => navigation.navigate("chat1")}>
-          <View style={styles.flexRow}>
-            <Image style={styles.profileImage} source={require("../../static/images/surf.png")} />
-            <View style={styles.chatPreview}>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>CBS Surf</Text>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>This is a preview</Text>
-                <Text style={styles.text}>12:12</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.chatThread} onPress={() => navigation.navigate("chat2")}>
-          <View style={styles.flexRow}>
-            <Image style={styles.profileImage} source={require("../../static/images/feminist.png")} />
-            <View style={styles.chatPreview}>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>CBS Feminist Society</Text>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>This is a preview</Text>
-                <Text style={styles.text}>10 May</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.chatThread} onPress={() => navigation.navigate("chat3")}>
-          <View style={styles.flexRow}>
-            <Image style={styles.profileImage} source={require("../../static/images/students.png")} />
-            <View style={styles.chatPreview}>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>CBS Students</Text>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>This is a preview</Text>
-                <Text style={styles.text}>9 May</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.chatThread} onPress={() => navigation.navigate("chat4")}>
-          <View style={styles.flexRow}>
-            <Image style={styles.profileImage} source={require("../../static/images/golf.png")} />
-            <View style={styles.chatPreview}>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>CBS Golf</Text>
-                <View style={styles.circle}></View>
-              </View>
-              <View style={styles.flexRowSpaceBetween}>
-                <Text style={styles.text}>This is a preview</Text>
-                <Text style={styles.text}>7 May</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity> */}
+        <FlatList
+          data={chatRooms}
+          renderItem={itemData => <ChatRoomPreview chatroom={itemData.item}></ChatRoomPreview>}
+          keyExtractor={item => item.chatRoomId}
+        />
+        <View style={styles.row}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={setText}
+            value={text}
+            placeholder="Add / delete chat room"
+          />
+          <TouchableOpacity
+            style={[MainScreenStyling.button, styles.button]}
+            onPress={() => dispatch(newChatRoom(text))}>
+            <Text style={MainScreenStyling.darkBtnTxt}>Add</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[MainScreenStyling.button, styles.button]}
+            onPress={() => dispatch(deleteChatRoom(text))}>
+            <Text style={MainScreenStyling.darkBtnTxt}>Delete</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontWeight: "800",
-    fontFamily: "OpenSans_700Bold",
-    lineHeight: 25,
-  },
-  chatThread: {
-    height: 85,
-    justifyContent: "center",
-    padding: 16,
-  },
-  chatPreview: {
-    paddingLeft: 16,
-    flex: 1,
-  },
   container: {
     flexDirection: "column",
     flex: 10,
@@ -115,29 +51,24 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     height: 300,
   },
-  flexRow: {
-    flexDirection: "row",
-    alignItems: "center",
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+    height: 44,
+    backgroundColor: "#FFFFFF",
+    marginLeft: 10,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    flex: 1,
   },
-  flexRowSpaceBetween: {
+  row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 16,
   },
-  circle: {
-    backgroundColor: "blue",
-    width: 10,
-    height: 10,
-    borderRadius: 100,
-    alignSelf: "center",
-  },
-  profileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 100,
-  },
-
-  spacious: {
-    flex: 10,
+  button: {
+    marginLeft: 8,
   },
 });
 
