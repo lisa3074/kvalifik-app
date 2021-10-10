@@ -31,8 +31,7 @@ const ChatMessage = props => {
             <Text style={[styles.from, me ? styles.meAlignName : ""]}>
               {!me ? (
                 <Text>
-                  From {props.chatmessage.user.firstname}
-                  {props.chatmessage.user.lastName}{" "}
+                  From {props.chatmessage.user.firstname} {props.chatmessage.user.lastname}{" "}
                 </Text>
               ) : (
                 ""

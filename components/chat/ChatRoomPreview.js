@@ -16,48 +16,33 @@ const ChatRoomPreview = props => {
     // Should only do this if on the same date as today...
     displayTime = lastTime.getHours() + ":" + lastTime.getMinutes();
   }
+
   return (
-    <>
-      {/*       <TouchableOpacity onPress={() => navigation.navigate("ChatRoom", { id: props.chatroom.chatRoomId })}>
-        <View style={styles.chatRoom}>
-          <View style={styles.imageView}>
-            <Image style={styles.tinyLogo} source={props.chatroom.imageUrl} />
-          </View>
-          <View style={styles.textView}>
+    <TouchableOpacity
+      style={[styles.chatThread, styles.firstChatThread]}
+      onPress={() => {
+        navigation.navigate("ChatRoom", { id: props.chatroom.chatRoomId });
+        props.setChatRoomTitle(props.chatroom.chatRoomName);
+      }}>
+      <View style={styles.flexRow}>
+        <Image style={styles.profileImage} source={props.chatroom.imageUrl} />
+        <View style={styles.chatPreview}>
+          <View style={styles.flexRowSpaceBetween}>
             <Text style={styles.text}>{props.chatroom.chatRoomName}</Text>
-            <Text ellipsizeMode="tail" numberOfLines={1}>
+            <View style={props.chatroom.read ? "" : styles.circle}></View>
+          </View>
+          <View style={styles.flexRowSpaceBetween}>
+            <Text
+              style={[props.chatroom.read ? styles.paragraph : styles.text, styles.message]}
+              ellipsizeMode="tail"
+              numberOfLines={1}>
               {lastMessageText}
             </Text>
-          </View>
-          <View style={styles.dotView}>
-            <View style={styles.dot}></View>
-            <Text>{displayTime}</Text>
+            <Text style={[props.chatroom.read ? styles.paragraph : styles.text, styles.time]}>{displayTime}</Text>
           </View>
         </View>
-      </TouchableOpacity> */}
-      <TouchableOpacity
-        style={[styles.chatThread, styles.firstChatThread]}
-        onPress={() => navigation.navigate("ChatRoom", { id: props.chatroom.chatRoomId })}>
-        <View style={styles.flexRow}>
-          <Image style={styles.profileImage} source={props.chatroom.imageUrl} />
-          <View style={styles.chatPreview}>
-            <View style={styles.flexRowSpaceBetween}>
-              <Text style={styles.text}>props.chatroom.chatRoomName</Text>
-              <View style={props.chatroom.read ? "" : styles.circle}></View>
-            </View>
-            <View style={styles.flexRowSpaceBetween}>
-              <Text
-                style={[props.chatroom.read ? styles.paragraph : styles.text, styles.message]}
-                ellipsizeMode="tail"
-                numberOfLines={1}>
-                {lastMessageText}
-              </Text>
-              <Text style={[props.chatroom.read ? styles.paragraph : styles.text, styles.time]}>{displayTime}</Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </>
+      </View>
+    </TouchableOpacity>
   );
 };
 

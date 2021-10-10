@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -10,9 +10,13 @@ const Stack = createNativeStackNavigator();
 //This is the stack navigator
 
 const ChatStackNav = props => {
-  console.log(props);
+  const [chatRoomTitle, setChatRoomTitle] = useState("hello");
+  console.log(chatRoomTitle);
+
   return (
     <Stack.Navigator
+      setChatRoomTitle={setChatRoomTitle}
+      chatRoomTitle={chatRoomTitle}
       screenOptions={{
         headerStyle: {
           backgroundColor: "#ffffff",
@@ -30,8 +34,11 @@ const ChatStackNav = props => {
         headerShadowVisible: true,
       }}>
       {/* Name and component props are required. The first in the stack is always displayed first */}
-      <Stack.Screen name="CHAT" component={ChatRoomsList} />
-      <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title: "CHAT ROOM *NAME*" }} />
+      <Stack.Screen name="CHAT">
+        {/*  to pass props through stack navigator, use this syntax */}
+        {props => <ChatRoomsList {...props} setChatRoomTitle={setChatRoomTitle} />}
+      </Stack.Screen>
+      <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title: chatRoomTitle.toUpperCase() }} />
     </Stack.Navigator>
   );
 };
