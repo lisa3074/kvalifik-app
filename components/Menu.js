@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Signup from "../components/User/Signup";
 import Login from "../components/User/Login";
+import Logout from "./User/Logout";
 
 const Menu = props => {
   return (
@@ -9,6 +10,7 @@ const Menu = props => {
       <Text>Menu</Text>
       <Signup />
       <Login />
+      <Logout />
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { login } from "./userStore/userAction";
+import { userLogin } from "./userStore/UserAction";
 
 const Login = props => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -10,7 +10,7 @@ const Login = props => {
 
   const handleLogin = () => {
     console.log(loginEmail, LoginPassword);
-    dispatch(login(loginEmail, LoginPassword));
+    dispatch(userLogin(loginEmail, LoginPassword));
   };
 
   return (
@@ -21,7 +21,7 @@ const Login = props => {
 
       <TextInput onChangeText={mail => setLoginEmail(mail)} value={loginEmail} placeholder="Enter your email" />
       <TextInput onChangeText={psw => setLoginPassword(psw)} value={LoginPassword} placeholder="Enter your password" />
-      <Button title="sign in" onPress={handleLogin}></Button>
+      <Button title="Log in" onPress={handleLogin}></Button>
     </View>
   );
 };

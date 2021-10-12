@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { signup } from "./userStore/userAction";
+import { userSignup } from "./userStore/UserAction";
 
 const Login = props => {
   const [signupEmail, setSignupEmail] = useState("");
@@ -10,7 +10,7 @@ const Login = props => {
 
   const handleSignup = () => {
     console.log(signupEmail, signupPassword);
-    dispatch(signup(signupEmail, signupPassword));
+    dispatch(userSignup(signupEmail, signupPassword));
   };
 
   return (

@@ -1,10 +1,12 @@
+import React from "react";
 import User from "../../../classModels/User";
 import { API } from "../../../apiKeys/apiKey";
 
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGUT";
 
-export const signup = (email, password) => {
+export const userSignup = (email, password) => {
   console.log(email, password);
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`, {
@@ -23,7 +25,7 @@ export const signup = (email, password) => {
     });
 
     const data = await response.json(); // json to javascript
-    console.log(data);
+    // console.log(data);
 
     if (!response.ok) {
       //There was a problem..
@@ -35,7 +37,7 @@ export const signup = (email, password) => {
   };
 };
 
-export const login = (email, password) => {
+export const userLogin = (email, password) => {
   console.log(email, password);
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API}`, {
@@ -54,7 +56,7 @@ export const login = (email, password) => {
     });
 
     const data = await response.json(); // json to javascript
-    console.log(data);
+    //console.log(data);
 
     if (!response.ok) {
       //There was a problem..
@@ -64,4 +66,8 @@ export const login = (email, password) => {
       dispatch({ type: LOGIN, payload: loggedInUser });
     }
   };
+};
+
+export const userLogout = () => {
+  return { type: LOGOUT, payload: undefined };
 };
