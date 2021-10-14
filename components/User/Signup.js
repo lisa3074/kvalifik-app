@@ -24,7 +24,7 @@ const Login = props => {
         value={signupPassword}
         placeholder="Enter your password"
       />
-      <Button title="sign up" onPress={handleSignup}></Button>
+      <Button title="Get access" onPress={handleSignup}></Button>
     </View>
   );
 };

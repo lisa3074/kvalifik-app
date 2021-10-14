@@ -31,8 +31,8 @@ export const userSignup = (email, password) => {
       //There was a problem..
       console.error("ERROR in response");
     } else {
-      const loggedInUser = new User(data.localId, "", "", undefined, data.email);
-      dispatch({ type: SIGNUP, payload: loggedInUser });
+      const signedUpUser = new User(data.localId, "", "", undefined, data.email);
+      dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
     }
   };
 };

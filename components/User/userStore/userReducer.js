@@ -2,32 +2,34 @@ import TabBarBottom from "../../TabBarBottom";
 import { LOGIN, SIGNUP, LOGOUT } from "./UserAction";
 
 export const initialState = {
-  signedUpUser: undefined,
   loggedInUser: undefined,
+  token: undefined,
 };
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP:
       console.log({
-        ...state.signedUpUser,
-        signedUpUser: action.payload,
+        ...state,
+        loggedInUser: action.payload.signedUpUser,
+        token: action.payload.token,
       });
       return {
-        ...state.signedUpUser,
-        signedUpUser: action.payload,
+        ...state,
+        loggedInUser: action.payload.signedUpUser,
+        token: action.payload.token,
       };
     case LOGIN:
       console.log({
-        ...state.loggedInUser,
+        ...state,
         loggedInUser: action.payload,
       });
       return {
-        ...state.loggedInUser,
+        ...state,
         loggedInUser: action.payload,
       };
     case LOGOUT:
-      console.log({ ...state.loggedInUser, loggedInUser: action.payload });
-      return { ...state.loggedInUser, loggedInUser: action.payload };
+      console.log({ ...state, loggedInUser: action.payload, token: undefined });
+      return { ...state, loggedInUser: action.payload, token: undefined };
     default:
       return state;
   }
