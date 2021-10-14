@@ -1,4 +1,3 @@
-import TabBarBottom from "../../TabBarBottom";
 import { LOGIN, SIGNUP, LOGOUT } from "./UserAction";
 
 export const initialState = {
@@ -21,11 +20,14 @@ const UserReducer = (state = initialState, action) => {
     case LOGIN:
       console.log({
         ...state,
-        loggedInUser: action.payload,
+        loggedInUser: action.payload.loggedInUser,
+        token: action.payload.token,
       });
+
       return {
         ...state,
-        loggedInUser: action.payload,
+        loggedInUser: action.payload.loggedInUser,
+        token: action.payload.token,
       };
     case LOGOUT:
       console.log({ ...state, loggedInUser: action.payload, token: undefined });

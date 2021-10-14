@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from "react-native";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import golf from "./../../static/images/golf.png";
 
 const ChatRoomPreview = props => {
   const navigation = useNavigation();
@@ -25,7 +26,10 @@ const ChatRoomPreview = props => {
         props.setChatRoomTitle(props.chatroom.chatRoomName);
       }}>
       <View style={styles.flexRow}>
-        <Image style={styles.profileImage} source={props.chatroom.imageUrl} />
+        <Image
+          style={styles.profileImage}
+          source={props.chatroom.imageUrl === undefined ? golf : props.chatroom.imageUrl}
+        />
         <View style={styles.chatPreview}>
           <View style={styles.flexRowSpaceBetween}>
             <Text style={styles.text}>{props.chatroom.chatRoomName}</Text>
@@ -36,7 +40,7 @@ const ChatRoomPreview = props => {
               style={[props.chatroom.read ? styles.paragraph : styles.text, styles.message]}
               ellipsizeMode="tail"
               numberOfLines={1}>
-              {lastMessageText}
+              {lastMessageText ? lastMessageText : "Go write the first message!"}
             </Text>
             <Text style={[props.chatroom.read ? styles.paragraph : styles.text, styles.time]}>{displayTime}</Text>
           </View>

@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
 import { userSignup } from "./userStore/UserAction";
 
-const Login = props => {
+const Signup = props => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const dispatch = useDispatch();
@@ -31,4 +31,4 @@ const Login = props => {
 
 const styles = StyleSheet.create({});
 
-export default Login;
+export default Signup;

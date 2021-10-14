@@ -37,7 +37,7 @@ const ChatMessage = props => {
                 ""
               )}
               <Text>
-                {hours}:{minutes}
+                {hours}:{minutes <= 9 ? 0 + minutes : minutes}
               </Text>
             </Text>
           </View>

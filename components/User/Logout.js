@@ -8,6 +8,7 @@ const Logout = props => {
 
   const handleLogout = () => {
     dispatch(userLogout());
+    localStorage.clear();
   };
 
   return (

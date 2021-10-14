@@ -10,7 +10,8 @@ const Login = props => {
 
   const handleLogin = () => {
     console.log(loginEmail, LoginPassword);
-    dispatch(userLogin(loginEmail, LoginPassword));
+    // dispatch(userLogin(loginEmail, LoginPassword));
+    dispatch(userLogin("hey@hey.dk", "password"));
   };
 
   return (

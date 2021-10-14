@@ -1,19 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Signup from "../components/User/Signup";
-
+import Login from "../components/User/Login";
 import { useNavigation } from "@react-navigation/core";
 
 const SignUpScreen = props => {
   const navigation = useNavigation();
   return (
     <View>
-      <Signup />
+      <Login />
+
       <Text
         onPress={() => {
-          navigation.navigate("Login");
+          navigation.navigate("Signup");
         }}>
-        Already have a user? Log in
+        Don't have an account? Sign up
       </Text>
     </View>
   );

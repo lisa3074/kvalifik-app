@@ -15,9 +15,6 @@ export const userSignup = (email, password) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        //javascript to json
-        //key value pairs of data you want to send to server
-        // ...
         email: email,
         password: password,
         returnSecureToken: true,
@@ -46,9 +43,6 @@ export const userLogin = (email, password) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        //javascript to json
-        //key value pairs of data you want to send to server
-        // ...
         email: email,
         password: password,
         returnSecureToken: true,
@@ -56,14 +50,14 @@ export const userLogin = (email, password) => {
     });
 
     const data = await response.json(); // json to javascript
+    console.log(data);
     //console.log(data);
-
     if (!response.ok) {
       //There was a problem..
       console.error("ERROR in response");
     } else {
       const loggedInUser = new User(data.localId, "", "", undefined, data.email);
-      dispatch({ type: LOGIN, payload: loggedInUser });
+      dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
     }
   };
 };

@@ -1,19 +1,16 @@
 //import ChatRoom from "./../../models/ChatRoom";
-import { DELETE_CHATROOM, NEW_CHATMESSAGE, NEW_CHATROOM, TOGGLE_HAPPY } from "./ChatAction";
+import { DELETE_CHATROOM, NEW_CHATMESSAGE, NEW_CHATROOM, GET_CHATROOMS } from "./ChatAction";
 import { ChatRooms } from "./../../../dummyData/Dummydata";
-console.log(ChatRooms);
-const initialState = {
-  isHappy: false,
-  chatRooms: ChatRooms,
-};
 
-console.log(ChatRooms);
+const initialState = {
+  chatRooms: undefined,
+};
 
 const ChatReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_HAPPY:
-      //state.isHappy = true; // NOOOOO !!! state mutation not allowed
-      return { ...state, isHappy: action.payload };
+    case GET_CHATROOMS:
+      // console.log("Hallo");
+      return { ...state, chatRooms: action.payload };
 
     case NEW_CHATROOM:
       return { ...state, chatRooms: [...state.chatRooms, action.payload] };
@@ -22,6 +19,7 @@ const ChatReducer = (state = initialState, action) => {
       return { ...state, chatRooms: state.chatRooms.filter(room => room.chatRoomName !== action.payload) };
 
     case NEW_CHATMESSAGE:
+      console.log(action.payload);
       // Find the chatroom object based on chatroomId.
       // Copy messages array of the right chatroom object
       // Copy chatrooms to avoid state mutations when updating the messages array in the
