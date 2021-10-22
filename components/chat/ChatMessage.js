@@ -9,35 +9,36 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 // ChatMessageScreen
 const ChatMessage = props => {
-  console.log(props);
+  const { chatmessage } = props;
+  console.log(chatmessage);
   const hardCodedUserId = "1";
   let me = false;
 
-  if (hardCodedUserId === props.chatmessage.user.id) {
+  if (hardCodedUserId === chatmessage.user.id) {
     me = true;
   }
-  const hours = props.chatmessage.messageTimestamp.getHours();
-  const minutes = props.chatmessage.messageTimestamp.getMinutes();
+  let hours = chatmessage.messageTimestamp.getHours();
+  let minutes = chatmessage.messageTimestamp.getMinutes();
 
   return (
     <View style={styles.chatContainer}>
       <ScrollView style={styles.scroll}>
-        <View style={me ? styles.meMessageStyle : styles.youMessageStyle} key={props.chatmessage.messageId}>
+        <View style={me ? styles.meMessageStyle : styles.youMessageStyle} key={chatmessage.messageId}>
           <Image style={[me ? styles.hide : "", styles.profileImage, styles.messageImage]} source={surf} />
           <View>
             <View style={[styles.messageBg, me ? styles.meBgColor : styles.youBgColor]}>
-              <Text style={[me ? styles.meBgColor : styles.youBgColor]}>{props.chatmessage.messageText}</Text>
+              <Text style={[me ? styles.meBgColor : styles.youBgColor]}>{chatmessage.messageText}</Text>
             </View>
             <Text style={[styles.from, me ? styles.meAlignName : ""]}>
               {!me ? (
                 <Text>
-                  From {props.chatmessage.user.firstname} {props.chatmessage.user.lastname}{" "}
+                  From {chatmessage.user.firstname} {chatmessage.user.lastname}{" "}
                 </Text>
               ) : (
                 ""
               )}
               <Text>
-                {hours}:{minutes <= 9 ? 0 + minutes : minutes}
+                {hours === 9 ? "0" + hours : hours}:{minutes <= 9 ? 0 + minutes : minutes}
               </Text>
             </Text>
           </View>

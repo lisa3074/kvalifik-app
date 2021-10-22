@@ -12,12 +12,12 @@ import { useDispatch } from "react-redux";
 const ChatRoomList = props => {
   const chatRooms = useSelector(state => state.chat.chatRooms);
   const dispatch = useDispatch();
+  console.log(chatRooms);
 
   useEffect(() => {
     dispatch(getChatRooms());
   }, []);
 
-  console.log(props.setChatRoomTitle);
   return (
     <>
       <View style={[MainScreenStyling.center, styles.container]}>

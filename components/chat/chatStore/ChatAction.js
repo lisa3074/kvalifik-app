@@ -10,8 +10,7 @@ export const NEW_CHATMESSAGE = "NEW_CHATMESSAGE";
 export const GET_CHATROOMS = "GET_CHATROOMS";
 
 const endpointChatRooms = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/chatrooms.json?auth=";
-const endpointMessages =
-  "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/chatrooms/messages.json?auth=";
+const endpointMessages = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/chatrooms/";
 
 export const toggleHappy = isHappy => {
   return { type: TOGGLE_HAPPY, payload: isHappy };
@@ -48,16 +47,14 @@ export const newChatRoom = chatroomName => {
 };
 export const getChatRooms = () => {
   return async (dispatch, getState) => {
-    const token = getState().user.token ? getState().user.token : localStorage.getItem("token");
+    const token = getState().user.token;
     const response = await fetch(`${endpointChatRooms}${token}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-
     const data = await response.json(); // json to javascript
-    console.log(data);
 
     if (!response.ok) {
       //There was a problem..
@@ -65,11 +62,13 @@ export const getChatRooms = () => {
     } else {
       const chatArray = [];
       for (const key in data) {
-        //chatArray.push(chat);
-        //console.log(chat, chatArray);
-        const oldChatRooms = new ChatRoom(key, undefined, data[key].chatroomName, [], data[key].read);
-        console.log(data[key].chatroomName);
-        // const room = { id: key, chatRoomName: data[key].chatroomName };
+        const oldChatRooms = new ChatRoom(
+          key,
+          undefined,
+          data[key].chatroomName,
+          data[key].messages ? data[key].messages : [],
+          data[key].read
+        );
         chatArray.push(oldChatRooms);
       }
       console.log(chatArray);
@@ -85,37 +84,34 @@ export const deleteChatRoom = chatroomName => {
 export const newChatMessage = (chatRoomId, message) => {
   return async (dispatch, getState) => {
     const token = getState().user.token;
-    //Wrong endpoint. Is creating a messages collection on same level as chatrooms.
-    //need to put messages to specific chatroom
-    const response = await fetch(`${endpointMessages}${token}`, {
+    const response = await fetch(`${endpointMessages}${chatRoomId}/messages.json?auth=${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         messageText: message,
-        messageTimestamp: new Date(),
+        messageTimestamp: new Date(2021, 0, 1, 12, 15, 5),
         user: new User("1", "Peter Møller", "Jensen", "dummyUrlLink"),
       }),
     });
 
     const data = await response.json(); // json to javascript
     console.log(data);
+    console.log(response);
     console.log(`${endpointMessages}${token}`);
 
     if (!response.ok) {
       //There was a problem..
       console.error("ERROR in response");
     } else {
-      // const newChatRoom = new ChatRoom(data.name, data.image, chatroomName, [], data.read);
       const messageObj = new Message(
         data.name,
         message,
-        new Date(),
+        new Date(2021, 0, 1, 12, 15, 5),
         new User("1", "Peter Møller", "Jensen", "dummyUrlLink")
       );
       dispatch({ type: NEW_CHATMESSAGE, payload: { chatRoomId, messageObj } });
-      //return { type: NEW_CHATMESSAGE, payload: { chatRoomId, messageObj } };
     }
   };
 };

@@ -29,6 +29,15 @@ const ChatRoom = props => {
     console.log("value " + value);
   };
 
+  /*     let allMessages = [];
+    for (const key in chatMessages) {
+      const message = chatMessages;
+      allMessages.push(message);
+    }
+    console.log(allMessages); */
+
+  //KAN ikke loope beskeder ind i det rigtige format. Virker fint hvis der ikke er nogen beskeder i db, men så snart der er
+  //og react skal hente derfra går det galt. Har prøvet at konvertere til array, det virker heller ikke.
   return (
     <View style={styles.container}>
       <View style={styles.messages}>
