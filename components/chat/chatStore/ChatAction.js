@@ -62,11 +62,16 @@ export const getChatRooms = () => {
     } else {
       const chatArray = [];
       for (const key in data) {
+        let messages = [];
+        for (const key2 in data[key].messages) {
+          const msg = data[key].messages[key2];
+          messages.push(new Message(key2, msg.messageText, new Date(msg.messageTimestamp), msg.user));
+        }
         const oldChatRooms = new ChatRoom(
           key,
-          undefined,
+          data[key].imageURL,
           data[key].chatroomName,
-          data[key].messages ? data[key].messages : [],
+          data[key].messages ? messages : [],
           data[key].read
         );
         chatArray.push(oldChatRooms);
@@ -84,6 +89,7 @@ export const deleteChatRoom = chatroomName => {
 export const newChatMessage = (chatRoomId, message) => {
   return async (dispatch, getState) => {
     const token = getState().user.token;
+    console.log(...message);
     const response = await fetch(`${endpointMessages}${chatRoomId}/messages.json?auth=${token}`, {
       method: "POST",
       headers: {
@@ -93,6 +99,7 @@ export const newChatMessage = (chatRoomId, message) => {
         messageText: message,
         messageTimestamp: new Date(2021, 0, 1, 12, 15, 5),
         user: new User("1", "Peter Møller", "Jensen", "dummyUrlLink"),
+        // ...message,
       }),
     });
 

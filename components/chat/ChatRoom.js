@@ -17,14 +17,19 @@ import { newChatMessage } from "./chatStore/ChatAction";
 import logo from "./../../static/images/surf.png";
 import myPic from "./../../static/images/personChat.png";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import Message from "../../classModels/Message";
 
 const ChatRoom = props => {
   const dispatch = useDispatch();
   const { id } = props.route.params;
   const [value, setValue] = useState("");
   const chatMessages = useSelector(state => state.chat.chatRooms).find(room => room.chatRoomId === id).messages;
+  const loggedInUser = useSelector(state => state.user.loggedInUser);
+  console.log(loggedInUser);
 
   const handleSend = () => {
+    const random = Math.random();
+    // const message = new Message(random, value, new Date(), loggedInUser);
     dispatch(newChatMessage(id, value));
     console.log("value " + value);
   };

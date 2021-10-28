@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Login from "../components/User/Login";
 import { useNavigation } from "@react-navigation/core";
+//import * as SecureStore from "expo-secure-store";
 
 const SignUpScreen = props => {
   const navigation = useNavigation();

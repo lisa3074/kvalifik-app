@@ -8,7 +8,7 @@ import ChatReducer from "./components/chat/chatStore/ChatReducer";
 import UserReducer from "./components/User/userStore/UserReducer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { initRtdb } from "./components/chat/firebase/initRtdb";
+//import { initRtdb } from "./components/chat/firebase/initRtdb";
 import StartNav from "./StartNav";
 
 const rootReducer = combineReducers({
@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));
 
 const App = () => {
-  initRtdb();
+  //initRtdb();
   return (
     <Provider store={store}>
       <StartNav />
