@@ -1,30 +1,21 @@
-import React, { useState } from "react";
-import TabBarBottom from "./components/TabBarBottom";
-import { Provider, useSelector } from "react-redux";
-//import { composeWithDevTools } from "redux-devtools-extension";
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import reduxThunk from "redux-thunk";
-import ChatReducer from "./components/chat/chatStore/ChatReducer";
-import UserReducer from "./components/User/userStore/UserReducer";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-//import { initRtdb } from "./components/chat/firebase/initRtdb";
-import StartNav from "./StartNav";
-
-const rootReducer = combineReducers({
-  chat: ChatReducer,
-  user: UserReducer,
-  //posts: PostReducer
-});
-
-const store = createStore(rootReducer, applyMiddleware(reduxThunk));
-
-const App = () => {
-  //initRtdb();
+export default function App() {
   return (
-    <Provider store={store}>
-      <StartNav />
-    </Provider>
+    <View style={styles.container}>
+      <Text>Open up App.js to start working on your app!</Text>
+      <StatusBar style="auto" />
+    </View>
   );
-};
-export default App;
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
