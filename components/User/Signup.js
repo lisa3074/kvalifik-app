@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { userSignup } from "./userStore/UserAction";
+import { userSignup, postUserToDb } from "./userStore/UserAction";
 
 const Signup = props => {
   const [signupEmail, setSignupEmail] = useState("");

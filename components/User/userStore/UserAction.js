@@ -11,11 +11,12 @@ export const REFRESH_TOKEN = "REFRESH_TOKEN";
 const endpointUsers = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=";
 
 export const restoreUser = (loggedInUser, token) => {
+  console.log("restoreUser() || UserAction.js");
   return { type: LOGIN, payload: { loggedInUser, token } };
 };
 
 export const userSignup = (email, password) => {
-  // console.log(email, password);
+  console.log("userSignup() || UserAction.js");
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`, {
       method: "POST",
@@ -28,47 +29,48 @@ export const userSignup = (email, password) => {
         returnSecureToken: true,
       }),
     });
-
     const data = await response.json();
-
+    console.log(data);
     if (!response.ok) {
       console.error("ERROR in response (userSignup)");
     } else {
-      PostUserToDb(data);
+      console.log("response good!");
       const signedUpUser = new User(data.localId, "", "", undefined, data.email);
       dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
-      setSecureStore(data, signedUpUser);
+      // setSecureStore(data, signedUpUser); //Turn secureStore on again
+      //VIRKER IKKE (postUserToDb)
+      //dispatch(postUserToDb(data));
+      return data;
     }
   };
 };
-
-const PostUserToDb = data => {
+//Ny users collection, virker ikke. Vi kommer aldrig ind i return statement.
+export const postUserToDb = data => {
+  console.log("postUserToDb() || UserAction.js");
+  console.log("DATA: ", data);
   return async getState => {
     const token = getState().user.token;
-    console.log(`${endpointUsers}${token}`);
+    const signedUpUser = new User(data.localId, "", "", undefined, data.email);
+    console.log(`Endpoint: ${endpointUsers}${token}`);
     const response = await fetch(`${endpointUsers}${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        id: data.localId,
-        firstname: "",
-        lastname: "",
-        imageUrl: undefined,
-        email: data.email,
-        studyProgramme: "",
-      }),
+      body: JSON.stringify(signedUpUser),
     });
-    const data2 = await response.json();
+    const user = await response.json();
+    console.log(user);
     if (!response.ok) {
       console.error("ERROR in response (PostUserToDb)");
+    } else {
+      console.log("response good (postUserToDb)");
     }
   };
 };
 
 export const userLogin = (email, password) => {
-  //console.log(email, password);
+  console.log("userLogin() || UserAction.js");
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API}`, {
       method: "POST",
@@ -87,13 +89,14 @@ export const userLogin = (email, password) => {
       console.error("ERROR in response");
     } else {
       const loggedInUser = new User(data.localId, "", "", undefined, data.email);
-      setSecureStore(data, loggedInUser);
+      //setSecureStore(data, loggedInUser); //Turn secureStore on again
       dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
     }
   };
 };
 
 export const refreshToken = refreshToken => {
+  console.log("refreshToken() || UserAction.js");
   return async dispatch => {
     console.log("refreshToken");
     console.log("DATA refresh " + refreshToken);
@@ -112,7 +115,6 @@ export const refreshToken = refreshToken => {
     console.log("Data after refresh token");
 
     if (!response.ok) {
-      console.error("error: " + response);
     } else {
       dispatch({ type: REFRESH_TOKEN, payload: data.id_token });
     }
@@ -120,6 +122,7 @@ export const refreshToken = refreshToken => {
 };
 
 const setSecureStore = (data, user) => {
+  console.log("setSecureStore() || UserAction.js");
   SecureStore.setItemAsync("userToken", data.idToken);
   SecureStore.setItemAsync("user", JSON.stringify(user));
   let expiration = new Date();
@@ -129,9 +132,11 @@ const setSecureStore = (data, user) => {
 };
 
 export const userLogout = () => {
-  SecureStore.deleteItemAsync("refreshToken");
+  console.log("userLogout() || UserAction.js");
+  //Turn secureStore on again
+  /*   SecureStore.deleteItemAsync("refreshToken");
   SecureStore.deleteItemAsync("expiration");
   SecureStore.deleteItemAsync("user");
-  SecureStore.deleteItemAsync("userToken");
+  SecureStore.deleteItemAsync("userToken"); */
   return { type: LOGOUT, payload: undefined };
 };

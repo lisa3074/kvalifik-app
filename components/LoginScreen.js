@@ -13,7 +13,6 @@ const SignUpScreen = props => {
   let storedUserToken, storedUser, expiration, refreshTokenString;
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
-    console.log("useEffectt");
     const bootstrapAsync = async () => {
       try {
         expiration = new Date(JSON.parse(await SecureStore.getItemAsync("expiration")));
@@ -28,13 +27,10 @@ const SignUpScreen = props => {
         console.log("no need for refresh token");
         storedUserToken = await SecureStore.getItemAsync("userToken");
         storedUser = JSON.parse(await SecureStore.getItemAsync("user"));
-
-        console.log(storedUserToken);
-        console.log(storedUser);
-      } catch (e) {
+      } catch (err) {
         // Restoring token failed
         console.log("restore token failed, probably because of log out");
-        console.log(e);
+        console.log(err);
       }
 
       dispatch(restoreUser(storedUser, storedUserToken));
