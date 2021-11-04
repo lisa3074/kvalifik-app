@@ -10,11 +10,11 @@ import MainScreenStyling from "../../styling/MainScreenStyling";
 // ChatMessageScreen
 const ChatMessage = props => {
   const { chatmessage } = props;
-  console.log(chatmessage);
+  //console.log(chatmessage);
   const hardCodedUserId = "1";
   const loggedInUser = useSelector(state => state.user.loggedInUser);
   let me = false;
-  console.log(loggedInUser);
+  //console.log(loggedInUser);
   if (loggedInUser.id === chatmessage.user.id) {
     me = true;
   }

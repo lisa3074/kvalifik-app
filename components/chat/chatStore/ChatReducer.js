@@ -19,7 +19,7 @@ const ChatReducer = (state = initialState, action) => {
       return { ...state, chatRooms: state.chatRooms.filter(room => room.chatRoomName !== action.payload) };
 
     case NEW_CHATMESSAGE:
-      console.log(action.payload);
+      //console.log(action.payload);
       // Find the chatroom object based on chatroomId.
       // Copy messages array of the right chatroom object
       // Copy chatrooms to avoid state mutations when updating the messages array in the

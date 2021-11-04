@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const ChatStackNav = props => {
   const [chatRoomTitle, setChatRoomTitle] = useState("hello");
-  console.log(chatRoomTitle);
+  //console.log(chatRoomTitle);
 
   return (
     <Stack.Navigator

@@ -33,9 +33,6 @@ export const newChatRoom = chatroomName => {
     });
 
     const data = await response.json(); // json to javascript
-    console.log(data);
-    console.log(`${endpointChatRooms}${token}`);
-
     if (!response.ok) {
       //There was a problem..
       console.error("ERROR in response");
@@ -76,7 +73,7 @@ export const getChatRooms = () => {
         );
         chatArray.push(oldChatRooms);
       }
-      console.log(chatArray);
+      // console.log(chatArray);
       dispatch({ type: GET_CHATROOMS, payload: chatArray });
     }
   };

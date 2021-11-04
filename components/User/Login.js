@@ -7,12 +7,16 @@ import { refreshToken, restoreUser } from "./userStore/UserAction";
 import * as SecureStore from "expo-secure-store";
 
 const Login = props => {
+  const { storedUser } = props;
   const [loginEmail, setLoginEmail] = useState("");
   const [LoginPassword, setLoginPassword] = useState("");
   const dispatch = useDispatch();
 
+  /*   if (storedUser) {
+    dispatch(userLogin(storedUser.email, storedUser.password));
+  } */
+
   const handleLogin = () => {
-    console.log(loginEmail, LoginPassword);
     dispatch(userLogin(loginEmail, LoginPassword));
     //dispatch(userLogin("hey@hey.dk", "password"));
   };

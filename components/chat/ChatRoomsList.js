@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 const ChatRoomList = props => {
   const chatRooms = useSelector(state => state.chat.chatRooms);
   const dispatch = useDispatch();
-  console.log(chatRooms);
+  //console.log(chatRooms);
 
   useEffect(() => {
     dispatch(getChatRooms());

@@ -9,7 +9,6 @@ const Signup = props => {
   const dispatch = useDispatch();
 
   const handleSignup = () => {
-    console.log(signupEmail, signupPassword);
     dispatch(userSignup(signupEmail, signupPassword));
   };
 

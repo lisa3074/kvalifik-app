@@ -10,40 +10,41 @@ const SignUpScreen = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  let storedUserToken, storedUser, expiration, refreshTokenString;
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     console.log("useEffectt");
     const bootstrapAsync = async () => {
-      let userToken, user, expiration, refreshTokenString;
-
       try {
         expiration = new Date(JSON.parse(await SecureStore.getItemAsync("expiration")));
         // if expiration.....
-        console.log(expiration);
+        console.log(expiration + " " + new Date());
         if (expiration < new Date()) {
           // then it is expired
-          console.log("refresh token");
           refreshTokenString = await SecureStore.getItemAsync("refreshToken");
-          console.log("refreshTokenString" + refreshTokenString);
+          console.log("refreshTokenString " + refreshTokenString);
           dispatch(refreshToken(refreshTokenString));
         }
-        console.log("no refresh token");
-        userToken = await SecureStore.getItemAsync("userToken");
-        user = JSON.parse(await SecureStore.getItemAsync("user"));
+        console.log("no need for refresh token");
+        storedUserToken = await SecureStore.getItemAsync("userToken");
+        storedUser = JSON.parse(await SecureStore.getItemAsync("user"));
+
+        console.log(storedUserToken);
+        console.log(storedUser);
       } catch (e) {
         // Restoring token failed
-        console.log("restore token failed");
+        console.log("restore token failed, probably because of log out");
         console.log(e);
       }
 
-      dispatch(restoreUser(user, userToken));
+      dispatch(restoreUser(storedUser, storedUserToken));
     };
 
     bootstrapAsync();
   }, []);
   return (
     <View>
-      <Login />
+      <Login storedUser={storedUser} />
 
       <Text
         onPress={() => {

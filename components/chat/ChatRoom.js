@@ -13,13 +13,12 @@ const ChatRoom = props => {
   const [value, setValue] = useState("");
   const chatMessages = useSelector(state => state.chat.chatRooms).find(room => room.chatRoomId === id).messages;
   const loggedInUser = useSelector(state => state.user.loggedInUser);
-  console.log(loggedInUser);
+  //console.log(loggedInUser);
 
   const handleSend = () => {
     const random = Math.random();
     dispatch(newChatMessage(id, value, loggedInUser));
     setValue("");
-    console.log("value " + value);
   };
 
   return (
