@@ -1,5 +1,14 @@
 class User {
-  constructor(id, firstname, lastname, imageUrl, email, studyProgramme, chatToggle, eventToggle) {
+  constructor(
+    public id: string,
+    public firstname: string,
+    public lastname: string,
+    public imageUrl: string,
+    public email: string,
+    public studyProgramme: string,
+    public chatToggle: boolean,
+    public eventToggle: boolean
+  ) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;

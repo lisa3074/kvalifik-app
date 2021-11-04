@@ -6,13 +6,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUpScreen from "./components/SignUpScreen";
 import LoginScreen from "./components/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import { RootState } from "./App";
 
 const Stack = createNativeStackNavigator();
 
 const StartNav = () => {
   //MyNav.js
 
-  const isSignedIn = useSelector(state => state.user.loggedInUser);
+  const isSignedIn = useSelector((state: RootState) => state.user.loggedInUser);
 
   return isSignedIn ? (
     <TabBarBottom />

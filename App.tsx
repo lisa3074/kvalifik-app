@@ -9,13 +9,15 @@ import UserReducer from "./components/User/userStore/UserReducer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import StartNav from "./StartNav";
+import User from "./classModels/User";
 
 const rootReducer = combineReducers({
   chat: ChatReducer,
   user: UserReducer,
   //posts: PostReducer
 });
-
+let RootState: User[];
+export type RootState = ReturnType<typeof rootReducer>;
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));
 
 const App = () => {

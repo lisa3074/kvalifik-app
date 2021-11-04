@@ -1,30 +1,25 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Login from "../components/User/Login";
-import { useNavigation } from "@react-navigation/core";
-import * as SecureStore from "expo-secure-store";
-import { refreshToken, restoreUser } from "./User/userStore/UserAction";
+//UserAction.js ?
+/* import React, { useEffect } from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
+import { userLogin } from "./userStore/UserAction";
+import { refreshToken, restoreUser } from "./userStore/UserAction";
+import * as SecureStore from "expo-secure-store";
 
-const SignUpScreen = props => {
-  const navigation = useNavigation();
+const SetToken = props => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
-    console.log("useEffectt");
     const bootstrapAsync = async () => {
       let userToken, user, expiration, refreshTokenString;
 
       try {
         expiration = new Date(JSON.parse(await SecureStore.getItemAsync("expiration")));
         // if expiration.....
-        console.log(expiration);
         if (expiration < new Date()) {
           // then it is expired
           console.log("refresh token");
           refreshTokenString = await SecureStore.getItemAsync("refreshToken");
-          console.log("refreshTokenString" + refreshTokenString);
           dispatch(refreshToken(refreshTokenString));
         }
         console.log("no refresh token");
@@ -41,20 +36,9 @@ const SignUpScreen = props => {
 
     bootstrapAsync();
   }, []);
-  return (
-    <View>
-      <Login />
-
-      <Text
-        onPress={() => {
-          navigation.navigate("Signup");
-        }}>
-        Don't have an account? Sign up
-      </Text>
-    </View>
-  );
 };
 
 const styles = StyleSheet.create({});
 
-export default SignUpScreen;
+export default SetToken;
+ */

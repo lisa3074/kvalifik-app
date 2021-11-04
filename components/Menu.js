@@ -8,9 +8,9 @@ const Menu = props => {
   return (
     <View>
       <Text>Menu</Text>
-      <Signup />
+      {/*     <Signup />
       <Login />
-      <Logout />
+      <Logout /> */}
     </View>
   );
 };

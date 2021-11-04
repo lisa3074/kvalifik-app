@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
+import SetToken from "./SetToken";
 import { userLogin } from "./userStore/UserAction";
+import { refreshToken, restoreUser } from "./userStore/UserAction";
+import * as SecureStore from "expo-secure-store";
 
 const Login = props => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -13,6 +16,8 @@ const Login = props => {
     dispatch(userLogin(loginEmail, LoginPassword));
     //dispatch(userLogin("hey@hey.dk", "password"));
   };
+
+  //SetToken();
 
   return (
     <View>

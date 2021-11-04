@@ -1,7 +1,8 @@
-import { LOGIN, SIGNUP, LOGOUT } from "./UserAction";
+import { LOGIN, SIGNUP, LOGOUT, REFRESH_TOKEN } from "./UserAction";
 
 export const initialState = {
   loggedInUser: undefined,
+  signedUpUser: undefined,
   token: undefined,
 };
 const UserReducer = (state = initialState, action) => {
@@ -17,6 +18,8 @@ const UserReducer = (state = initialState, action) => {
         loggedInUser: action.payload.signedUpUser,
         token: action.payload.token,
       };
+    case REFRESH_TOKEN:
+      return { ...state, token: action.payload };
     case LOGIN:
       console.log({
         ...state,
