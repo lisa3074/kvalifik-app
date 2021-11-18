@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
-//import { useFonts, OpenSans_400Regular, OpenSans_700Bold, Teko_500Medium } from "@expo-google-fonts/dev";
 
+const CBS_blue_text = '#32305D';
+const CBS_blue = '#5050A5';
 const MainScreenStyling = StyleSheet.create({
+  
   center: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   button: {
-    maxWidth: 250,
-    backgroundColor: "#5050A5",
+    backgroundColor: CBS_blue,
     padding: 15,
     paddingBottom: 5,
     paddingTop: 5,

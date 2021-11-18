@@ -37,18 +37,16 @@ export const userSignup = (email, password) => {
       console.log("response good!");
       const signedUpUser = new User(data.localId, "", "", undefined, data.email);
       dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
-      // setSecureStore(data, signedUpUser); //Turn secureStore on again
-      //VIRKER IKKE (postUserToDb)
-      //dispatch(postUserToDb(data));
+      //setSecureStore(data, signedUpUser); //Turn secureStore on again
+      dispatch(postUserToDb(data));
       return data;
     }
   };
 };
-//Ny users collection, virker ikke. Vi kommer aldrig ind i return statement.
+
 export const postUserToDb = data => {
   console.log("postUserToDb() || UserAction.js");
-  console.log("DATA: ", data);
-  return async getState => {
+  return async (dispatch, getState) => {
     const token = getState().user.token;
     const signedUpUser = new User(data.localId, "", "", undefined, data.email);
     console.log(`Endpoint: ${endpointUsers}${token}`);
@@ -57,7 +55,12 @@ export const postUserToDb = data => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(signedUpUser),
+      body: JSON.stringify({
+        id: signedUpUser.id,
+        imageUrl: 'static/images/placeholder.png',
+        email: signedUpUser.email
+
+      }),
     });
     const user = await response.json();
     console.log(user);
@@ -121,7 +124,7 @@ export const refreshToken = refreshToken => {
   };
 };
 
-const setSecureStore = (data, user) => {
+/* const setSecureStore = (data, user) => {
   console.log("setSecureStore() || UserAction.js");
   SecureStore.setItemAsync("userToken", data.idToken);
   SecureStore.setItemAsync("user", JSON.stringify(user));
@@ -129,14 +132,14 @@ const setSecureStore = (data, user) => {
   expiration = expiration.setSeconds(expiration.getSeconds() + parseInt(data.expiresIn));
   SecureStore.setItemAsync("expiration", JSON.stringify(expiration));
   SecureStore.setItemAsync("refreshToken", data.refreshToken);
-};
+}; */
 
 export const userLogout = () => {
   console.log("userLogout() || UserAction.js");
   //Turn secureStore on again
-  /*   SecureStore.deleteItemAsync("refreshToken");
+/*      SecureStore.deleteItemAsync("refreshToken");
   SecureStore.deleteItemAsync("expiration");
   SecureStore.deleteItemAsync("user");
-  SecureStore.deleteItemAsync("userToken"); */
+  SecureStore.deleteItemAsync("userToken");  */
   return { type: LOGOUT, payload: undefined };
 };

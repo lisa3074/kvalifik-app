@@ -2,11 +2,13 @@ import React from "react";
 import TabBarBottom from "./components/TabBarBottom";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { View, Text, StyleSheet, Image } from "react-native";
 import SignUpScreen from "./components/SignUpScreen";
 import LoginScreen from "./components/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootState } from "./App";
+import StartScreen from "./components/StartScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -15,15 +17,53 @@ const StartNav = () => {
 
   const isSignedIn = useSelector((state: RootState) => state.user.loggedInUser);
 
+  const logIn = (<Text>Don't have an account? <Text style={styles.bold}>Sign up</Text></Text>);
+  const signUp = (<Text>Already have a user? <Text style={styles.bold}>Log in</Text></Text>);
+     
   return isSignedIn ? (
     <TabBarBottom />
   ) : (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Log in" }} />
-        <Stack.Screen name="Signup" component={SignUpScreen} options={{ title: "Sign up" }} />
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+            }}>
+    {/*     <Stack.Screen name="Login" component={LoginScreen}  options={{ title: "Log in"}} /> */}
+    {/*     <Stack.Screen name="Signup" component={SignUpScreen} options={{ title: "Sign up" }} /> */}
+          <Stack.Screen name="Login" options={{ title: "Log in" }}>
+            {props => <StartScreen actionText={logIn} action={ 'Signup'}/>}
+        </Stack.Screen>
+          <Stack.Screen name="Signup" options={{ title: "Sign up" }}>
+            {props => <StartScreen  actionText={signUp} action={ 'Login'}/>}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
+const CBS_blue_text = '#5050A5';
+const styles = StyleSheet.create({
+  login: {
+    backgroundColor: 'white',
+    height: '100%',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  alignCenter: {
+    textAlign: 'center',
+    paddingTop: 32,
+    color: CBS_blue_text,
+    fontSize: 12
+  },
+  bold: {
+    fontWeight: '600'
+  },
+    logo: {
+    width: 100,
+    height: 100,
+      borderRadius: 100,
+    marginBottom: 16,
+      marginRight: 8,
+    alignSelf: 'center'
+  },
+});
 export default StartNav;

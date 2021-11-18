@@ -3,20 +3,19 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import Signup from "../components/User/Signup";
 import logo from '../static/images/CBS_logo.png'
 import { useNavigation } from "@react-navigation/core";
+import Login from "./User/Login";
 
-const SignUpScreen = props => {
+const StartScreen = props => {
   const navigation = useNavigation();
   return (
         <View style={styles.login}>
       <Image source={logo} style={styles.logo}/>
-      <Signup/>
-
-      <Text
-        onPress={() => {
-          navigation.navigate("Login");
-        }} style={styles.alignCenter}>
-        Already have a user? <Text style={styles.bold}>Log in</Text>
-      </Text>
+          { props.action === "Signup" ? <Login /> : <Signup/>}
+          <Text onPress={() => {
+          navigation.navigate(props.action);
+          }} style={styles.alignCenter}>    
+            {props.actionText }
+        </Text>
     </View>
   );
 };
@@ -48,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default StartScreen;
