@@ -9,13 +9,14 @@ interface Props{
   placeholder: string,
   text: string,
   error: string,
-  valid: boolean,
+  isValid: boolean,
   setText: (arg: string) => void
+  setIsValid: (arg: boolean) => void
 }
 
-const Input = ({ text, setText, label, placeholder, error, valid }: Props) => {
+const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const [isValid, setIsValid] = useState(valid);
+ /*  const [isValid, setIsValid] = useState(valid); */
 
     useFonts({
     OpenSans_400Regular,
@@ -31,9 +32,11 @@ const Input = ({ text, setText, label, placeholder, error, valid }: Props) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.flex}>
       <Text style={styles.labelStyle}>{label}</Text>
+      {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
+      </View>
       <TextInput style={ styles.input} onChangeText={handleInput} value={text} placeholder={placeholder} onBlur={()=>setIsActive(true)}/>
-      {!isValid && isActive && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
@@ -58,7 +61,10 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans_400Regular',
     fontSize: 14
   },
-  error: {color: 'red'}
+  error: { color: 'red' },
+  flex: {
+    flexDirection: 'row'
+  }
   
 });
 

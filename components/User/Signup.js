@@ -1,19 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { userSignup, postUserToDb } from "./userStore/UserAction";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import Checkbox from '../reusableComponents/Checkbox';
+import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
+import { Teko_500Medium } from "@expo-google-fonts/teko";
 
 const Signup = props => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+  const [matchPassword, setMatchPassword] = useState("");
+    const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isMatchPasswordValid, setIsMatchPasswordValid] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
 
+      useFonts({
+    OpenSans_400Regular,
+    OpenSans_700Bold,
+    Teko_500Medium,
+      });
+  
   const handleSignup = () => {
     dispatch(userSignup(signupEmail, signupPassword));
   };
 
+  useEffect(
+    function handleSignupBtn() {
+      isEmailValid && isPasswordValid && isMatchPasswordValid && isChecked ? setIsDisabled(false) : setIsDisabled(true);
+    },
+    [isEmailValid, isPasswordValid, isChecked, isMatchPasswordValid]
+  );
+
+  const termsAndConditions = (
+    <Text>"I agree to the <Text style={styles.underline}>terms and conditions"</Text></Text>
+  )
   return (
     <View>
       <View>
@@ -25,7 +50,8 @@ const Signup = props => {
           label={"E-mail"}
           text={signupEmail}
           error={"You need to fill out your email"}
-          valid={false}
+          isValid={isEmailValid}
+          setIsValid={setIsEmailValid}
           setText={setSignupEmail}
         />
         <Input
@@ -33,12 +59,23 @@ const Signup = props => {
           label={"Password"}
           text={signupPassword}
           error={"You need to fill out a password"}
-          valid={false}
+            isValid={isPasswordValid}
+          setIsValid={setIsPasswordValid}
           setText={setSignupPassword}
+        />
+        <Input
+          placeholder={"Repeat your password"}
+          label={"Repeat password"}
+          text={matchPassword}
+          error={"Repeat the password"}
+            isValid={isMatchPasswordValid}
+          setIsValid={setIsMatchPasswordValid}
+          setText={setMatchPassword}
         />
       </View>
       <Text style={styles.alignCenter}>Forgot password?</Text>
-      <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={handleSignup}>
+      <Checkbox label={termsAndConditions} isChecked={isChecked} setIsChecked={setIsChecked} error={"You need to agree to our terms and conditions"} />
+      <TouchableOpacity style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]} onPress={isDisabled ? null : handleSignup}>
         <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
       </TouchableOpacity>
     </View>
@@ -48,6 +85,7 @@ const Signup = props => {
 const CBS_blue = '#32305D';
 const CBS_blue_text = '#5050A5'
 const CBS_border = '#EEEEEE';
+const CBS_disabled = '#BABADD';
 const styles = StyleSheet.create({
   inputContainer: {
     borderColor: CBS_border,
@@ -78,6 +116,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
    alignItems: "flex-start",
- }
+  },
+  disabled: {
+    backgroundColor: CBS_disabled
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  }
 });
 export default Signup;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
+import { Teko_500Medium } from "@expo-google-fonts/teko";
 
 import SetToken from "./SetToken";
 import { postUserToDb, userLogin } from "./userStore/UserAction";
@@ -13,13 +15,29 @@ const Login = props => {
   const { storedUser } = props;
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useDispatch();
+
+      useFonts({
+    OpenSans_400Regular,
+    OpenSans_700Bold,
+    Teko_500Medium,
+   });
 
   console.log(storedUser)
   const handleLogin = () => {
     //dispatch(userLogin(loginEmail, loginPassword));
     dispatch(userLogin("hey@hey.dk", "password"));
   };
+
+  useEffect(
+    function handleLoginBtn() {
+      isEmailValid && isPasswordValid ? setIsDisabled(false) : setIsDisabled(true);
+    },
+    [isEmailValid, isPasswordValid]
+  );
 
 
   //SetToken();
@@ -36,26 +54,32 @@ const Login = props => {
         label={'E-mail'}
         text={loginEmail}
         error={'You need to fill out your email'}
-        valid={false}
-        setText={setLoginEmail}
+        isValid={isEmailValid}
+          setText={setLoginEmail}
+          setIsValid={setIsEmailValid}
         />
       <Input
         placeholder={'Write your password'}
         label={'Password'}
         text={loginPassword}
         error={'You need to fill out a password'}
-        valid={false}
-        setText={setLoginPassword}
+        isValid={isPasswordValid}
+          setText={setLoginPassword}
+          setIsValid={setIsPasswordValid}
         />
         </View>
       <Text style={styles.alignCenter}>Forgot password?</Text>
-      <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={handleLogin}><Text style={MainScreenStyling.darkBtnTxt}>Log in</Text></TouchableOpacity>
+      <TouchableOpacity style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]} onPress={isDisabled ? null : handleLogin}><Text style={MainScreenStyling.darkBtnTxt}>Log in</Text></TouchableOpacity>
     </View>
   );
 };
+
+
+
 const CBS_blue = '#32305D';
 const CBS_blue_text = '#5050A5'
 const CBS_border = '#EEEEEE';
+const CBS_disabled = '#BABADD';
 const styles = StyleSheet.create({
   inputContainer: {
     borderColor: CBS_border,
@@ -86,7 +110,10 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
    alignItems: "flex-start",
- }
+  },
+    disabled: {
+      backgroundColor: CBS_disabled,
+  },
 });
 
 export default Login;
