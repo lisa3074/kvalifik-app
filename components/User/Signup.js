@@ -17,6 +17,7 @@ const Signup = props => {
   const [isMatchPasswordValid, setIsMatchPasswordValid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
 
       useFonts({
@@ -32,12 +33,17 @@ const Signup = props => {
   useEffect(
     function handleSignupBtn() {
       isEmailValid && isPasswordValid && isMatchPasswordValid && isChecked ? setIsDisabled(false) : setIsDisabled(true);
+      isEmailValid && isPasswordValid && isMatchPasswordValid && isChecked && setIsTouched(false);
     },
     [isEmailValid, isPasswordValid, isChecked, isMatchPasswordValid]
   );
 
+   const handleDisabled = () => {
+    setIsTouched(true)
+  }
+
   const termsAndConditions = (
-    <Text>"I agree to the <Text style={styles.underline}>terms and conditions"</Text></Text>
+    <Text>"I agree to the <Text style={styles.underline}>terms & conditions"</Text></Text>
   )
   return (
     <View>
@@ -59,7 +65,7 @@ const Signup = props => {
           label={"Password"}
           text={signupPassword}
           error={"You need to fill out a password"}
-            isValid={isPasswordValid}
+          isValid={isPasswordValid}
           setIsValid={setIsPasswordValid}
           setText={setSignupPassword}
         />
@@ -68,16 +74,26 @@ const Signup = props => {
           label={"Repeat password"}
           text={matchPassword}
           error={"Repeat the password"}
-            isValid={isMatchPasswordValid}
+          isValid={isMatchPasswordValid}
           setIsValid={setIsMatchPasswordValid}
           setText={setMatchPassword}
         />
       </View>
       <Text style={styles.alignCenter}>Forgot password?</Text>
-      <Checkbox label={termsAndConditions} isChecked={isChecked} setIsChecked={setIsChecked} error={"You need to agree to our terms and conditions"} />
-      <TouchableOpacity style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]} onPress={isDisabled ? null : handleSignup}>
+      <Checkbox
+        label={termsAndConditions}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
+        error={"You need to agree to our terms and conditions"}
+      />
+      <TouchableOpacity
+        style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
+        onPress={isDisabled ? handleDisabled : handleSignup}>
         <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
       </TouchableOpacity>
+         {/* Show only error text if */}
+      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid) && <Text style={styles.error}>You need to fill out all fields and agree to our terms & conditions.</Text>}
+   
     </View>
   );
 };
@@ -122,6 +138,10 @@ const styles = StyleSheet.create({
   },
   underline: {
     textDecorationLine: 'underline',
-  }
+  },
+    error: {
+    color: 'red',
+    marginTop: 8,
+  },
 });
 export default Signup;

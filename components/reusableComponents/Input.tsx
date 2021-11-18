@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans_400Regular',
     fontSize: 14
   },
-  error: { color: 'red' },
+  error: {
+    color: 'red'
+  },
   flex: {
     flexDirection: 'row'
   }

@@ -18,6 +18,7 @@ const Login = props => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
 
       useFonts({
@@ -32,9 +33,17 @@ const Login = props => {
     dispatch(userLogin("hey@hey.dk", "password"));
   };
 
+
+  const handleDisabled = () => {
+    setIsTouched(true)
+  }
+
   useEffect(
     function handleLoginBtn() {
+      //if password or email is not valid, set login button to disabled
       isEmailValid && isPasswordValid ? setIsDisabled(false) : setIsDisabled(true);
+      //if password and email is valid, reset isTouched on button
+      isEmailValid && isPasswordValid && setIsTouched(false);
     },
     [isEmailValid, isPasswordValid]
   );
@@ -48,28 +57,33 @@ const Login = props => {
         <Text style={styles.heading}>Log in</Text>
       </View>
       <View style={styles.inputContainer}>
-
-      <Input
-        placeholder={'Write your email'}
-        label={'E-mail'}
-        text={loginEmail}
-        error={'You need to fill out your email'}
-        isValid={isEmailValid}
+        <Input
+          placeholder={"Write your email"}
+          label={"E-mail"}
+          text={loginEmail}
+          error={"You need to fill out your email"}
+          isValid={isEmailValid}
           setText={setLoginEmail}
           setIsValid={setIsEmailValid}
         />
-      <Input
-        placeholder={'Write your password'}
-        label={'Password'}
-        text={loginPassword}
-        error={'You need to fill out a password'}
-        isValid={isPasswordValid}
+        <Input
+          placeholder={"Write your password"}
+          label={"Password"}
+          text={loginPassword}
+          error={"You need to fill out a password"}
+          isValid={isPasswordValid}
           setText={setLoginPassword}
           setIsValid={setIsPasswordValid}
         />
-        </View>
+      </View>
       <Text style={styles.alignCenter}>Forgot password?</Text>
-      <TouchableOpacity style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]} onPress={isDisabled ? null : handleLogin}><Text style={MainScreenStyling.darkBtnTxt}>Log in</Text></TouchableOpacity>
+      <TouchableOpacity
+        style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
+        onPress={isDisabled ? handleDisabled : handleLogin}>
+        <Text style={MainScreenStyling.darkBtnTxt}>Log in</Text>
+      </TouchableOpacity>
+      {/* Show only error text if */}
+      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid) && <Text style={styles.error}>You need to fill out email and password</Text>}
     </View>
   );
 };
@@ -113,6 +127,10 @@ const styles = StyleSheet.create({
   },
     disabled: {
       backgroundColor: CBS_disabled,
+  },
+  error: {
+    color: 'red',
+    marginTop: 8,
   },
 });
 
