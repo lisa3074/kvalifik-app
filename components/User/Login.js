@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import SetToken from "./SetToken";
-import { postUserToDb, userLogin } from "./userStore/UserAction";
+import { postUserToDb, userLogin, getUser } from "./userStore/UserAction";
 import { refreshToken, restoreUser } from "./userStore/UserAction";
 import * as SecureStore from "expo-secure-store";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+
 
 const Login = props => {
   const { storedUser } = props;
@@ -21,8 +22,8 @@ const Login = props => {
 
   console.log(storedUser)
   const handleLogin = () => {
-    //dispatch(userLogin(loginEmail, loginPassword));
-    dispatch(userLogin("hey@hey.dk", "password"));
+    dispatch(userLogin(loginEmail, loginPassword));
+    //dispatch(userLogin("hey@hey.dk", "password"));
   };
 
 

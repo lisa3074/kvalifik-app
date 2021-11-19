@@ -18,13 +18,13 @@ const Signup = (props) => {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isMatchPasswordValid, setIsMatchPasswordValid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isChecked, setIsChecked] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
-  const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(false);
+  //const dispatch = useDispatch();
   
-  const handleSignup = () => {
+/*   const handleSignup = () => {
     dispatch(userSignup(signupEmail, signupPassword));
-  };
+  }; */
 
   useEffect(
     function handleSignupBtn() {
