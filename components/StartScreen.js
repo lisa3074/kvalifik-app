@@ -14,7 +14,7 @@ const StartScreen = props => {
           <Text onPress={() => {
           navigation.navigate(props.action);
           }} style={styles.alignCenter}>    
-            {props.actionText }
+            {props.actionText}
         </Text>
     </View>
   );

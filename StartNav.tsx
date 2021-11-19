@@ -27,8 +27,6 @@ const StartNav = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false
             }}>
-    {/*     <Stack.Screen name="Login" component={LoginScreen}  options={{ title: "Log in"}} /> */}
-    {/*     <Stack.Screen name="Signup" component={SignUpScreen} options={{ title: "Sign up" }} /> */}
           <Stack.Screen name="Login" options={{ title: "Log in" }}>
             {props => <StartScreen actionText={logIn} action={ 'Signup'}/>}
         </Stack.Screen>

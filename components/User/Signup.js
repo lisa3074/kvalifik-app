@@ -5,8 +5,6 @@ import { userSignup, postUserToDb } from "./userStore/UserAction";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Checkbox from '../reusableComponents/Checkbox';
-import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
-import { Teko_500Medium } from "@expo-google-fonts/teko";
 
 const Signup = props => {
   const [signupEmail, setSignupEmail] = useState("");
@@ -17,14 +15,9 @@ const Signup = props => {
   const [isMatchPasswordValid, setIsMatchPasswordValid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
-
-      useFonts({
-    OpenSans_400Regular,
-    OpenSans_700Bold,
-    Teko_500Medium,
-      });
   
   const handleSignup = () => {
     dispatch(userSignup(signupEmail, signupPassword));
@@ -84,8 +77,17 @@ const Signup = props => {
         label={termsAndConditions}
         isChecked={isChecked}
         setIsChecked={setIsChecked}
+        type={'check'}
         error={"You need to agree to our terms and conditions"}
       />
+      <Checkbox
+        label={"switch"}
+        isChecked={isChecked2}
+        setIsChecked={setIsChecked2}
+        type={'switch'}
+        error={"You need to agree to our terms and conditions"}
+      />
+      
       <TouchableOpacity
         style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
         onPress={isDisabled ? handleDisabled : handleSignup}>

@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text } from "react-native";
-import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
-import { Teko_500Medium } from "@expo-google-fonts/teko";
 
+/* 
+###### TO USE ######
+import Input from '../reusableComponents/Input';'
+const [email, setEmail] = useState("");
+const [isEmailValid, setIsEmailValid] = useState(false);
+
+       <Input
+          label={"string"} // name on the label
+          placeholder={"string"} // text in placeholder
+          text={email} //state variable declared in parent component
+          setText={setEmail} //changing function declared in parent component
+          isValid={isEmailValid} //state variable declared in parent component
+          setIsValid={setIsEmailValid} //changing function declared in parent component
+          error={"string"} // error message
+        />
+*/
 
 interface Props{
   label: string,
   placeholder: string,
   text: string,
-  error: string,
-  isValid: boolean,
   setText: (arg: string) => void
+  isValid: boolean,
   setIsValid: (arg: boolean) => void
+  error: string,
 }
 
 const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }: Props) => {
   const [isActive, setIsActive] = useState(false);
- /*  const [isValid, setIsValid] = useState(valid); */
-
-    useFonts({
-    OpenSans_400Regular,
-    OpenSans_700Bold,
-    Teko_500Medium,
-   });
 
   const handleInput = (input:string) => {
     setIsActive(true);
@@ -36,7 +43,7 @@ const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }
       <Text style={styles.labelStyle}>{label}</Text>
       {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
       </View>
-      <TextInput style={ styles.input} onChangeText={handleInput} value={text} placeholder={placeholder} onBlur={()=>setIsActive(true)}/>
+      <TextInput autoCapitalize={'none'} style={ styles.input} onChangeText={handleInput} value={text} placeholder={placeholder} onBlur={()=>setIsActive(true)}/>
     </View>
   );
 };
