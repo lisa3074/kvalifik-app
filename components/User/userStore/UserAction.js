@@ -1,4 +1,3 @@
-import React from "react";
 import User from "../../../classModels/User";
 import { API } from "../../../apiKeys/apiKey";
 import * as SecureStore from "expo-secure-store";

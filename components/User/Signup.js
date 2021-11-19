@@ -6,6 +6,7 @@ import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Checkbox from '../reusableComponents/Checkbox';
 
+
 const Signup = props => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
@@ -95,7 +96,6 @@ const Signup = props => {
       </TouchableOpacity>
          {/* Show only error text if */}
       {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid) && <Text style={styles.error}>You need to fill out all fields and agree to our terms & conditions.</Text>}
-   
     </View>
   );
 };

@@ -1,20 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import Signup from "../components/User/Signup";
 import logo from '../static/images/CBS_logo.png'
 import { useNavigation } from "@react-navigation/core";
 import Login from "./User/Login";
+/*  import OnBoardingFlow from "./User/OnBoardingFlow"; */
+import Signup from "./User/Signup";
 
 const StartScreen = props => {
   const navigation = useNavigation();
   return (
         <View style={styles.login}>
       <Image source={logo} style={styles.logo}/>
-          { props.action === "Signup" ? <Login /> : <Signup/>}
+          { props.screen === "Login" ? <Login /> : <Signup/>}
           <Text onPress={() => {
           navigation.navigate(props.action);
           }} style={styles.alignCenter}>    
-            {props.actionText}
+            {props.actionText }
         </Text>
     </View>
   );
