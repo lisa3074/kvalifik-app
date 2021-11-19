@@ -10,8 +10,8 @@ const Notification = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const handleSignup = () => {
-    dispatch(userSignup(signupEmail, signupPassword, firstname, lastname, imageUrl, studyProgramme));
+  const handleSignup = (notifications) => {
+    dispatch(userSignup(signupEmail, signupPassword, firstname, lastname, imageUrl, studyProgramme, notifications));
   };
 
   //Don't navigate to start screen before making sure the user has gone through the userReducer and is logged in.
@@ -22,10 +22,10 @@ const Notification = props => {
   return (
     <View>
       <Text>Notification</Text>
-      <TouchableOpacity onPress={handleSignup}>
+      <TouchableOpacity onPress={()=>handleSignup(true)}>
         <Text>Notification on</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignup}>
+      <TouchableOpacity onPress={()=>handleSignup(false)}>
         <Text>Maybe later</Text>
       </TouchableOpacity>
     </View>

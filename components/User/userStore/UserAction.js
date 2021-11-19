@@ -15,7 +15,7 @@ export const restoreUser = (loggedInUser, token) => {
   return { type: LOGIN, payload: { loggedInUser, token } };
 };
 
-export const userSignup = (email, password, firstname, lastname, imageUrl, studyProgramme) => {
+export const userSignup = (email, password, firstname, lastname, imageUrl, studyProgramme, notifications) => {
   console.log("userSignup() || UserAction.js");
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`, {
@@ -40,39 +40,44 @@ export const userSignup = (email, password, firstname, lastname, imageUrl, study
       }
     } else {
       console.log("response good!");
-         const signedUpUser = new User(data.localId, firstname, lastname, imageUrl, data.email, studyProgramme);
-      dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } }); 
+      const signedUpUser = new User(
+        data.localId,
+        firstname,
+        lastname,
+        imageUrl,
+        data.email,
+        studyProgramme,
+        notifications
+      );
+      dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
       //setSecureStore(data, signedUpUser); //Turn secureStore on again
-      dispatch(postUserToDb(data, firstname, lastname, imageUrl, studyProgramme));
+      dispatch(postUserToDb(data, firstname, lastname, imageUrl, studyProgramme, notifications));
       return data;
     }
   };
 };
 
-export const postUserToDb = (data, firstname, lastname, imageUrl, studyProgramme) => {
+export const postUserToDb = (data, firstname, lastname, imageUrl, studyProgramme, notifications) => {
   console.log("postUserToDb() || UserAction.js");
   return async (dispatch, getState) => {
     const token = getState().user.token;
-    const signedUpUser = new User(data.localId, firstname, lastname, imageUrl, data.email, studyProgramme);
-    console.log(`Endpoint: ${endpointUsers}${token}`);
     const response = await fetch(`${endpointUsers}${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: signedUpUser.id,
+        id: data.localId,
         firstname: firstname,
         lastname: lastname,
         imageUrl: imageUrl,
-        email: signedUpUser.email,
-        studyProgramme: studyProgramme
-
+        email: data.email,
+        studyProgramme: studyProgramme,
+        notifications: notifications,
       }),
     });
     //name of the entry
     const nameOfEntry = await response.json();
-    console.log(nameOfEntry);
     if (!response.ok) {
       console.error("ERROR in response (PostUserToDb)");
     } else {
@@ -98,7 +103,7 @@ export const userLogin = (email, password) => {
     });
 
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     if (!response.ok) {
       console.error("ERROR in response");
     } else {
@@ -109,24 +114,34 @@ export const userLogin = (email, password) => {
   };
 };
 
-export const getUser = (data) => {
+export const getUser = data => {
   console.log("getUSer() || UserAction.js");
   return async (dispatch, getState) => {
     const token = getState().user.token;
-   const response = await fetch(`https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const user = await response.json();
     let loggedInUser;
     for (const key in user) {
       if (user[key].id === data.localId) {
-        console.log(user[key])
-        loggedInUser = new User(user[key].id, user[key].firstname, user[key].lastname, user[key].imageUrl, user[key].email, user[key].studyProgramme);
+        console.log(user[key]);
+        loggedInUser = new User(
+          user[key].id,
+          user[key].firstname,
+          user[key].lastname,
+          user[key].imageUrl,
+          user[key].email,
+          user[key].studyProgramme,
+          user[key].notifications
+        );
       }
-      
     }
     if (!response.ok) {
       console.error("ERROR in response (PostUserToDb)");
@@ -137,8 +152,6 @@ export const getUser = (data) => {
     }
   };
 };
-
-
 
 export const refreshToken = refreshToken => {
   console.log("refreshToken() || UserAction.js");
@@ -179,7 +192,7 @@ export const refreshToken = refreshToken => {
 export const userLogout = () => {
   console.log("userLogout() || UserAction.js");
   //Turn secureStore on again
-/*      SecureStore.deleteItemAsync("refreshToken");
+  /*      SecureStore.deleteItemAsync("refreshToken");
   SecureStore.deleteItemAsync("expiration");
   SecureStore.deleteItemAsync("user");
   SecureStore.deleteItemAsync("userToken");  */

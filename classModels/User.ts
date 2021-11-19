@@ -5,7 +5,8 @@ class User {
     public lastname: string,
     public imageUrl: string,
     public email: string,
-    public studyProgramme: string
+    public studyProgramme: string,
+    public notifications: boolean
   ) {
     this.id = id;
     this.firstname = firstname;
@@ -13,6 +14,7 @@ class User {
     this.imageUrl = imageUrl;
     this.email = email;
     this.studyProgramme = studyProgramme;
+    this.notifications = notifications;
   }
 }
 
