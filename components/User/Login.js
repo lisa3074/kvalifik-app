@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-/* import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
-import { Teko_500Medium } from "@expo-google-fonts/teko"; */
-
 import SetToken from "./SetToken";
 import { postUserToDb, userLogin } from "./userStore/UserAction";
 import { refreshToken, restoreUser } from "./userStore/UserAction";
@@ -21,11 +18,6 @@ const Login = props => {
   const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
 
-/*       useFonts({
-    OpenSans_400Regular,
-    OpenSans_700Bold,
-    Teko_500Medium,
-   }); */
 
   console.log(storedUser)
   const handleLogin = () => {

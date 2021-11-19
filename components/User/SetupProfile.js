@@ -3,8 +3,8 @@ import { View, Text, Button, StyleSheet,  } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/core";
 
-const VerifyEmail = props => {
- const navigation = useNavigation();
+const SetupProfile = props => {
+     const navigation = useNavigation();
     const handleSubmit = () => {
         console.log("handleSubmit")
         navigation.navigate(props.action);
@@ -12,8 +12,8 @@ const VerifyEmail = props => {
     return (
      <View>
             
-            <Text>Verify</Text>
-            <TouchableOpacity onPress={handleSubmit}><Text>I've verified my email</Text></TouchableOpacity>
+            <Text>Setup profile</Text>
+            <TouchableOpacity  onPress={handleSubmit}><Text>Setup profile</Text></TouchableOpacity>
      </View>
  );
 }
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
  
 });
 
-export default VerifyEmail;
+export default SetupProfile;

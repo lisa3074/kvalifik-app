@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { userSignup, postUserToDb } from "./userStore/UserAction";
+import { userSignup } from "./userStore/UserAction";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Checkbox from '../reusableComponents/Checkbox';
+import { useNavigation } from "@react-navigation/core";
 
 
-const Signup = props => {
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
+const Signup = (props) => {
+  const { signupEmail, setSignupEmail, signupPassword, setSignupPassword } = props;
+  const navigation = useNavigation();
+/*   const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState(""); */
   const [matchPassword, setMatchPassword] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isMatchPasswordValid, setIsMatchPasswordValid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
   
@@ -31,16 +33,16 @@ const Signup = props => {
     },
     [isEmailValid, isPasswordValid, isChecked, isMatchPasswordValid]
   );
-
-   const handleDisabled = () => {
-    setIsTouched(true)
+  
+  const handleSubmit = () => {
+    isDisabled ? setIsTouched(true) : navigation.navigate(props.action);
   }
 
   const termsAndConditions = (
     <Text>"I agree to the <Text style={styles.underline}>terms & conditions"</Text></Text>
   )
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Text style={styles.heading}>Sign up to get access</Text>
       </View>
@@ -81,21 +83,15 @@ const Signup = props => {
         type={'check'}
         error={"You need to agree to our terms and conditions"}
       />
-      <Checkbox
-        label={"switch"}
-        isChecked={isChecked2}
-        setIsChecked={setIsChecked2}
-        type={'switch'}
-        error={"You need to agree to our terms and conditions"}
-      />
       
       <TouchableOpacity
         style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
-        onPress={isDisabled ? handleDisabled : handleSignup}>
+        onPress={handleSubmit}>
+       {/*  onPress={isDisabled ? handleDisabled : handleSignup}> */}
         <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
       </TouchableOpacity>
          {/* Show only error text if */}
-      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid) && <Text style={styles.error}>You need to fill out all fields and agree to our terms & conditions.</Text>}
+      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid || !isChecked) && <Text style={styles.error}>You need to fill out all fields and agree to our terms & conditions.</Text>}
     </View>
   );
 };
@@ -105,6 +101,10 @@ const CBS_blue_text = '#5050A5'
 const CBS_border = '#EEEEEE';
 const CBS_disabled = '#BABADD';
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    height: '100%'
+  },
   inputContainer: {
     borderColor: CBS_border,
     marginBottom: 16,

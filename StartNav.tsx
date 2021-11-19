@@ -14,11 +14,14 @@ const StartNav = () => {
   //MyNav.js
 
   
-  const signUp = (<Text>Don't have an account? <Text style={styles.bold}>Sign up</Text></Text>);
+  const OnBoarding = (<Text>Don't have an account? <Text style={styles.bold}>Sign up</Text></Text>);
   const logIn = (<Text>Already have a user? <Text style={styles.bold}>Log in</Text></Text>);
   const verify = (<View><Text>Having trouble?</Text><Text>Resend email</Text></View>);
   
   const isSignedIn = useSelector((state: RootState) => state.user.loggedInUser);
+
+  console.log(isSignedIn);
+
   return isSignedIn ? (
     <TabBarBottom />
   ) : (
@@ -27,13 +30,10 @@ const StartNav = () => {
             headerShown: false
             }}>
           <Stack.Screen name="Login" options={{ title: "Log in" }}>
-            {props => <StartScreen screen={'Login'} actionText={signUp} action={ 'Signup'}/>}
+            {props => <StartScreen screen={'Login'} actionText={OnBoarding} action={ 'OnBoardingNav'}/>}
         </Stack.Screen>
-          <Stack.Screen name="Signup" options={{ title: "Sign up" }}>
-            {props => <StartScreen screen={'Signup'} actionText={logIn} action={'Login'} second_action={'VerifyEmail'}/>}
-        </Stack.Screen>
-          <Stack.Screen name="VerifyEmail" options={{ title: "Just one more step..." }}>
-            {props => <StartScreen  screen={'VerifyEmail'} actionText={verify} action={ 'Login'}/>}
+          <Stack.Screen name="OnBoardingNav" options={{ title: "Sign up" }}>
+            {props => <StartScreen isSignedIn={isSignedIn} screen={'OnBoardingNav'} actionText={logIn} action={'Login'} second_action={'VerifyEmail'}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
