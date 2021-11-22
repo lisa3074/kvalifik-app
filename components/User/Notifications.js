@@ -11,7 +11,7 @@ const Notification = props => {
   const dispatch = useDispatch();
 
   const handleSignup = (notifications) => {
-    dispatch(userSignup(signupEmail, signupPassword, firstname, lastname, imageUrl, studyProgramme, notifications));
+    dispatch(userSignup(signupEmail, signupPassword, firstname, lastname, imageUrl, studyProgramme, notifications, notifications));
   };
 
   //Don't navigate to start screen before making sure the user has gone through the userReducer and is logged in.

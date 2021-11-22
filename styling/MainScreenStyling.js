@@ -53,6 +53,10 @@ const MainScreenStyling = StyleSheet.create({
     fontSize: 14,
     color: "#333333",
   },
+  paragraphSmall: {
+    fontFamily: "OpenSans_400Regular",
+    fontSize: 12,
+  },
   darkBtnTxt: {
     fontFamily: "OpenSans_700Bold",
     fontSize: 14,

@@ -2,7 +2,7 @@ import React from "react";
 import TabBarBottom from "./components/TabBarBottom";
 import { useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, StyleSheet, Image } from "react-native"
+import { Text, StyleSheet } from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { RootState } from "./App";
 import StartScreen from "./components/StartScreen";
@@ -12,11 +12,8 @@ const Stack = createNativeStackNavigator();
 
 const StartNav = () => {
   //MyNav.js
-
-  
   const OnBoarding = (<Text>Don't have an account? <Text style={styles.bold}>Sign up</Text></Text>);
   const logIn = (<Text>Already have a user? <Text style={styles.bold}>Log in</Text></Text>);
-  const verify = (<View><Text>Having trouble?</Text><Text>Resend email</Text></View>);
   
   const isSignedIn = useSelector((state: RootState) => state.user.loggedInUser);
 

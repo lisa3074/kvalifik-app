@@ -6,7 +6,7 @@ import Signup from "./Signup";
 import VerifyEmail from "./VerifyEmail";
 import SetupProfile from "./SetupProfile";
 import Notifications from "./Notifications";
-import StartNav from "../../StartNav";
+import TabBarBottom from "../TabBarBottom";
 
 const Stack = createNativeStackNavigator();
 
@@ -63,12 +63,12 @@ const OnBoardingNav = props => {
             lastname={lastname}
             imageUrl={imageUrl}
             studyProgramme={studyProgramme}
-            action={"StartNav"}
+            action={"TabBarBottom"}
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name="StartNav" options={{ title: "StartNav" }}>
-        {props => <StartNav />}
+      <Stack.Screen name="TabBarBottom" options={{ title: "TabBarBottom" }}>
+        {props => <TabBarBottom />}
       </Stack.Screen>
     </Stack.Navigator>
   );

@@ -15,7 +15,7 @@ export const restoreUser = (loggedInUser, token) => {
   return { type: LOGIN, payload: { loggedInUser, token } };
 };
 
-export const userSignup = (email, password, firstname, lastname, imageUrl, studyProgramme, notifications) => {
+export const userSignup = (email, password, firstname, lastname, imageUrl, studyProgramme, chatNotifications, eventNotifications) => {
   console.log("userSignup() || UserAction.js");
   return async dispatch => {
     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`, {
@@ -47,17 +47,18 @@ export const userSignup = (email, password, firstname, lastname, imageUrl, study
         imageUrl,
         data.email,
         studyProgramme,
-        notifications
+        chatNotifications,
+        eventNotifications
       );
       dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
       //setSecureStore(data, signedUpUser); //Turn secureStore on again
-      dispatch(postUserToDb(data, firstname, lastname, imageUrl, studyProgramme, notifications));
+      dispatch(postUserToDb(data, firstname, lastname, imageUrl, studyProgramme, chatNotifications, eventNotifications));
       return data;
     }
   };
 };
 
-export const postUserToDb = (data, firstname, lastname, imageUrl, studyProgramme, notifications) => {
+export const postUserToDb = (data, firstname, lastname, imageUrl, studyProgramme, chatNotifications, eventNotifications) => {
   console.log("postUserToDb() || UserAction.js");
   return async (dispatch, getState) => {
     const token = getState().user.token;
@@ -73,7 +74,8 @@ export const postUserToDb = (data, firstname, lastname, imageUrl, studyProgramme
         imageUrl: imageUrl,
         email: data.email,
         studyProgramme: studyProgramme,
-        notifications: notifications,
+        chatNotifications: chatNotifications,
+        eventNotifications: eventNotifications
       }),
     });
     //name of the entry
@@ -116,6 +118,7 @@ export const userLogin = (email, password) => {
 
 export const getUser = data => {
   console.log("getUSer() || UserAction.js");
+  console.log(data)
   return async (dispatch, getState) => {
     const token = getState().user.token;
     const response = await fetch(
@@ -139,7 +142,8 @@ export const getUser = data => {
           user[key].imageUrl,
           user[key].email,
           user[key].studyProgramme,
-          user[key].notifications
+          user[key].chatNotifications,
+          user[key].eventNotifications,
         );
       }
     }
@@ -148,7 +152,7 @@ export const getUser = data => {
     } else {
       console.log("response good (postUserToDb)");
       //setSecureStore(data, loggedInUser); //Turn secureStore on again
-      dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
+     dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
     }
   };
 };

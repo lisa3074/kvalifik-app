@@ -59,10 +59,10 @@ const TabBarBottom = () => {
             },
             headerShadowVisible: true,
           })}>
-          <Tab.Screen name="Start" component={HomeScreen} options={{ title: "HOME" }} />
+          <Tab.Screen name="Start" component={HomeScreen} options={{ title: "FEED" }} />
           <Tab.Screen name="Discover" component={DiscoverScreen} options={{ title: "DISCOVER" }} />
           <Tab.Screen name="Chat" component={ChatStackNav} options={{ title: "CHAT", headerShown: false }} />
-          <Tab.Screen name="Menu" component={Menu} options={{ title: "MENU", headerShown: false }} />
+          <Tab.Screen name="Menu" component={Menu} options={{ title: "MENU" }} />
         </Tab.Navigator>
       </NavigationContainer>
     </>
