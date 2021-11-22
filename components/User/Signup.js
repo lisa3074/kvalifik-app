@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
-import { userSignup } from "./userStore/UserAction";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Checkbox from "../reusableComponents/Checkbox";
 import { useNavigation } from "@react-navigation/core";
+import logo from "../../static/images/CBS_logo.png";
 
 const Signup = props => {
   const { signupEmail, setSignupEmail, signupPassword, setSignupPassword } = props;
   const navigation = useNavigation();
-  /*   const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState(""); */
   const [matchPassword, setMatchPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
@@ -19,11 +16,6 @@ const Signup = props => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isTouched, setIsTouched] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  //const dispatch = useDispatch();
-
-  /*   const handleSignup = () => {
-    dispatch(userSignup(signupEmail, signupPassword));
-  }; */
 
   useEffect(
     function handleSignupBtn() {
@@ -44,6 +36,7 @@ const Signup = props => {
   );
   return (
     <View style={styles.container}>
+      <Image source={logo} style={MainScreenStyling.logo} />
       <View>
         <Text style={styles.heading}>Sign up to get access</Text>
       </View>
@@ -84,7 +77,7 @@ const Signup = props => {
           />
         </View>
       </View>
-      <Text style={styles.alignCenter}>Forgot password?</Text>
+
       <Checkbox
         label={termsAndConditions}
         isChecked={isChecked}
@@ -94,15 +87,24 @@ const Signup = props => {
       />
 
       <TouchableOpacity
-        style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
+        style={[MainScreenStyling.button, styles.button, isDisabled && MainScreenStyling.disabled]}
         onPress={handleSubmit}>
         {/*  onPress={isDisabled ? handleDisabled : handleSignup}> */}
         <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
       </TouchableOpacity>
       {/* Show only error text if */}
       {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid || !isChecked) && (
-        <Text style={styles.error}>You need to fill out all fields and agree to our terms & conditions.</Text>
+        <Text style={MainScreenStyling.error}>
+          You need to fill out all fields and agree to our terms & conditions.
+        </Text>
       )}
+      <Text
+        onPress={() => {
+          navigation.navigate(props.action);
+        }}
+        style={[styles.alignCenter, styles.thinFont]}>
+        Already have a user? <Text style={styles.bold}>Log in</Text>
+      </Text>
     </View>
   );
 };
@@ -115,6 +117,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     height: "100%",
+    padding: 16,
+    paddingTop: 50,
   },
   line: {
     borderBottomColor: CBS_border,
@@ -123,9 +127,21 @@ const styles = StyleSheet.create({
   input: {
     height: 60,
   },
+  thinFont: {
+    fontWeight: "400",
+  },
+  bold: {
+    fontWeight: "600",
+  },
+  alignCenter: {
+    textAlign: "center",
+    paddingTop: 32,
+    color: CBS_blue_text,
+    fontSize: 12,
+  },
   inputContainer: {
     borderColor: CBS_border,
-    marginBottom: 16,
+    marginBottom: 24,
     borderWidth: 1,
     borderRadius: 5,
     shadowColor: CBS_border,
@@ -152,16 +168,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     alignItems: "flex-start",
+    marginBottom: 32,
+    marginTop: 24,
   },
-  disabled: {
-    backgroundColor: CBS_disabled,
-  },
+
   underline: {
     textDecorationLine: "underline",
-  },
-  error: {
-    color: "red",
-    marginTop: 8,
   },
 });
 export default Signup;

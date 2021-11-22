@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import logo from '../../static/images/CBS_logo.png';
 
 const SetupProfile = props => {
   const { firstname, setFirstname, lastname, setLastname, imageUrl, setImageUrl, studyProgramme, setStudyProgramme } =
@@ -31,54 +32,66 @@ const SetupProfile = props => {
     [isFirstnameValid, isLastnameValid, isStudyProgrammeValid, isImageUrlValid]
   );
   return (
-    <View>
-      <Text>Before we start...</Text>
-      <View style={styles.input}>
+    <ScrollView>
+    <View style={styles.container}>
+           <Image source={logo} style={MainScreenStyling.logo} />
+      <Text style={MainScreenStyling.heading}>Before we start...</Text>
+           <View style={MainScreenStyling.flex}>
+        <View>
+          <Text style={MainScreenStyling.labelStyle}>PROFILE PICTURE</Text>
+          <TouchableOpacity style={MainScreenStyling.button}>
+            <Text style={MainScreenStyling.darkBtnTxt}>Upload</Text>
+          </TouchableOpacity>
+        </View>
+        <Image style={MainScreenStyling.profilePicture} /* source={} */ />
+      </View>
+      <View style={[styles.input, MainScreenStyling.input]}>
         <Input
           placeholder={"First name"}
           label={"What is your first name?"}
           text={firstname}
-          error={"You need to fill out your first name"}
+          error={""}
           isValid={isFirstnameValid}
           setIsValid={setIsFirstNameValid}
           setText={setFirstname}
         />
       </View>
-      <View style={styles.input}>
+         <View style={[styles.input, MainScreenStyling.input]}>
         <Input
           placeholder={"Last name"}
           label={"What is your last name?"}
           text={lastname}
-          error={"You need to fill out your first name"}
+          error={""}
           isValid={isLastnameValid}
           setIsValid={setIsLastNameValid}
           setText={setLastname}
         />
       </View>
-      <View style={styles.input}>
+        <View style={[styles.input, MainScreenStyling.input]}>
         <Input
           placeholder={"Study programme"}
           label={"What do you study?"}
           text={studyProgramme}
-          error={"You need to fill out your study programme"}
+          error={""}
           isValid={isStudyProgrammeValid}
           setIsValid={setIsStudyProgrammeValid}
           setText={setStudyProgramme}
         />
       </View>
 
-      <TouchableOpacity
-        style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
-        onPress={handleSubmit}>
-        <Text style={MainScreenStyling.darkBtnTxt}>Next</Text>
-      </TouchableOpacity>
       {/* Show only error text if */}
       {isDisabled &&
         isTouched &&
         (!isFirstnameValid || !isLastnameValid || !isStudyProgrammeValid || !isImageUrlValid) && (
           <Text style={styles.error}>You need to fill out all fields to proceed.</Text>
         )}
-    </View>
+      <TouchableOpacity
+        style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
+        onPress={handleSubmit}>
+        <Text style={MainScreenStyling.darkBtnTxt}>Next</Text>
+      </TouchableOpacity>
+      </View>
+      </ScrollView>
   );
 };
 
@@ -99,6 +112,12 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 8,
   },
+         container: {
+    backgroundColor: "white",
+    height: "100%",
+    padding: 16,
+    paddingTop: 50
+  },   
 });
 
 export default SetupProfile;

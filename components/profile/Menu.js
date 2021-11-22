@@ -22,7 +22,14 @@ const Menu = props => {
   const lastName = loggedInUser.lastname;
   const firstSpace = firstName.indexOf(" ");
   const lastSpace = lastName.lastIndexOf(" ");
-  const firstFirstName = firstName.substring(0, firstSpace);
+  let firstFirstName;
+  //if there's more than one name
+  if (firstSpace != -1) { 
+     firstFirstName = firstName.substring(0, firstSpace);
+  } else {
+     firstFirstName = firstName;
+  }
+
   const lastLastName = lastName.substring(lastSpace, 1000);
   const newFullName = firstFirstName.trim() + " " + lastLastName.trim();
 

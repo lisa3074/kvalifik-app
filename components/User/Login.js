@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import SetToken from "./SetToken";
 import { postUserToDb, userLogin, getUser } from "./userStore/UserAction";
@@ -7,9 +7,12 @@ import { refreshToken, restoreUser } from "./userStore/UserAction";
 import * as SecureStore from "expo-secure-store";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
+import { useNavigation } from "@react-navigation/core";
+import logo from '../../static/images/CBS_logo.png';
 
 const Login = props => {
   const { storedUser } = props;
+    const navigation = useNavigation();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -20,8 +23,8 @@ const Login = props => {
 
   console.log(storedUser);
   const handleLogin = () => {
-    //dispatch(userLogin(loginEmail, loginPassword));
-    dispatch(userLogin("lisa@lisa.dk", "password"));
+    dispatch(userLogin(loginEmail, loginPassword));
+    //dispatch(userLogin("lisa@lisa.dk", "password"));
   };
 
   const handleDisabled = () => {
@@ -41,7 +44,8 @@ const Login = props => {
   //SetToken();
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Image source={logo} style={styles.logo}/>
       <View>
         <Text style={styles.heading}>Log in</Text>
       </View>
@@ -80,6 +84,11 @@ const Login = props => {
       {isDisabled && isTouched && (!isEmailValid || !isPasswordValid) && (
         <Text style={styles.error}>You need to fill out email and password</Text>
       )}
+         <Text onPress={() => {
+          navigation.navigate(props.action);
+          }} style={[styles.alignCenter, styles.thinFont]}>    
+           Don't have an account? <Text style={styles.bold}>Sign up</Text>
+        </Text>
     </View>
   );
 };
@@ -89,6 +98,12 @@ const CBS_blue_text = "#5050A5";
 const CBS_border = "#EEEEEE";
 const CBS_disabled = "#BABADD";
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    height: "100%",
+    padding: 16,
+    paddingTop: 50
+  },
   inputContainer: {
     borderColor: CBS_border,
     marginBottom: 16,
@@ -101,20 +116,29 @@ const styles = StyleSheet.create({
       width: 0,
     },
   },
+    bold: {
+    fontWeight: '600'
+  },
+      alignCenter: {
+    textAlign: 'center',
+    color: CBS_blue_text,
+        fontSize: 12,
+       marginBottom: 46,
+    color: CBS_blue_text,
+    fontWeight: "600",
+    
+  },
   input: {
     height: 60,
+  },
+  thinFont: {
+    fontWeight: '400'
   },
   line: {
     borderBottomColor: CBS_border,
     borderBottomWidth: 1,
   },
-  alignCenter: {
-    textAlign: "center",
-    marginBottom: 46,
-    color: CBS_blue_text,
-    fontWeight: "600",
-    fontSize: 12,
-  },
+
   heading: {
     fontFamily: "Teko_500Medium",
     fontSize: 26,
@@ -123,8 +147,9 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingTop: 16,
-    paddingBottom: 16,
+    marginBottom: 32,
     alignItems: "flex-start",
+    paddingBottom: 16
   },
   disabled: {
     backgroundColor: CBS_disabled,
@@ -133,6 +158,14 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 8,
   },
+   logo: {
+    width: 100,
+    height: 100,
+      borderRadius: 100,
+    marginBottom: 24,
+      marginRight: 8,
+    alignSelf: 'center'
+    },
 });
 
 export default Login;

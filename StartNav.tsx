@@ -5,19 +5,15 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text, StyleSheet } from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { RootState } from "./App";
-import StartScreen from "./components/StartScreen";
+import Login from "./components/User/Login";
+import OnBoardingNav from "./components/User/OnBoardingNav";
 
 
 const Stack = createNativeStackNavigator();
 
 const StartNav = () => {
   //MyNav.js
-  const OnBoarding = (<Text>Don't have an account? <Text style={styles.bold}>Sign up</Text></Text>);
-  const logIn = (<Text>Already have a user? <Text style={styles.bold}>Log in</Text></Text>);
-  
   const isSignedIn = useSelector((state: RootState) => state.user.loggedInUser);
-
-  console.log(isSignedIn);
 
   return isSignedIn ? (
     <TabBarBottom />
@@ -27,10 +23,10 @@ const StartNav = () => {
             headerShown: false
             }}>
           <Stack.Screen name="Login" options={{ title: "Log in" }}>
-            {props => <StartScreen screen={'Login'} actionText={OnBoarding} action={ 'OnBoardingNav'}/>}
+            {props => <Login screen={'Login'}  action={ 'Signup'}/>}
         </Stack.Screen>
-          <Stack.Screen name="OnBoardingNav" options={{ title: "Sign up" }}>
-            {props => <StartScreen isSignedIn={isSignedIn} screen={'OnBoardingNav'} actionText={logIn} action={'Login'} second_action={'VerifyEmail'}/>}
+          <Stack.Screen name="Signup" options={{ title: "Sign up" }}>
+            {props => <OnBoardingNav isSignedIn={isSignedIn} screen={'Signup'}  action={'Login'} second_action={'VerifyEmail'}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

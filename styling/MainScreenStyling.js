@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 
-const CBS_blue_text = '#32305D';
-const CBS_blue = '#5050A5';
+const CBS_blue_text = "#32305D";
+const CBS_blue = "#5050A5";
+const CBS_blue2 = "#32305D";
+const CBS_disabled = "#BABADD";
+const CBS_border = "#EEEEEE";
 const MainScreenStyling = StyleSheet.create({
-  
   center: {
     flex: 1,
     alignItems: "center",
@@ -66,6 +68,68 @@ const MainScreenStyling = StyleSheet.create({
     fontFamily: "OpenSans_700Bold",
     fontSize: 14,
     color: "#5050A5",
+  },
+  flex: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 150,
+    alignItems: "center",
+  },
+  labelStyle: {
+    color: CBS_blue2,
+    textTransform: "uppercase",
+    fontFamily: "OpenSans_700Bold",
+    fontSize: 12,
+  },
+  input: {
+    marginBottom: 24,
+    height: 70,
+    borderRadius: 5,
+    shadowColor: "#AAAAAA",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    borderColor: '#eeeeee',
+    borderWidth: 1,
+    
+    shadowOffset: {
+      height: 1,
+      width: 3,
+    },
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    marginBottom: 24,
+    marginRight: 8,
+    alignSelf: "center",
+  },
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    marginRight: 16,
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  error: {
+    color: "red",
+    marginTop: 8,
+  },
+  disabled: {
+    backgroundColor: CBS_disabled,
+  },
+  inputContainer: {
+    borderColor: CBS_border,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderRadius: 5,
+    shadowColor: CBS_border,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
   },
 });
 

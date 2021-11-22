@@ -7,6 +7,7 @@ import VerifyEmail from "./VerifyEmail";
 import SetupProfile from "./SetupProfile";
 import Notifications from "./Notifications";
 import TabBarBottom from "../TabBarBottom";
+import { useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +18,7 @@ const OnBoardingNav = props => {
   const [lastname, setLastname] = useState("");
   const [imageUrl, setImageUrl] = useState("placeholder.png");
   const [studyProgramme, setStudyProgramme] = useState("");
-  const { isSignedIn } = props;
+  const { isSignedIn, action } = props;
 
   return (
     <Stack.Navigator
@@ -32,6 +33,7 @@ const OnBoardingNav = props => {
             setSignupEmail={setSignupEmail}
             setSignupPassword={setSignupPassword}
             action={"VerifyEmail"}
+            actionLogin={action}
           />
         )}
       </Stack.Screen>
@@ -67,9 +69,11 @@ const OnBoardingNav = props => {
           />
         )}
       </Stack.Screen>
+  
       <Stack.Screen name="TabBarBottom" options={{ title: "TabBarBottom" }}>
         {props => <TabBarBottom />}
-      </Stack.Screen>
+        </Stack.Screen>
+
     </Stack.Navigator>
   );
 };

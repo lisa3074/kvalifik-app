@@ -39,16 +39,16 @@ const EditProfile = props => {
   };
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.flex}>
+      <View style={MainScreenStyling.flex}>
         <View>
-          <Text style={styles.labelStyle}>PROFILE PICTURE</Text>
+          <Text style={MainScreenStyling.labelStyle}>PROFILE PICTURE</Text>
           <TouchableOpacity style={MainScreenStyling.button}>
             <Text style={MainScreenStyling.darkBtnTxt}>Upload</Text>
           </TouchableOpacity>
         </View>
-        <Image style={styles.profilePicture} /* source={} */ />
+        <Image style={MainScreenStyling.profilePicture} /* source={} */ />
       </View>
-      <View style={styles.input}>
+      <View style={MainScreenStyling.input}>
         <Input
           label={"What is your first name?"}
           placeholder={"Type your first name"}
@@ -59,7 +59,7 @@ const EditProfile = props => {
           error={""}
         />
       </View>
-      <View style={styles.input}>
+      <View style={MainScreenStyling.input}>
         <Input
           label={"What is your last name?"}
           placeholder={"Type your last name"}
@@ -70,7 +70,7 @@ const EditProfile = props => {
           error={""}
         />
       </View>
-      <View style={[styles.input, styles.inputHigh]}>
+      <View style={[MainScreenStyling.input, styles.inputHigh]}>
         <Input
           label={"Study programme"}
           placeholder={"Type your study programme"}
@@ -82,9 +82,9 @@ const EditProfile = props => {
         />
       </View>
             {isDisabled && isTouched && (!isFirstNameValid || !isLastNameValid || isProgrammValid) && (
-        <Text style={styles.error}>You need to fill out all fields</Text>
+        <Text style={MainScreenStyling.error}>You need to fill out all fields</Text>
       )}
-      <TouchableOpacity style={[MainScreenStyling.button, styles.save, isDisabled && styles.disabled]} onPress={isDisabled ? handleDisabled : HandleSave}>
+      <TouchableOpacity style={[MainScreenStyling.button, styles.save, isDisabled && MainScreenStyling.disabled]} onPress={isDisabled ? handleDisabled : HandleSave}>
         <Text style={MainScreenStyling.darkBtnTxt}>Save changes</Text>
           </TouchableOpacity>
     </ScrollView>
@@ -100,53 +100,16 @@ const styles = StyleSheet.create({
     paddingTop: 0
 
   },
-  profilePicture: {
-    width: 70,
-    height: 70,
-    borderRadius: 100,
-    marginRight: 16,
-    borderColor: "black",
-    borderWidth: 1,
-  },
-  flex: {
-    flexDirection: "row",
-      justifyContent: "space-between",
-      height: 150,
-    alignItems: 'center'
-  },
   save: {
     height: 60,
     padding: 24,
     alignItems: "flex-start",
   },
-  input: {
-      marginBottom: 24,
-      height: 70,
-    borderRadius: 5,
-    shadowColor: "#AAAAAA",
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 0,
-      width: 3,
-    },
-    },
     inputHigh: {
       height: 92
     },
-      labelStyle: {
-    color: CBS_blue,
-    textTransform: 'uppercase',
-    fontFamily: 'OpenSans_700Bold',
-    fontSize: 12,
-    },
-        disabled: {
-    backgroundColor: CBS_disabled,
-  },
-  error: {
-    color: "red",
-    marginTop: 8,
-  },
+
+
 });
 
 export default EditProfile;
