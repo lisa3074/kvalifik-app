@@ -38,12 +38,16 @@ const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }
   }
 
   return (
+    <View>
+
     <View style={styles.container}>
       <View style={styles.flex}>
       <Text style={styles.labelStyle}>{label}</Text>
       {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
       </View>
       <TextInput autoCapitalize={'none'} style={ styles.input} onChangeText={handleInput} value={text} placeholder={placeholder} onBlur={()=>setIsActive(true)}/>
+      </View>
+    
     </View>
   );
 };
@@ -51,12 +55,14 @@ const CBS_blue = '#32305D';
 const CBS_border = '#EEEEEE';
 const styles = StyleSheet.create({
   container: {
-    borderBottomColor: CBS_border,
-    borderBottomWidth: 1,
     padding: 16,
     paddingTop: 8,
-    paddingBottom: 8
-},
+    paddingBottom: 8,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: '100%'
+  },
+
   labelStyle: {
     color: CBS_blue,
     textTransform: 'uppercase',

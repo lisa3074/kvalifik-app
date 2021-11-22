@@ -6,7 +6,8 @@ import DiscoverScreen from "./DiscoverScreen";
 import ChatStackNav from "./chat/ChatStackNav.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Menu from "./Menu";
+import Menu from "./profile/Menu";
+import ProfileNav from "./profile/ProfileNav";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ const TabBarBottom = () => {
                 iconName = "md-search";
               } else if (route.name === "Chat") {
                 iconName = "md-chatbubbles";
-              } else if (route.name === "Menu") {
+              } else if (route.name === "Profile") {
                 iconName = "md-menu";
               }
 
@@ -62,7 +63,7 @@ const TabBarBottom = () => {
           <Tab.Screen name="Start" component={HomeScreen} options={{ title: "FEED" }} />
           <Tab.Screen name="Discover" component={DiscoverScreen} options={{ title: "DISCOVER" }} />
           <Tab.Screen name="Chat" component={ChatStackNav} options={{ title: "CHAT", headerShown: false }} />
-          <Tab.Screen name="Menu" component={Menu} options={{ title: "MENU" }} />
+          <Tab.Screen name="Profile" component={ProfileNav} options={{ title: "MENU", headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>
     </>

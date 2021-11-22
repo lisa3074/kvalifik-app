@@ -8,7 +8,6 @@ import * as SecureStore from "expo-secure-store";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 
-
 const Login = props => {
   const { storedUser } = props;
   const [loginEmail, setLoginEmail] = useState("");
@@ -19,17 +18,15 @@ const Login = props => {
   const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
 
-
-  console.log(storedUser)
+  console.log(storedUser);
   const handleLogin = () => {
     //dispatch(userLogin(loginEmail, loginPassword));
     dispatch(userLogin("lisa@lisa.dk", "password"));
   };
 
-
   const handleDisabled = () => {
-    setIsTouched(true)
-  }
+    setIsTouched(true);
+  };
 
   useEffect(
     function handleLoginBtn() {
@@ -41,7 +38,6 @@ const Login = props => {
     [isEmailValid, isPasswordValid]
   );
 
-
   //SetToken();
 
   return (
@@ -50,24 +46,29 @@ const Login = props => {
         <Text style={styles.heading}>Log in</Text>
       </View>
       <View style={styles.inputContainer}>
-        <Input
-          placeholder={"Write your email"}
-          label={"E-mail"}
-          text={loginEmail}
-          error={"You need to fill out your email"}
-          isValid={isEmailValid}
-          setText={setLoginEmail}
-          setIsValid={setIsEmailValid}
-        />
-        <Input
-          placeholder={"Write your password"}
-          label={"Password"}
-          text={loginPassword}
-          error={"You need to fill out a password"}
-          isValid={isPasswordValid}
-          setText={setLoginPassword}
-          setIsValid={setIsPasswordValid}
-        />
+        <View style={styles.input}>
+          <Input
+            placeholder={"Write your email"}
+            label={"E-mail"}
+            text={loginEmail}
+            error={"You need to fill out your email"}
+            isValid={isEmailValid}
+            setText={setLoginEmail}
+            setIsValid={setIsEmailValid}
+          />
+        </View>
+        <View style={styles.line}></View>
+        <View style={styles.input}>
+          <Input
+            placeholder={"Write your password"}
+            label={"Password"}
+            text={loginPassword}
+            error={"You need to fill out a password"}
+            isValid={isPasswordValid}
+            setText={setLoginPassword}
+            setIsValid={setIsPasswordValid}
+          />
+        </View>
       </View>
       <Text style={styles.alignCenter}>Forgot password?</Text>
       <TouchableOpacity
@@ -76,53 +77,60 @@ const Login = props => {
         <Text style={MainScreenStyling.darkBtnTxt}>Log in</Text>
       </TouchableOpacity>
       {/* Show only error text if */}
-      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid) && <Text style={styles.error}>You need to fill out email and password</Text>}
+      {isDisabled && isTouched && (!isEmailValid || !isPasswordValid) && (
+        <Text style={styles.error}>You need to fill out email and password</Text>
+      )}
     </View>
   );
 };
 
-
-
-const CBS_blue = '#32305D';
-const CBS_blue_text = '#5050A5'
-const CBS_border = '#EEEEEE';
-const CBS_disabled = '#BABADD';
+const CBS_blue = "#32305D";
+const CBS_blue_text = "#5050A5";
+const CBS_border = "#EEEEEE";
+const CBS_disabled = "#BABADD";
 const styles = StyleSheet.create({
   inputContainer: {
     borderColor: CBS_border,
     marginBottom: 16,
     borderWidth: 1,
     borderRadius: 5,
-      shadowColor: CBS_border,
+    shadowColor: CBS_border,
     shadowRadius: 5,
     shadowOffset: {
       height: 1,
       width: 0,
     },
   },
+  input: {
+    height: 60,
+  },
+  line: {
+    borderBottomColor: CBS_border,
+    borderBottomWidth: 1,
+  },
   alignCenter: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 46,
     color: CBS_blue_text,
-    fontWeight: '600',
-    fontSize: 12
+    fontWeight: "600",
+    fontSize: 12,
   },
- heading: {
-      fontFamily: "Teko_500Medium",
+  heading: {
+    fontFamily: "Teko_500Medium",
     fontSize: 26,
-   color: CBS_blue,
-    paddingBottom: 16
+    color: CBS_blue,
+    paddingBottom: 16,
   },
   button: {
     paddingTop: 16,
     paddingBottom: 16,
-   alignItems: "flex-start",
+    alignItems: "flex-start",
   },
-    disabled: {
-      backgroundColor: CBS_disabled,
+  disabled: {
+    backgroundColor: CBS_disabled,
   },
   error: {
-    color: 'red',
+    color: "red",
     marginTop: 8,
   },
 });

@@ -33,33 +33,39 @@ const SetupProfile = props => {
   return (
     <View>
       <Text>Before we start...</Text>
-      <Input
-        placeholder={"First name"}
-        label={"What is your first name?"}
-        text={firstname}
-        error={"You need to fill out your first name"}
-        isValid={isFirstnameValid}
-        setIsValid={setIsFirstNameValid}
-        setText={setFirstname}
-      />
-      <Input
-        placeholder={"Last name"}
-        label={"What is your last name?"}
-        text={lastname}
-        error={"You need to fill out your first name"}
-        isValid={isLastnameValid}
-        setIsValid={setIsLastNameValid}
-        setText={setLastname}
-      />
-      <Input
-        placeholder={"Study programme"}
-        label={"What do you study?"}
-        text={studyProgramme}
-        error={"You need to fill out your study programme"}
-        isValid={isStudyProgrammeValid}
-        setIsValid={setIsStudyProgrammeValid}
-        setText={setStudyProgramme}
-      />
+      <View style={styles.input}>
+        <Input
+          placeholder={"First name"}
+          label={"What is your first name?"}
+          text={firstname}
+          error={"You need to fill out your first name"}
+          isValid={isFirstnameValid}
+          setIsValid={setIsFirstNameValid}
+          setText={setFirstname}
+        />
+      </View>
+      <View style={styles.input}>
+        <Input
+          placeholder={"Last name"}
+          label={"What is your last name?"}
+          text={lastname}
+          error={"You need to fill out your first name"}
+          isValid={isLastnameValid}
+          setIsValid={setIsLastNameValid}
+          setText={setLastname}
+        />
+      </View>
+      <View style={styles.input}>
+        <Input
+          placeholder={"Study programme"}
+          label={"What do you study?"}
+          text={studyProgramme}
+          error={"You need to fill out your study programme"}
+          isValid={isStudyProgrammeValid}
+          setIsValid={setIsStudyProgrammeValid}
+          setText={setStudyProgramme}
+        />
+      </View>
 
       <TouchableOpacity
         style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
@@ -82,6 +88,9 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     alignItems: "flex-start",
+  },
+  input: {
+    height: 60,
   },
   disabled: {
     backgroundColor: CBS_disabled,

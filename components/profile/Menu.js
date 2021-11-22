@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
-import image from "../static/images/placeholder.png";
-import MainScreenStyling from "../styling/MainScreenStyling";
-import CheckBox from "./reusableComponents/Checkbox";
-import Logout from "./User/Logout";
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import CheckBox from "../reusableComponents/Checkbox";
+import Logout from "../User/Logout";
+import { useNavigation } from "@react-navigation/core";
 
 const Menu = props => {
   const loggedInUser = useSelector(state => state.user.loggedInUser);
   const imageUrl = `./static/images/${loggedInUser.imageUrl}`;
 
+   const navigation = useNavigation();
+    const HandleEdit = () => {
+        console.log("handleEdit")
+        navigation.navigate(props.action);
+    }
+
   //Finding first and last name.
-  const fullName = loggedInUser.firstname + loggedInUser.lastname;
-  const firstSpace = fullName.indexOf(" ");
-  const lastSpace = fullName.lastIndexOf(" ");
-  const lastLastName = fullName.substring(lastSpace, 1000);
-  const firstFirstName = fullName.substring(0, firstSpace);
-  const newFullName = firstFirstName + lastLastName;
+  const firstName = loggedInUser.firstname
+  const lastName = loggedInUser.lastname;
+  const firstSpace = firstName.indexOf(" ");
+  const lastSpace = lastName.lastIndexOf(" ");
+  const firstFirstName = firstName.substring(0, firstSpace);
+  const lastLastName = lastName.substring(lastSpace, 1000);
+  const newFullName = firstFirstName.trim() + " " + lastLastName.trim();
 
   const [isChatChecked, setIsChatChecked] = useState(loggedInUser.chatNotifications);
   const [isEventChecked, setIsEventChecked] = useState(loggedInUser.eventNotifications);
@@ -34,7 +41,7 @@ const Menu = props => {
           <Text style={[MainScreenStyling.paragraphSmall, styles.textColor]}>{loggedInUser.studyProgramme}</Text>
         </View>
       </View>
-      <TouchableOpacity style={MainScreenStyling.button}>
+      <TouchableOpacity style={MainScreenStyling.button} onPress={HandleEdit}>
         <Text style={MainScreenStyling.darkBtnTxt}>Edit profile</Text>
       </TouchableOpacity>
       <View style={styles.line}></View>
@@ -94,14 +101,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 8,
     marginTop: 24,
-        shadowColor: "#AAAAAA",
+    shadowColor: "#AAAAAA",
     shadowOpacity: 0.3,
     shadowRadius: 3,
     shadowOffset: {
       height: 0,
       width: 3,
     },
-
   },
   heading: {
     color: "#32305D",
