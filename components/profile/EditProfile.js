@@ -4,10 +4,14 @@ import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Input from "../reusableComponents/Input";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { editUser } from "../User/userStore/UserAction";
+
 
 const EditProfile = props => {
   const loggedInUser = useSelector(state => state.user.loggedInUser);
+  const token = useSelector(state => state.user.token);
+  const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState(loggedInUser.firstname);
   const [isFirstNameValid, setIsFirstNameValid] = useState(true);
@@ -35,6 +39,7 @@ const EditProfile = props => {
   const navigation = useNavigation();
   const HandleSave = () => {
     console.log("handleSave");
+    dispatch(editUser(firstName, lastName, programme, loggedInUser.id, token))
     navigation.navigate(props.action);
   };
   return (

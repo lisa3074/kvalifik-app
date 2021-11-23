@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
@@ -6,10 +6,14 @@ import MainScreenStyling from "../../styling/MainScreenStyling";
 import CheckBox from "../reusableComponents/Checkbox";
 import Logout from "../User/Logout";
 import { useNavigation } from "@react-navigation/core";
+import { editNotifications } from "../User/userStore/UserAction";
+import { useDispatch } from "react-redux";
 
 const Menu = props => {
   const loggedInUser = useSelector(state => state.user.loggedInUser);
+  const token = useSelector(state => state.user.token);
   const imageUrl = `./static/images/${loggedInUser.imageUrl}`;
+  const dispatch = useDispatch()
 
    const navigation = useNavigation();
     const HandleEdit = () => {
@@ -32,10 +36,15 @@ const Menu = props => {
 
   const lastLastName = lastName.substring(lastSpace, 1000);
   const newFullName = firstFirstName.trim() + " " + lastLastName.trim();
-
   const [isChatChecked, setIsChatChecked] = useState(loggedInUser.chatNotifications);
   const [isEventChecked, setIsEventChecked] = useState(loggedInUser.eventNotifications);
+  //const [isTouched, setIsTouched] = useState(false);
 
+  useEffect(() => {
+
+      dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token));
+
+}, [isChatChecked, isEventChecked])
 
   return (
     <ScrollView>

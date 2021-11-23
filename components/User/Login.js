@@ -23,8 +23,8 @@ const Login = props => {
 
   console.log(storedUser);
   const handleLogin = () => {
-    dispatch(userLogin(loginEmail, loginPassword));
-    //dispatch(userLogin("lisa@lisa.dk", "password"));
+    //dispatch(userLogin(loginEmail, loginPassword));
+    dispatch(userLogin("lisa@lisa.dk", "password"));
   };
 
   const handleDisabled = () => {
