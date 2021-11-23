@@ -23,27 +23,28 @@ const UserReducer = (state = initialState, action) => {
       };
     case LOGOUT:
       return { ...state, loggedInUser: action.payload, token: undefined };
-    case UPDATE_NOTIFICATIONS:
-      return {
-        ...state,
-        loggedInUser: {
-          ...state.loggedInUser,
-          chatNotifications: action.payload.chatNotifications,
-          eventNotifications: action.payload.eventNotifications,
-        },
-        token: action.payload.token,
-      };
-    case UPDATE_USER:
-      return {
-        ...state,
-        loggedInUser: {
-          ...state.loggedInUser,
-          firstname: action.payload.firstname,
-          lastname: action.payload.lastname,
-          studyProgramme: action.payload.studyProgramme,
-        },
-        token: action.payload.token,
-      };
+      case UPDATE_NOTIFICATIONS:
+        return {
+          ...state,
+          loggedInUser: {
+            ...state.loggedInUser,
+            chatNotifications: action.payload.chatNotifications,
+            eventNotifications: action.payload.eventNotifications,
+          },
+          token: action.payload.token,
+        };
+        case UPDATE_USER:
+          return {
+            ...state,
+            loggedInUser: {
+              ...state.loggedInUser,
+              firstname: action.payload.firstname,
+              lastname: action.payload.lastname,
+              studyProgramme: action.payload.studyProgramme,
+            },
+            token: action.payload.token,
+          };
+          
     default:
       return state;
   }

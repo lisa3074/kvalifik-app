@@ -19,7 +19,7 @@ const StartNav = () => {
      console.log(isSignedIn);
 }, [isSignedIn])
 
-  return isSignedIn ? (
+  return isSignedIn && isSignedIn != undefined ? (
     <TabBarBottom />
   ) : (
     <NavigationContainer>

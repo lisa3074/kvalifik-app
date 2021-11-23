@@ -18,69 +18,71 @@ const [isEmailValid, setIsEmailValid] = useState(false);
         />
 */
 
-interface Props{
-  label: string,
-  placeholder: string,
-  text: string,
-  setText: (arg: string) => void
-  isValid: boolean,
-  setIsValid: (arg: boolean) => void
-  error: string,
+interface Props {
+  label: string;
+  placeholder: string;
+  text: string;
+  setText: (arg: string) => void;
+  isValid: boolean;
+  setIsValid: (arg: boolean) => void;
+  error: string;
 }
 
 const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }: Props) => {
   const [isActive, setIsActive] = useState(false);
 
-  const handleInput = (input:string) => {
+  const handleInput = (input: string) => {
     setIsActive(true);
-    setText(input)
-    input == '' ? setIsValid(false) : setIsValid(true);
-  }
+    setText(input);
+    input == "" ? setIsValid(false) : setIsValid(true);
+  };
 
   return (
-    <View>
-
     <View style={styles.container}>
       <View style={styles.flex}>
-      <Text style={styles.labelStyle}>{label}</Text>
-      {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
+        <Text style={styles.labelStyle}>{label}</Text>
+        {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
       </View>
-      <TextInput autoCapitalize={'none'} style={ styles.input} onChangeText={handleInput} value={text} placeholder={placeholder} onBlur={()=>setIsActive(true)}/>
-      </View>
-    
+      <TextInput
+        autoCapitalize={"none"}
+        style={styles.input}
+        onChangeText={handleInput}
+        value={text}
+        placeholder={placeholder}
+        onBlur={() => setIsActive(true)}
+      />
     </View>
   );
 };
-const CBS_blue = '#32305D';
-const CBS_border = '#EEEEEE';
+const CBS_blue = "#32305D";
+const CBS_border = "#EEEEEE";
 const styles = StyleSheet.create({
   container: {
     padding: 16,
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 5,
-    height: '100%'
+    height: "100%",
   },
 
   labelStyle: {
     color: CBS_blue,
-    textTransform: 'uppercase',
-    fontFamily: 'OpenSans_700Bold',
+    textTransform: "uppercase",
+    fontFamily: "OpenSans_700Bold",
     fontSize: 12,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
   input: {
-    fontFamily: 'OpenSans_400Regular',
-    fontSize: 14
+    fontFamily: "OpenSans_400Regular",
+    fontSize: 14,
   },
   error: {
-    color: 'red'
+    color: "red",
   },
   flex: {
-    flexDirection: 'row'
-  }
-  
+    flexDirection: "row",
+  },
 });
 
 export default Input;

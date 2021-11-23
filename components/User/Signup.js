@@ -100,7 +100,7 @@ const Signup = props => {
       )}
       <Text
         onPress={() => {
-          navigation.navigate(props.action);
+          navigation.navigate(props.actionLogin);
         }}
         style={[styles.alignCenter, styles.thinFont]}>
         Already have a user? <Text style={styles.bold}>Log in</Text>

@@ -90,7 +90,6 @@ const MainScreenStyling = StyleSheet.create({
     shadowRadius: 3,
     borderColor: '#eeeeee',
     borderWidth: 1,
-    
     shadowOffset: {
       height: 1,
       width: 3,

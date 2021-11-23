@@ -51,5 +51,8 @@
 	<false/>
   <key>UIStatusBarStyle</key>
   <string>UIStatusBarStyleDefault</string>
+<!-- If does not work, remove -->
+  <key>NSPhotoLibraryUsageDescription</key>
+  <key>NSCameraUsageDescription</key>
 </dict>
 </plist>

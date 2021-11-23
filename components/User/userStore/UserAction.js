@@ -9,9 +9,9 @@ export const REFRESH_TOKEN = "REFRESH_TOKEN";
 export const UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
 export const UPDATE_USER = "UPDATE_USER";
 
-const endpointUsers = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=";
-const endpointUpdateUsers = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users/";
-const endpointUser = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/";
+
+const dbEndpoint = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/";
+const authEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:`;
 
 export const restoreUser = (loggedInUser, token) => {
   console.log("restoreUser() || UserAction.js");
@@ -30,7 +30,7 @@ export const userSignup = (
 ) => {
   console.log("userSignup() || UserAction.js");
   return async dispatch => {
-    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`, {
+    const response = await fetch(`${authEndpoint}signUp?key=${API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,6 +71,35 @@ export const userSignup = (
     }
   };
 };
+export const deleteUser = ( idToken, uuid ) => {
+  console.log("userDelete() || UserAction.js");
+  return async dispatch => {
+    const response = await fetch(`${authEndpoint}delete?key=${API}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idToken: idToken,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      console.error("ERROR in response (userDelete)");
+      console.log(response);
+      if (data.error.message === "INVALID_ID_TOKEN") {
+        console.warn("INVALID_ID_TOKEN");
+      } else if (data.error.message === "USER_NOT_FOUND") {
+        console.warn("USER_NOT_FOUND");
+      }
+    } else {
+      console.log("response good! (userDelete)");
+      //setSecureStore(undefined); //Turn secureStore on again
+      dispatch(deleteUserInDb(uuid, idToken));
+    }
+  };
+};
 
 export const postUserToDb = (
   data,
@@ -85,9 +114,8 @@ export const postUserToDb = (
   return async (dispatch, getState) => {
     const token = getState().user.token;
     const response = await fetch(
-      `https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users/${data.localId}.json?auth=${token}`,
+      `${dbEndpoint}users/${data.localId}.json?auth=${token}`,
       {
-        //const response = await fetch(`${endpointUsers}${token}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -114,13 +142,36 @@ export const postUserToDb = (
     }
   };
 };
+export const deleteUserInDb = (uuid, idToken) => {
+  console.log("deleteUserInDb() || UserAction.js");
+  return async (dispatch, getState) => {
+    const token = getState().user.token;
+    const response = await fetch(
+      `${dbEndpoint}users/${uuid}.json?auth=${token}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    //name of the entry
+    const data = await response.json();
+    if (!response.ok) {
+      console.error("ERROR in response (deleteUserInDb)");
+    } else {
+      console.log("response good (deleteUserInDb)");
+      dispatch(userLogout())
+    }
+  };
+};
 
 export const editNotifications = (chat, event, uuid, idToken) => {
   console.log("editNotifications() || UserAction.js");
   return async (dispatch, getState) => {
     const token = getState().user.token;
     const response = await fetch(
-      `https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users/${uuid}.json?auth=${token}`,
+      `${dbEndpoint}users/${uuid}.json?auth=${token}`,
       {
         method: "PATCH",
         headers: {
@@ -151,7 +202,7 @@ export const editUser = (firstname, lastname, studyProgramme, uuid, idToken) => 
   return async (dispatch, getState) => {
     const token = getState().user.token;
     const response = await fetch(
-      `https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users/${uuid}.json?auth=${token}`,
+      `${dbEndpoint}users/${uuid}.json?auth=${token}`,
       {
         method: "PATCH",
         headers: {
@@ -182,7 +233,7 @@ export const editUser = (firstname, lastname, studyProgramme, uuid, idToken) => 
 export const userLogin = (email, password) => {
   console.log("userLogin() || UserAction.js");
   return async dispatch => {
-    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API}`, {
+    const response = await fetch(`${authEndpoint}signInWithPassword?key=${API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -212,7 +263,7 @@ export const getUser = data => {
   return async (dispatch, getState) => {
     const token = getState().user.token;
     const response = await fetch(
-      `https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
+      `${dbEndpoint}users.json?auth=${token}`,
       {
         method: "GET",
         headers: {
@@ -292,3 +343,8 @@ export const userLogout = () => {
   SecureStore.deleteItemAsync("userToken");  */
   return { type: LOGOUT, payload: undefined };
 };
+
+
+
+
+  
