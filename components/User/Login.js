@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import SetToken from "./SetToken";
 import { postUserToDb, userLogin, getUser } from "./userStore/UserAction";
 import { refreshToken, restoreUser } from "./userStore/UserAction";
 import * as SecureStore from "expo-secure-store";

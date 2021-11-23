@@ -112,7 +112,6 @@ const Signup = props => {
 const CBS_blue = "#32305D";
 const CBS_blue_text = "#5050A5";
 const CBS_border = "#EEEEEE";
-const CBS_disabled = "#BABADD";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",

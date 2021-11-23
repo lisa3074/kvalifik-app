@@ -10,16 +10,38 @@ import TabBarBottom from "../TabBarBottom";
 import { useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
+interface Props{
+  isSignedIn: boolean;
+  action: string;
+  second_action: string;
+  screen: string;
+}
 
-const OnBoardingNav = props => {
-  const [signupEmail, setSignupEmail] = useState("");
+
+const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => {
+  
+  interface States {
+    signupEmail: string;
+    setSignupEmail: (arg: boolean) => void;
+    signupPassword: string;
+    setSignupPassword: (arg: boolean) => void;
+    firstname: string;
+    setFirstname: (arg: boolean) => void;
+    lastname: string;
+    setLastname: (arg: boolean) => void;
+    imageUrl: string;
+    setImageUrl: (arg: boolean) => void;
+    studyProgramme: string;
+    setStudyProgramme: (arg: boolean) => void;
+  }
+
+  let [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [imageUrl, setImageUrl] = useState("placeholder.png");
   const [studyProgramme, setStudyProgramme] = useState("");
-  const { isSignedIn, action } = props;
-
+  
   return (
     <Stack.Navigator
       screenOptions={{

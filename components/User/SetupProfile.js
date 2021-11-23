@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/core";
 import Input from "../reusableComponents/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import logo from '../../static/images/CBS_logo.png';
+import ProfileImage from "../reusableComponents/ProfileImage";
 
 const SetupProfile = props => {
   const { firstname, setFirstname, lastname, setLastname, imageUrl, setImageUrl, studyProgramme, setStudyProgramme } =
@@ -36,15 +37,7 @@ const SetupProfile = props => {
     <View style={styles.container}>
            <Image source={logo} style={MainScreenStyling.logo} />
       <Text style={MainScreenStyling.heading}>Before we start...</Text>
-           <View style={MainScreenStyling.flex}>
-        <View>
-          <Text style={MainScreenStyling.labelStyle}>PROFILE PICTURE</Text>
-          <TouchableOpacity style={MainScreenStyling.button}>
-            <Text style={MainScreenStyling.darkBtnTxt}>Upload</Text>
-          </TouchableOpacity>
-        </View>
-        <Image style={MainScreenStyling.profilePicture} /* source={} */ />
-      </View>
+        <ProfileImage imageUrl={imageUrl} setImageUrl={setImageUrl}/>
       <View style={[styles.input, MainScreenStyling.input]}>
         <Input
           placeholder={"First name"}

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import Input from "../reusableComponents/Input";
 import { useSelector, useDispatch } from "react-redux";
 import { editUser, deleteUser } from "../User/userStore/UserAction";
-import EditImage from "./EditImage";
-
+import ProfileImage from "../reusableComponents/ProfileImage";
 
 const EditProfile = props => {
   const loggedInUser = useSelector(state => state.user.loggedInUser);
@@ -23,17 +21,16 @@ const EditProfile = props => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isTouched, setIsTouched] = useState(false);
 
-
   const handleDisabled = () => {
     setIsTouched(true);
   };
   const handleDelete = () => {
-    console.log("handleDelete")
-    dispatch(deleteUser(token, loggedInUser.id))
+    console.log("handleDelete");
+    dispatch(deleteUser(token, loggedInUser.id));
   };
 
   useEffect(
-    function handleLoginBtn() {
+    function handleEditBtn() {
       //if password or email is not valid, set login button to disabled
       isFirstNameValid && isLastNameValid && isProgrammValid ? setIsDisabled(false) : setIsDisabled(true);
       //if password and email is valid, reset isTouched on button
@@ -49,10 +46,9 @@ const EditProfile = props => {
     navigation.navigate(props.action);
   };
 
- 
   return (
     <ScrollView style={styles.container}>
-      <EditImage/>
+      <ProfileImage />
       <View style={MainScreenStyling.input}>
         <Input
           label={"What is your first name?"}
@@ -94,23 +90,18 @@ const EditProfile = props => {
         onPress={isDisabled ? handleDisabled : HandleSave}>
         <Text style={MainScreenStyling.darkBtnTxt}>Save changes</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={[MainScreenStyling.button, styles.delete]}
-        onPress={handleDelete}>
+      <TouchableOpacity style={[MainScreenStyling.button, styles.delete]} onPress={handleDelete}>
         <Text style={[MainScreenStyling.lightBtnTxt, styles.deleteText]}>Delete profile</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-const CBS_blue = "#32305D";
-const CBS_disabled = "#BABADD";
 const styles = StyleSheet.create({
   container: {
     height: "100%",
     padding: 16,
     paddingTop: 0,
-    
   },
   save: {
     height: 60,
@@ -119,19 +110,19 @@ const styles = StyleSheet.create({
   },
   inputHigh: {
     height: 92,
-    marginBottom: 16
+    marginBottom: 16,
   },
   delete: {
-    backgroundColor: 'white',
-        height: 60,
+    backgroundColor: "white",
+    height: 60,
     padding: 24,
     alignItems: "flex-start",
     marginTop: 24,
-    marginBottom: 24
+    marginBottom: 24,
   },
   deleteText: {
-    color: '#B10024',
-  }
+    color: "#B10024",
+  },
 });
 
 export default EditProfile;

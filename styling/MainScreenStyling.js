@@ -85,11 +85,11 @@ const MainScreenStyling = StyleSheet.create({
     marginBottom: 24,
     height: 70,
     borderRadius: 5,
+    borderColor: '#eeeeee',
+    borderWidth: 1,
     shadowColor: "#AAAAAA",
     shadowOpacity: 0.3,
     shadowRadius: 3,
-    borderColor: '#eeeeee',
-    borderWidth: 1,
     shadowOffset: {
       height: 1,
       width: 3,
@@ -108,8 +108,6 @@ const MainScreenStyling = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     marginRight: 16,
-    borderColor: "black",
-    borderWidth: 1,
   },
   error: {
     color: "red",

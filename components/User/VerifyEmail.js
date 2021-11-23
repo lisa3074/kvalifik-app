@@ -9,6 +9,7 @@ import MainScreenStyling from "../../styling/MainScreenStyling";
 
 const VerifyEmail = props => {
   const navigation = useNavigation();
+  
   const handleSubmit = () => {
     console.log("handleSubmit");
     navigation.navigate(props.action);

@@ -1,7 +1,6 @@
 import Message from "./../../../classModels/Message";
 import ChatRoom from "./../../../classModels/ChatRoom";
 import User from "./../../../classModels/User";
-import { Users } from "../../../dummyData/Dummydata";
 
 export const TOGGLE_HAPPY = "TOGGLE_HAPPY";
 export const NEW_CHATROOM = "NEW_CHATROOM";

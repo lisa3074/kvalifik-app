@@ -8,30 +8,30 @@ import Logout from "../User/Logout";
 import { useNavigation } from "@react-navigation/core";
 import { editNotifications } from "../User/userStore/UserAction";
 import { useDispatch } from "react-redux";
+import placeholder from "../../static/images/placeholder.png";
 
 const Menu = props => {
   const loggedInUser = useSelector(state => state.user.loggedInUser);
   const token = useSelector(state => state.user.token);
-  const imageUrl = `./static/images/${loggedInUser.imageUrl}`;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-   const navigation = useNavigation();
-    const HandleEdit = () => {
-        console.log("handleEdit")
-        navigation.navigate(props.action);
-    }
+  const navigation = useNavigation();
+  const HandleEdit = () => {
+    console.log("handleEdit");
+    navigation.navigate(props.action);
+  };
 
   //Finding first and last name.
-  const firstName = loggedInUser.firstname
+  const firstName = loggedInUser.firstname;
   const lastName = loggedInUser.lastname;
   const firstSpace = firstName.indexOf(" ");
   const lastSpace = lastName.lastIndexOf(" ");
   let firstFirstName;
   //if there's more than one name
-  if (firstSpace != -1) { 
-     firstFirstName = firstName.substring(0, firstSpace);
+  if (firstSpace != -1) {
+    firstFirstName = firstName.substring(0, firstSpace);
   } else {
-     firstFirstName = firstName;
+    firstFirstName = firstName;
   }
 
   const lastLastName = lastName.substring(lastSpace, 1000);
@@ -41,45 +41,49 @@ const Menu = props => {
   //const [isTouched, setIsTouched] = useState(false);
 
   useEffect(() => {
-
-      dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token));
-
-}, [isChatChecked, isEventChecked])
+    dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token));
+  }, [isChatChecked, isEventChecked]);
 
   return (
     <ScrollView>
       <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image style={styles.profilePicture} /* source={imageUrl} */ />
-        <View>
-          <Text style={[MainScreenStyling.heading, styles.textColor]}>{newFullName}</Text>
-          <Text style={[MainScreenStyling.paragraphSmall, styles.textColor]}>{loggedInUser.email}</Text>
-          <Text style={[MainScreenStyling.paragraphSmall, styles.textColor]}>{loggedInUser.studyProgramme}</Text>
-        </View>
-      </View>
-      <TouchableOpacity style={MainScreenStyling.button} onPress={HandleEdit}>
-        <Text style={MainScreenStyling.darkBtnTxt}>Edit profile</Text>
-      </TouchableOpacity>
-      <View style={styles.line}></View>
-      <View>
-        <Text style={[MainScreenStyling.header, styles.textColor]}>NOTIFICATIONS</Text>
-        <View style={styles.notificationContainer}>
-          <View>
-          <Text style={styles.heading}>Chat</Text>
-          <Text style={MainScreenStyling.paragraphSmall}>When you recieve a new message</Text>
+        <View style={styles.profileContainer}>
+          <Image style={styles.profilePicture} source={placeholder} />
+          <View style={styles.textContainer}>
+            <Text style={[MainScreenStyling.heading, styles.textColor]}>{newFullName}</Text>
+            <Text style={[MainScreenStyling.paragraphSmall, styles.textColor]}>{loggedInUser.email}</Text>
+            <Text style={[MainScreenStyling.paragraphSmall, styles.textColor]}>{loggedInUser.studyProgramme}</Text>
           </View>
-          <CheckBox label={""} isChecked={isChatChecked} setIsChecked={setIsChatChecked} type={"switch"} error={""} />
         </View>
-        <View style={styles.notificationContainer}>
-          <View>
-          <Text style={styles.heading}>Event reminder</Text>
-          <Text style={MainScreenStyling.paragraphSmall}>An hour before events you are ‘going to’</Text>
-          </View>
-          <CheckBox label={""} isChecked={isEventChecked} setIsChecked={setIsEventChecked} type={"switch"} error={""} />
-        </View>
-      </View>
+        <TouchableOpacity style={MainScreenStyling.button} onPress={HandleEdit}>
+          <Text style={MainScreenStyling.darkBtnTxt}>Edit profile</Text>
+        </TouchableOpacity>
         <View style={styles.line}></View>
-        <Logout/>
+        <View>
+          <Text style={[MainScreenStyling.header, styles.textColor]}>NOTIFICATIONS</Text>
+          <View style={styles.notificationContainer}>
+            <View>
+              <Text style={styles.heading}>Chat</Text>
+              <Text style={MainScreenStyling.paragraphSmall}>When you recieve a new message</Text>
+            </View>
+            <CheckBox label={""} isChecked={isChatChecked} setIsChecked={setIsChatChecked} type={"switch"} error={""} />
+          </View>
+          <View style={styles.notificationContainer}>
+            <View>
+              <Text style={styles.heading}>Event reminder</Text>
+              <Text style={MainScreenStyling.paragraphSmall}>An hour before events you are ‘going to’</Text>
+            </View>
+            <CheckBox
+              label={""}
+              isChecked={isEventChecked}
+              setIsChecked={setIsEventChecked}
+              type={"switch"}
+              error={""}
+            />
+          </View>
+        </View>
+        <View style={styles.line}></View>
+        <Logout />
       </View>
     </ScrollView>
   );
@@ -109,12 +113,12 @@ const styles = StyleSheet.create({
     opacity: 0.2,
   },
   notificationContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 5,
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 16,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingLeft: 8,
     marginTop: 24,
     shadowColor: "#AAAAAA",
@@ -128,7 +132,10 @@ const styles = StyleSheet.create({
   heading: {
     color: "#32305D",
     fontSize: 16,
-    fontFamily: 'OpenSans_700Bold',
+    fontFamily: "OpenSans_700Bold",
+  },
+  textContainer: {
+    paddingBottom: 16,
   },
 });
 

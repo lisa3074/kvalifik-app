@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Button } from "react-native";
 import { useSelector } from "react-redux";
-import jsonMessages from "../../dummyData/messages.json";
-import { Messages } from "../../dummyData/Dummydata";
 import surf from "../../static/images/surf.png";
 import me from "../../static/images/personChat.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -33,7 +31,7 @@ const ChatMessage = props => {
             <Text style={[styles.from, me ? styles.meAlignName : ""]}>
               {!me ? (
                 <Text>
-                  From {chatmessage.user.firstname} {chatmessage.user.lastname}{" "}
+                  From {chatmessage.user.firstname} {chatmessage.user.lastname}{"・"}
                 </Text>
               ) : (
                 ""

@@ -1,6 +1,5 @@
 //import ChatRoom from "./../../models/ChatRoom";
 import { DELETE_CHATROOM, NEW_CHATMESSAGE, NEW_CHATROOM, GET_CHATROOMS } from "./ChatAction";
-import { ChatRooms } from "./../../../dummyData/Dummydata";
 
 const initialState = {
   chatRooms: undefined,
