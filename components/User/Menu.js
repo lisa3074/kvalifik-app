@@ -21,8 +21,8 @@ const Menu = props => {
   const token = useSelector(state => state.user.token);
 
   //State variables
-  const [isChatChecked, setIsChatChecked] = useState(loggedInUser.chatNotifications);
-  const [isEventChecked, setIsEventChecked] = useState(loggedInUser.eventNotifications);
+  const [isChatChecked, setIsChatChecked] = useState(undefined);
+  const [isEventChecked, setIsEventChecked] = useState(undefined);
 
   //Go to edit profile
   const HandleEdit = () => {
@@ -44,9 +44,17 @@ const Menu = props => {
   const lastLastName = lastName.substring(lastSpace, 1000);
   const newFullName = firstFirstName.trim() + " " + lastLastName.trim();
 
+  useEffect(() => {
+  setIsChatChecked(loggedInUser.chatNotifications)
+  setIsEventChecked(loggedInUser.eventNotifications)
+  }, [])
+
   //Call editNotifications whenever isChatChecked or isEventChecked changes
   useEffect(() => {
-    dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token));
+    if (isChatChecked != undefined && isEventChecked != undefined) {
+     
+      dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token, loggedInUser.firstname, loggedInUser.lastname, loggedInUser.studyProgramme, loggedInUser.email, loggedInUser.imageUrl));
+    }
   }, [isChatChecked, isEventChecked]);
 
   return (

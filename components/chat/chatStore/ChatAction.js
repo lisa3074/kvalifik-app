@@ -13,9 +13,9 @@ const endpointMessages = "https://kvalifik-bf2c3-default-rtdb.europe-west1.fireb
 
 //create new chatroom
 export const newChatRoom = chatroomName => {
-  //use redux thunk to make asyncrounous calls
+    //use redux thunk to make asyncrounous calls
   return async (dispatch, getState) => {
-    //get token to authenticate the request
+     //get token to authenticate the request
     const token = getState().user.token;
     const response = await fetch(`${endpointChatRooms}${token}`, {
       method: "POST",
@@ -37,7 +37,7 @@ export const newChatRoom = chatroomName => {
     } else {
       //create new object
       const newChatRoom = new ChatRoom(data.name, data.image, chatroomName, [], data.read);
-      //Make sure a dispacth is called, otherwise function won't work => send to reducer
+        //Make sure a dispacth is called, otherwise function won't work => send to reducer
       dispatch({ type: NEW_CHATROOM, payload: newChatRoom });
     }
   };
@@ -113,7 +113,7 @@ export const newChatMessage = (chatRoomId, message, loggedInUser) => {
     const data = await response.json(); // json to javascript
     if (!response.ok) {
       //There was a problem..
-      console.error("ERROR in response ", response);
+      console.error("ERROR in response " , response);
     } else {
       //Create message object
       const messageObj = new Message(data.name, message, new Date(), loggedInUser);

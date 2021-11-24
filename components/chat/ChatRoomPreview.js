@@ -37,6 +37,7 @@ const ChatRoomPreview = props => {
   }
 
   return (
+    <>
     <TouchableOpacity
       style={styles.chatThread}
       //Navigate to the clicked chatroom
@@ -48,7 +49,7 @@ const ChatRoomPreview = props => {
         <Image
           style={styles.profileImage}
           source={props.chatroom.imageUrl === undefined ? golf : props.chatroom.imageUrl}
-        />
+          />
         <View style={styles.chatPreview}>
           <View style={styles.flexRowSpaceBetween}>
             <Text style={styles.text}>{props.chatroom.chatRoomName}</Text>
@@ -65,7 +66,8 @@ const ChatRoomPreview = props => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      </>
   );
 };
 

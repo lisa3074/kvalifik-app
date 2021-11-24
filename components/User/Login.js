@@ -1,18 +1,17 @@
 //INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import * as SecureStore from "expo-secure-store";
 
 //APP COMPONENTS
-import { userLogin } from "./userStore/UserAction";
+import { userLogin, refreshToken, restoreUser } from "./userStore/UserAction";
 import Input from "../REUSABLE_COMPONENTS/Input";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 import logo from "../../static/images/CBS_logo.png";
 
 const Login = props => {
-  const { storedUser } = props;
   const navigation = useNavigation();
 
   //State variables
@@ -26,8 +25,8 @@ const Login = props => {
 
   //Call userLogin (redux acition)
   const handleLogin = () => {
-    //dispatch(userLogin(loginEmail, loginPassword));
-    dispatch(userLogin("lisa@lisa.dk", "password"));
+    dispatch(userLogin(loginEmail, loginPassword));
+    //dispatch(userLogin("lisa@lisa.dk", "password"));
   };
 
   //If button is touched
@@ -45,6 +44,42 @@ const Login = props => {
     },
     [isEmailValid, isPasswordValid]
   );
+
+  useEffect(
+    function isUserInSecureStore() {
+    // Fetch the token from storage then navigate to our appropriate place
+    const CheckToken = async () => {
+      isSignedIn = await SecureStore.getItemAsync("user");
+      if (isSignedIn) {
+        let userToken, user, expiration, refreshTokenString;
+        try {
+          //find expiration date/time
+          expiration = new Date(JSON.parse(await SecureStore.getItemAsync("expiration")));
+          //If token is expired
+          if (expiration < new Date()) {
+            console.log("Token expired");
+            //get refresh token fron secureStore
+            refreshTokenString = await SecureStore.getItemAsync("refreshToken");
+            //call refreshToken with the refresh token (Redux action)
+            dispatch(refreshToken(refreshTokenString));
+          }
+          //If token is not expired
+          console.log("Token not expired");
+          //get token and user object
+          userToken = await SecureStore.getItemAsync("userToken");
+          user = JSON.parse(await SecureStore.getItemAsync("user"));
+        } catch (e) {
+          // Restoring token failed
+          console.log("restore token failed");
+          console.log(e);
+        }
+//call restoreUser (Redux action)
+        dispatch(restoreUser(user, userToken));
+      }
+    };
+
+    CheckToken();
+  }, []);
 
   return (
     <View style={styles.container}>
