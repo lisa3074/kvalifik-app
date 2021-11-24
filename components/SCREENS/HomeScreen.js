@@ -1,16 +1,16 @@
+//INSTALLED PACKAGES
 import React from "react";
-import { View, Text, StyleSheet, ImageBackground, ScrollView } from "react-native";
-import MainScreenStyling from "../styling/MainScreenStyling";
-import ghost from "../static/images/ghost.png";
-import books from "../static/images/books.png";
-import hammer from "../static/images/hammer.png";
+import { Text, StyleSheet, ImageBackground, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+//APP COMPONENTS
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import ghost from "../../static/images/ghost.png";
+import books from "../../static/images/books.png";
+import hammer from "../../static/images/hammer.png";
+
 function HomeScreen() {
-  //Rootnavigation => make sure that there are checks to see if the user has provided name/study programme, is data loaded, considered notifications, email verified,
-  //react-query => library to store as in redux and mimic a real-time db
-  //npm trends => see librarys that trend
-  //firebase-functions => triggers cloud functions
+//Static events for displaying
   return (
     <ScrollView style={styles.center}>
       <ImageBackground style={styles.post} source={ghost}>

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text } from "react-native";
 
 /* 
-###### TO USE ######
-import Input from '../reusableComponents/Input';'
+###### TO USE EXAMPLE ######
+import Input from '../REUSABLE_COMPONENTS/Input';'
 const [email, setEmail] = useState("");
 const [isEmailValid, setIsEmailValid] = useState(false);
 
@@ -18,6 +18,7 @@ const [isEmailValid, setIsEmailValid] = useState(false);
         />
 */
 
+//Setting types on props passed form parent component
 interface Props {
   label: string;
   placeholder: string;
@@ -29,19 +30,23 @@ interface Props {
 }
 
 const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }: Props) => {
+  //State variables
   const [isActive, setIsActive] = useState(false);
 
+  //Set input text and validity of input and send back to parent component for further use, mark input as active
   const handleInput = (input: string) => {
     setIsActive(true);
     setText(input);
     input == "" ? setIsValid(false) : setIsValid(true);
   };
 
+  //Set component up with props passed from parent component
   return (
     <View style={styles.container}>
       <View style={styles.flex}>
         <Text style={styles.labelStyle}>{label}</Text>
-        {!isValid && isActive && <Text style={styles.error}> * {error}</Text>}
+        {/* Show only if not valid and active and only if the error is not nothing */}
+        {!isValid && isActive && error != "" && <Text style={styles.error}> * {error}</Text>}
       </View>
       <TextInput
         autoCapitalize={"none"}
@@ -55,7 +60,6 @@ const Input = ({ text, setText, label, placeholder, error, isValid, setIsValid }
   );
 };
 const CBS_blue = "#32305D";
-const CBS_border = "#EEEEEE";
 const styles = StyleSheet.create({
   container: {
     padding: 16,
@@ -65,7 +69,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: "100%",
   },
-
+  hide: {
+    display: "none",
+  },
   labelStyle: {
     color: CBS_blue,
     textTransform: "uppercase",

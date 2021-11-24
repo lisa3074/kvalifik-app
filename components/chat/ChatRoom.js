@@ -1,7 +1,10 @@
+//INSTALLED PACKAGES
 import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TextInput, SafeAreaView, TouchableOpacity } from "react-native";
-import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
+
+//APP COMPONENTS
+import ChatMessage from "./ChatMessage";
 import { newChatMessage } from "./chatStore/ChatAction";
 import logo from "./../../static/images/surf.png";
 import myPic from "./../../static/images/personChat.png";
@@ -9,31 +12,37 @@ import MainScreenStyling from "../../styling/MainScreenStyling";
 
 const ChatRoom = props => {
   const dispatch = useDispatch();
+
+  //destructure props
   const { id } = props.route.params;
+
+  //State variables
   const [value, setValue] = useState("");
+
+  //Redux states
   const chatMessages = useSelector(state => state.chat.chatRooms).find(room => room.chatRoomId === id).messages;
   const loggedInUser = useSelector(state => state.user.loggedInUser);
-  //console.log(loggedInUser);
 
+  //call newChatMessage (redux action)
   const handleSend = () => {
-    const random = Math.random();
     dispatch(newChatMessage(id, value, loggedInUser));
+    //reset textInput
     setValue("");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.messages}>
+        {/* print out each message in the ChatMessage component */}
         <FlatList
           style={styles.chatContainer}
           data={chatMessages}
           renderItem={itemData => <ChatMessage chatmessage={itemData.item} image={logo}></ChatMessage>}
+          //an item needs a unique key as identifier
           keyExtractor={item => item.messageId}></FlatList>
       </View>
-
       <View style={styles.flexRow}>
         <Image style={styles.profileImage} source={myPic} />
-
         <SafeAreaView style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
@@ -42,7 +51,6 @@ const ChatRoom = props => {
             placeholder="Write message"
           />
         </SafeAreaView>
-
         <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={handleSend}>
           <Text style={[MainScreenStyling.darkBtnTxt]}>Send</Text>
         </TouchableOpacity>

@@ -1,14 +1,21 @@
+//INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import Input from "../reusableComponents/Input";
-import MainScreenStyling from "../../styling/MainScreenStyling";
-import Checkbox from "../reusableComponents/Checkbox";
 import { useNavigation } from "@react-navigation/core";
+
+//APP COMPONENTS
+import Input from "../REUSABLE_COMPONENTS/Input";
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import Checkbox from "../REUSABLE_COMPONENTS/Checkbox";
 import logo from "../../static/images/CBS_logo.png";
 
 const Signup = props => {
-  const { signupEmail, setSignupEmail, signupPassword, setSignupPassword } = props;
   const navigation = useNavigation();
+  
+  //Destructure props
+  const { signupEmail, setSignupEmail, signupPassword, setSignupPassword } = props;
+
+  //State variables, set initial state to false (apart from imageUrl to be able to complete flow without setting image handler up)
   const [matchPassword, setMatchPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
@@ -17,6 +24,7 @@ const Signup = props => {
   const [isTouched, setIsTouched] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
+  //Set isDisabled / isTouched whenever isEmailValid, isPasswordValid, isChecked or isMatchPasswordValid changes
   useEffect(
     function handleSignupBtn() {
       isEmailValid && isPasswordValid && isMatchPasswordValid && isChecked ? setIsDisabled(false) : setIsDisabled(true);
@@ -25,15 +33,18 @@ const Signup = props => {
     [isEmailValid, isPasswordValid, isChecked, isMatchPasswordValid]
   );
 
+  //Navigate to VerifyEmail only if button is not disabled, otherwise set isTouched to true
   const handleSubmit = () => {
     isDisabled ? setIsTouched(true) : navigation.navigate(props.action);
   };
 
+  //variable
   const termsAndConditions = (
     <Text>
       "I agree to the <Text style={styles.underline}>terms & conditions"</Text>
     </Text>
   );
+
   return (
     <View style={styles.container}>
       <Image source={logo} style={MainScreenStyling.logo} />
@@ -42,6 +53,7 @@ const Signup = props => {
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.input}>
+          {/* Reusable component */}
           <Input
             placeholder={"Choose your email"}
             label={"E-mail"}
@@ -54,6 +66,7 @@ const Signup = props => {
         </View>
         <View style={styles.line}></View>
         <View style={styles.input}>
+          {/* Reusable component */}
           <Input
             placeholder={"Choose your password"}
             label={"Password"}
@@ -66,6 +79,7 @@ const Signup = props => {
         </View>
         <View style={styles.line}></View>
         <View style={styles.input}>
+          {/* Reusable component */}
           <Input
             placeholder={"Repeat your password"}
             label={"Repeat password"}
@@ -78,6 +92,7 @@ const Signup = props => {
         </View>
       </View>
 
+      {/* Reusable component */}
       <Checkbox
         label={termsAndConditions}
         isChecked={isChecked}
@@ -86,19 +101,25 @@ const Signup = props => {
         error={"You need to agree to our terms and conditions"}
       />
 
-      <TouchableOpacity
-        style={[MainScreenStyling.button, styles.button, isDisabled && MainScreenStyling.disabled]}
-        onPress={handleSubmit}>
-        {/*  onPress={isDisabled ? handleDisabled : handleSignup}> */}
-        <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
-      </TouchableOpacity>
       {/* Show only error text if */}
       {isDisabled && isTouched && (!isEmailValid || !isPasswordValid || !isMatchPasswordValid || !isChecked) && (
-        <Text style={MainScreenStyling.error}>
+        <Text style={[MainScreenStyling.error, styles.marginTop]}>
           You need to fill out all fields and agree to our terms & conditions.
         </Text>
       )}
+      <TouchableOpacity
+        //set style depening on state
+        style={[
+          MainScreenStyling.button,
+          styles.button,
+          isDisabled && MainScreenStyling.disabled,
+          !isTouched && styles.marginTop,
+        ]}
+        onPress={handleSubmit}>
+        <Text style={MainScreenStyling.darkBtnTxt}>Get access</Text>
+      </TouchableOpacity>
       <Text
+        //Navigate to Login
         onPress={() => {
           navigation.navigate(props.actionLogin);
         }}
@@ -168,11 +189,13 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     alignItems: "flex-start",
     marginBottom: 32,
-    marginTop: 24,
   },
 
   underline: {
     textDecorationLine: "underline",
+  },
+  marginTop: {
+    marginTop: 24,
   },
 });
 export default Signup;

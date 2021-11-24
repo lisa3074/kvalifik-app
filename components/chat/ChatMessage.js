@@ -1,23 +1,34 @@
-import React, { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Button } from "react-native";
+//INSTALLED PACKAGES
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Image, ScrollView, Button } from "react-native";
 import { useSelector } from "react-redux";
+
+//APP COMPONENTS
 import surf from "../../static/images/surf.png";
-import me from "../../static/images/personChat.png";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import MainScreenStyling from "../../styling/MainScreenStyling";
-// ChatMessageScreen
+
 const ChatMessage = props => {
+  //Descructure props
   const { chatmessage } = props;
-  //console.log(chatmessage);
-  const hardCodedUserId = "1";
+
+  const [me, setMe] = useState(false);
+
+  //Get redux state
   const loggedInUser = useSelector(state => state.user.loggedInUser);
-  let me = false;
-  //console.log(loggedInUser);
-  if (loggedInUser.id === chatmessage.user.id) {
-    me = true;
-  }
-  let hours = chatmessage.messageTimestamp.getHours();
-  let minutes = chatmessage.messageTimestamp.getMinutes();
+
+  //Set state if chatmessage changes
+  useEffect(
+    function isMe() {
+      if (loggedInUser.id === chatmessage.user.id) {
+        setMe(true);
+      }
+    },
+    [chatmessage]
+  );
+
+  //variables that does not change
+  const time = chatmessage.messageTimestamp;
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
 
   return (
     <View style={styles.chatContainer}>
@@ -29,15 +40,18 @@ const ChatMessage = props => {
               <Text style={[me ? styles.meBgColor : styles.youBgColor]}>{chatmessage.messageText}</Text>
             </View>
             <Text style={[styles.from, me ? styles.meAlignName : ""]}>
+              {/* Only show if not me */}
               {!me ? (
                 <Text>
-                  From {chatmessage.user.firstname} {chatmessage.user.lastname}{"・"}
+                  From {chatmessage.user.firstname} {chatmessage.user.lastname}
+                  {"・"}
                 </Text>
               ) : (
                 ""
               )}
               <Text>
-                {hours === 9 ? "0" + hours : hours}:{minutes <= 9 ? 0 + minutes : minutes}
+                {/* add a 0 to numbers below 10 */}
+                {hours <= 9 ? "0" + hours : hours}:{minutes <= 9 ? 0 + minutes : minutes}
               </Text>
             </Text>
           </View>
@@ -61,6 +75,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 10.22,
     elevation: 3,
+  },
+  flex: {
+    flexDirection: "row",
   },
   hide: {
     display: "none",

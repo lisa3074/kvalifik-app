@@ -1,26 +1,45 @@
+//INSTALLED PACKAGES
 import React from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from "react-native";
-import MainScreenStyling from "../../styling/MainScreenStyling";
+
+//APP COMPONENTS
 import golf from "./../../static/images/golf.png";
 
 const ChatRoomPreview = props => {
   const navigation = useNavigation();
 
+  //are there any massages in the chat room
   const lastPos = props.chatroom.messages.length - 1;
   let lastMessageText,
     displayTime = "";
+
+  //If there are messages in the room, set message text and time for that message to preview
   if (lastPos > -1) {
     lastMessageText = props.chatroom.messages[lastPos].messageText;
     const lastTime = props.chatroom.messages[lastPos].messageTimestamp;
+    const namesMonths = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let year = lastTime.getFullYear();
+    let month = lastTime.getMonth();
+    let day = lastTime.getDate();
+    let hours = lastTime.getHours();
+    let minutes = lastTime.getMinutes();
+    let yearNow = new Date().getFullYear();
+    let monthNow = new Date().getMonth();
+    let dayNow = new Date().getDate();
 
-    // Should only do this if on the same date as today...
-    displayTime = lastTime.getHours() + ":" + lastTime.getMinutes();
+    //Chec if message time is the same as today
+    if (year === yearNow && month === monthNow && day === dayNow) {
+      displayTime = hours + ":" + minutes;
+    } else {
+      displayTime = `${day} ${namesMonths[month]}`;
+    }
   }
 
   return (
     <TouchableOpacity
-      style={[styles.chatThread, styles.firstChatThread]}
+      style={styles.chatThread}
+      //Navigate to the clicked chatroom
       onPress={() => {
         navigation.navigate("ChatRoom", { id: props.chatroom.chatRoomId });
         props.setChatRoomTitle(props.chatroom.chatRoomName);

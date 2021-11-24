@@ -1,19 +1,19 @@
+//INSTALLED PACKAGES
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ChatRoomsList from "./ChatRoomsList";
-import ChatRoom from "./ChatRoom";
+//APP COMPONENTS
+import ChatRoomsList from "../CHAT/ChatRoomsList";
+import ChatRoom from "../CHAT/ChatRoom";
 
 const Stack = createNativeStackNavigator();
 
-//This is the stack navigator
-
-const ChatStackNav = props => {
-  const [chatRoomTitle, setChatRoomTitle] = useState("hello");
-  //console.log(chatRoomTitle);
+const ChatScreen = props => {
+  //State variable
+  const [chatRoomTitle, setChatRoomTitle] = useState("");
 
   return (
+    /* Stack navigation */
     <Stack.Navigator
       setChatRoomTitle={setChatRoomTitle}
       chatRoomTitle={chatRoomTitle}
@@ -33,9 +33,9 @@ const ChatStackNav = props => {
         },
         headerShadowVisible: true,
       }}>
-      {/* Name and component props are required. The first in the stack is always displayed first */}
+      {/* Components in navigator, top component is default */}
       <Stack.Screen name="CHAT">
-        {/*  to pass props through stack navigator, use this syntax */}
+        {/*  Pass props through stack navigator to component */}
         {props => <ChatRoomsList {...props} setChatRoomTitle={setChatRoomTitle} />}
       </Stack.Screen>
       <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title: chatRoomTitle.toUpperCase() }} />
@@ -43,6 +43,4 @@ const ChatStackNav = props => {
   );
 };
 
-const styles = StyleSheet.create({});
-
-export default ChatStackNav;
+export default ChatScreen;

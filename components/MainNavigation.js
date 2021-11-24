@@ -1,26 +1,28 @@
+//INSTALLED PACKAGES
 import React from "react";
-import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./HomeScreen";
-import DiscoverScreen from "./DiscoverScreen";
-import ChatStackNav from "./chat/ChatStackNav.js";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Menu from "./profile/Menu";
-import ProfileNav from "./profile/ProfileNav";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+//APP COMPONENTS
+import HomeScreen from "./SCREENS/HomeScreen";
+import DiscoverScreen from "./SCREENS/DiscoverScreen";
+import ChatScreen from "./SCREENS/ChatScreen.js";
+import ProfileScreen from "./SCREENS/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-const TabBarBottom = () => {
+const MainNavigation = () => {
 
   return (
     <>
       <NavigationContainer>
+        {/* Tab navigation */}
         <Tab.Navigator
           screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size }) => {
               let iconName;
-
+                //Choose icon for each tab in relation to tab names
               if (route.name === "Start") {
                 iconName =  "md-home";
               } else if (route.name === "Discover") {
@@ -31,9 +33,10 @@ const TabBarBottom = () => {
                 iconName = "md-menu";
               }
 
-              // You can return any component that you like here!
+              // return the icons
               return <Ionicons name={iconName} size={size} color={color} />;
             },
+            //Style the navigation
             tabBarActiveTintColor: "#5050A5",
             tabBarInactiveTintColor: "gray",
             tabBarLabelStyle: {
@@ -60,14 +63,15 @@ const TabBarBottom = () => {
             },
             headerShadowVisible: true,
           })}>
+          {/* The tabs and the components they lead to */}
           <Tab.Screen name="Start" component={HomeScreen} options={{ title: "FEED" }} />
           <Tab.Screen name="Discover" component={DiscoverScreen} options={{ title: "DISCOVER" }} />
-          <Tab.Screen name="Chat" component={ChatStackNav} options={{ title: "CHAT", headerShown: false }} />
-          <Tab.Screen name="Profile" component={ProfileNav} options={{ title: "MENU", headerShown: false }} />
+          <Tab.Screen name="Chat" component={ChatScreen} options={{ title: "CHAT", headerShown: false }} />
+          <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: "MENU", headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>
     </>
   );
 };
 
-export default TabBarBottom;
+export default MainNavigation;

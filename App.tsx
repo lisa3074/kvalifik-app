@@ -1,24 +1,31 @@
+//INSTALLED PACKAGES
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore, combineReducers, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
-import ChatReducer from "./components/chat/chatStore/ChatReducer";
-import UserReducer from "./components/User/userStore/UserReducer";
-import StartNav from "./StartNav";
-import User from "./classModels/User";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
 import { Teko_500Medium } from "@expo-google-fonts/teko";
 import AppLoading from "expo-app-loading";
 
+//APP COMPONENTS
+import ChatReducer from "./components/CHAT/chatStore/ChatReducer";
+import UserReducer from "./components/USER/userStore/UserReducer";
+import StartNavigation from "./components/StartNavigation";
+import User from "./classModels/User";
+
+//Initialize reducers
 const rootReducer = combineReducers({
   chat: ChatReducer,
   user: UserReducer,
-  //posts: PostReducer
 });
+
+//To be able to get redux states in StartNavigation (typescript)
 let RootState: User[];
 export type RootState = ReturnType<typeof rootReducer>;
+//Redux
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));
 
+//Load fonts to application
 const App = () => {
 let [fontsLoaded] = useFonts({
     OpenSans_400Regular,
@@ -30,7 +37,7 @@ let [fontsLoaded] = useFonts({
   } else {
     return (
       <Provider store={store}>
-        <StartNav />
+        <StartNavigation />
       </Provider>
     );
   }

@@ -1,15 +1,17 @@
+//INSTALLED PACKAGES
 import React, { useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, StyleSheet, Image } from "react-native";
 
+//APP COMPONENTS
 import Signup from "./Signup";
 import VerifyEmail from "./VerifyEmail";
 import SetupProfile from "./SetupProfile";
 import Notifications from "./Notifications";
-import TabBarBottom from "../TabBarBottom";
-import { useSelector } from "react-redux";
+import MainNavigation from "../MainNavigation";
 
 const Stack = createNativeStackNavigator();
+
+//Set types on props passed from parent component
 interface Props{
   isSignedIn: boolean;
   action: string;
@@ -18,8 +20,8 @@ interface Props{
 }
 
 
-const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => {
-  
+const OnBoardingFlow = ({ isSignedIn, action, second_action, screen }: Props) => {
+  //Set types on state variables
   interface States {
     signupEmail: string;
     setSignupEmail: (arg: boolean) => void;
@@ -35,7 +37,8 @@ const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => 
     setStudyProgramme: (arg: boolean) => void;
   }
 
-  let [signupEmail, setSignupEmail] = useState("");
+  //State variables (set in Signup and SetupProfile)
+  const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -43,10 +46,13 @@ const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => 
   const [studyProgramme, setStudyProgramme] = useState("");
   
   return (
+    /* Stack navigation */
     <Stack.Navigator
+      //Don't show header
       screenOptions={{
         headerShown: false,
       }}>
+        {/* The screens and the components they lead to with props*/}
       <Stack.Screen name="OnBoarding" options={{ title: "OnBoarding" }}>
         {props => (
           <Signup
@@ -59,9 +65,11 @@ const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => 
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="VerifyEmail" options={{ title: "VerifyEmail" }}>
         {props => <VerifyEmail action={"SetupProfile"} />}
       </Stack.Screen>
+
       <Stack.Screen name="SetupProfile" options={{ title: "SetupProfile" }}>
         {props => (
           <SetupProfile
@@ -77,6 +85,7 @@ const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => 
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="Notifications" options={{ title: "Notifications" }}>
         {props => (
           <Notifications
@@ -87,18 +96,17 @@ const OnBoardingNav = ({ isSignedIn, action, second_action, screen }: Props) => 
             lastname={lastname}
             imageUrl={imageUrl}
             studyProgramme={studyProgramme}
-            action={"TabBarBottom"}
+            action={"MainNavigation"}
           />
         )}
       </Stack.Screen>
   
-      <Stack.Screen name="TabBarBottom" options={{ title: "TabBarBottom" }}>
-        {props => <TabBarBottom />}
+      <Stack.Screen name="MainNavigation" options={{ title: "MainNavigation" }}>
+        {props => <MainNavigation />}
         </Stack.Screen>
 
     </Stack.Navigator>
   );
 };
 
-const styles = StyleSheet.create({});
-export default OnBoardingNav;
+export default OnBoardingFlow;

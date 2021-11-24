@@ -2,77 +2,28 @@ import User from "../../../classModels/User";
 import { API } from "../../../apiKeys/apiKey";
 import * as SecureStore from "expo-secure-store";
 
-export const SIGNUP = "SIGNUP";
+//export cases for the reducer
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGUT";
 export const REFRESH_TOKEN = "REFRESH_TOKEN";
 export const UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
 export const UPDATE_USER = "UPDATE_USER";
 
-
+//variables
 const dbEndpoint = "https://kvalifik-bf2c3-default-rtdb.europe-west1.firebasedatabase.app/";
 const authEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:`;
 
+//refresh token and restore session
 export const restoreUser = (loggedInUser, token) => {
   console.log("restoreUser() || UserAction.js");
+  //Send to reducer
   return { type: LOGIN, payload: { loggedInUser, token } };
 };
 
-export const userSignup = (
-  email,
-  password,
-  firstname,
-  lastname,
-  imageUrl,
-  studyProgramme,
-  chatNotifications,
-  eventNotifications
-) => {
-  console.log("userSignup() || UserAction.js");
-  return async dispatch => {
-    const response = await fetch(`${authEndpoint}signUp?key=${API}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-    if (!response.ok) {
-      console.error("ERROR in response (userSignup)");
-      if (data.error.message === "EMAIL_EXISTS") {
-        console.warn("EMAIL_EXISTS");
-      } else if (data.error.message === "WEAK_PASSWORD : Password should be at least 6 characters") {
-        console.warn("WEAK_PASSWORD");
-      }
-    } else {
-      console.log("response good!");
-      const signedUpUser = new User(
-        data.localId,
-        firstname,
-        lastname,
-        imageUrl,
-        data.email,
-        studyProgramme,
-        chatNotifications,
-        eventNotifications
-      );
-      dispatch({ type: SIGNUP, payload: { signedUpUser, token: data.idToken } });
-      //setSecureStore(data, signedUpUser); //Turn secureStore on again
-      dispatch(
-        postUserToDb(data, firstname, lastname, imageUrl, studyProgramme, chatNotifications, eventNotifications)
-      );
-      return data;
-    }
-  };
-};
+//delete user from google authentication
 export const deleteUser = ( idToken, uuid ) => {
   console.log("userDelete() || UserAction.js");
+  //use redux thunk to make asyncrounous calls
   return async dispatch => {
     const response = await fetch(`${authEndpoint}delete?key=${API}`, {
       method: "POST",
@@ -84,67 +35,23 @@ export const deleteUser = ( idToken, uuid ) => {
       }),
     });
     const data = await response.json();
-    console.log(data);
     if (!response.ok) {
-      console.error("ERROR in response (userDelete)");
-      console.log(response);
-      if (data.error.message === "INVALID_ID_TOKEN") {
-        console.warn("INVALID_ID_TOKEN");
-      } else if (data.error.message === "USER_NOT_FOUND") {
-        console.warn("USER_NOT_FOUND");
-      }
+      console.error("ERROR in response (userDelete) ", response);
     } else {
       console.log("response good! (userDelete)");
       //setSecureStore(undefined); //Turn secureStore on again
+      //Make sure a dispacth is called, otherwise function won't work
       dispatch(deleteUserInDb(uuid, idToken));
     }
   };
 };
 
-export const postUserToDb = (
-  data,
-  firstname,
-  lastname,
-  imageUrl,
-  studyProgramme,
-  chatNotifications,
-  eventNotifications
-) => {
-  console.log("postUserToDb() || UserAction.js");
-  return async (dispatch, getState) => {
-    const token = getState().user.token;
-    const response = await fetch(
-      `${dbEndpoint}users/${data.localId}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: data.localId,
-          firstname: firstname,
-          lastname: lastname,
-          imageUrl: imageUrl,
-          email: data.email,
-          studyProgramme: studyProgramme,
-          chatNotifications: chatNotifications,
-          eventNotifications: eventNotifications,
-        }),
-      }
-    );
-    //name of the entry
-    const nameOfEntry = await response.json();
-    if (!response.ok) {
-      console.error("ERROR in response (PostUserToDb)");
-    } else {
-      console.log("response good (postUserToDb)");
-      dispatch(getUser(data));
-    }
-  };
-};
-export const deleteUserInDb = (uuid, idToken) => {
+//delete user from database
+export const deleteUserInDb = (uuid) => {
   console.log("deleteUserInDb() || UserAction.js");
+  //use redux thunk to make asyncrounous calls
   return async (dispatch, getState) => {
+    //get token to authenticate the request
     const token = getState().user.token;
     const response = await fetch(
       `${dbEndpoint}users/${uuid}.json?auth=${token}`,
@@ -155,21 +62,25 @@ export const deleteUserInDb = (uuid, idToken) => {
         },
       }
     );
-    //name of the entry
     const data = await response.json();
     if (!response.ok) {
-      console.error("ERROR in response (deleteUserInDb)");
+      console.error("ERROR in response (deleteUserInDb) ", response);
     } else {
       console.log("response good (deleteUserInDb)");
+      //Make sure a dispacth is called, otherwise function won't work
       dispatch(userLogout())
     }
   };
 };
 
+//Update notification preferences
 export const editNotifications = (chat, event, uuid, idToken) => {
   console.log("editNotifications() || UserAction.js");
+  //use redux thunk to make asyncrounous calls
   return async (dispatch, getState) => {
+    //get token to authenticate the request
     const token = getState().user.token;
+    //Use patch to only update the parameters sent end body
     const response = await fetch(
       `${dbEndpoint}users/${uuid}.json?auth=${token}`,
       {
@@ -183,13 +94,13 @@ export const editNotifications = (chat, event, uuid, idToken) => {
         }),
       }
     );
-    //name of the entry
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
-      console.error("ERROR in response (editNotifications)");
+      console.error("ERROR in response (editNotifications) ", response);
     } else {
       console.log("response good (editNotifications)");
+      //Make sure a dispacth is called, otherwise function won't work => send to reducer
       dispatch({
         type: UPDATE_NOTIFICATIONS,
         payload: { chatNotifications: chat, eventNotifications: event, token: idToken },
@@ -197,10 +108,15 @@ export const editNotifications = (chat, event, uuid, idToken) => {
     }
   };
 };
+
+//Update user
 export const editUser = (firstname, lastname, studyProgramme, uuid, idToken) => {
   console.log("editUser() || UserAction.js");
+  //use redux thunk to make asyncrounous calls
   return async (dispatch, getState) => {
+    //get token to authenticate the request
     const token = getState().user.token;
+ //Use patch to only update the parameters sent end body
     const response = await fetch(
       `${dbEndpoint}users/${uuid}.json?auth=${token}`,
       {
@@ -215,13 +131,13 @@ export const editUser = (firstname, lastname, studyProgramme, uuid, idToken) => 
         }),
       }
     );
-    //name of the entry
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
-      console.error("ERROR in response (editNotifications)");
+      console.error("ERROR in response (editNotifications) ", response);
     } else {
       console.log("response good (editNotifications)");
+      //Make sure a dispacth is called, otherwise function won't work => send to reducer
       dispatch({
         type: UPDATE_USER,
         payload: { firstname: firstname, lastname: lastname, studyProgramme: studyProgramme, token: idToken },
@@ -230,8 +146,11 @@ export const editUser = (firstname, lastname, studyProgramme, uuid, idToken) => 
   };
 };
 
+
+//Login with google authentication
 export const userLogin = (email, password) => {
   console.log("userLogin() || UserAction.js");
+   //use redux thunk to make asyncrounous calls
   return async dispatch => {
     const response = await fetch(`${authEndpoint}signInWithPassword?key=${API}`, {
       method: "POST",
@@ -248,19 +167,23 @@ export const userLogin = (email, password) => {
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
-      console.error("ERROR in response");
+      console.error("ERROR in response ", response);
     } else {
+       //Make sure a dispacth is called, otherwise function won't work => send to reducer
       const loggedInUser = new User(data.localId, "", "", undefined, data.email);
       dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
+      //Get users to find the one logged in
       dispatch(getUser(data));
     }
   };
 };
 
+//Get all users
 export const getUser = data => {
   console.log("getUSer() || UserAction.js");
-  console.log(data);
+   //use redux thunk to make asyncrounous calls
   return async (dispatch, getState) => {
+    //get token to authenticate the request
     const token = getState().user.token;
     const response = await fetch(
       `${dbEndpoint}users.json?auth=${token}`,
@@ -274,6 +197,7 @@ export const getUser = data => {
     const user = await response.json();
     let loggedInUser;
     for (const key in user) {
+      //find the logged in user, and set the user object to send to the reducer
       if (user[key].id === data.localId) {
         console.log(user);
         loggedInUser = new User(
@@ -289,20 +213,22 @@ export const getUser = data => {
       }
     }
     if (!response.ok) {
-      console.error("ERROR in response (PostUserToDb)");
+      console.error("ERROR in response (PostUserToDb) ", response);
     } else {
       console.log("response good (postUserToDb)");
       //setSecureStore(data, loggedInUser); //Turn secureStore on again
+        //Make sure a dispacth is called, otherwise function won't work => send to reducer
       dispatch({ type: LOGIN, payload: { loggedInUser, token: data.idToken } });
     }
   };
 };
 
+
+//Refresh token when expired if still logged in
 export const refreshToken = refreshToken => {
-  console.log("refreshToken() || UserAction.js");
+  console.log("refreshToken() || UserAction.js ", refreshToken);
+     //use redux thunk to make asyncrounous calls
   return async dispatch => {
-    console.log("refreshToken");
-    console.log("DATA refresh " + refreshToken);
     const response = await fetch(`https://securetoken.googleapis.com/v1/token?key=${API}`, {
       method: "POST",
       headers: {
@@ -315,25 +241,29 @@ export const refreshToken = refreshToken => {
     });
 
     const data = await response.json();
-    console.log("Data after refresh token");
-
     if (!response.ok) {
+      console.log("An error happended ", response )
     } else {
+      //Send to reducer
       dispatch({ type: REFRESH_TOKEN, payload: data.id_token });
     }
   };
 };
 
-/* const setSecureStore = (data, user) => {
+//Add secureStore, so user is automatically logged in on refresh, unless they logged out
+export const setSecureStore = (data, user) => {
+/* 
   console.log("setSecureStore() || UserAction.js");
   SecureStore.setItemAsync("userToken", data.idToken);
   SecureStore.setItemAsync("user", JSON.stringify(user));
   let expiration = new Date();
   expiration = expiration.setSeconds(expiration.getSeconds() + parseInt(data.expiresIn));
   SecureStore.setItemAsync("expiration", JSON.stringify(expiration));
-  SecureStore.setItemAsync("refreshToken", data.refreshToken);
-}; */
+  SecureStore.setItemAsync("refreshToken", data.refreshToken);*/
+}; 
 
+
+//Log out from google authentication
 export const userLogout = () => {
   console.log("userLogout() || UserAction.js");
   //Turn secureStore on again
@@ -341,6 +271,8 @@ export const userLogout = () => {
   SecureStore.deleteItemAsync("expiration");
   SecureStore.deleteItemAsync("user");
   SecureStore.deleteItemAsync("userToken");  */
+
+  //Send to reducer
   return { type: LOGOUT, payload: undefined };
 };
 

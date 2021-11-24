@@ -1,19 +1,23 @@
+//INSTALLED PACKAGES
 import React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+
+//APP COMPONENTS
 import { userLogout } from "./userStore/UserAction";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 
 const Logout = props => {
   const dispatch = useDispatch();
 
+  //Call userLogout (redux acition)
   const handleLogout = () => {
     dispatch(userLogout());
   };
 
   return (
     <TouchableOpacity onPress={handleLogout} style={styles.logout}>
-      <Text style={[MainScreenStyling.header, styles.textColor]}>LOG OUT</Text>
+      <Text style={MainScreenStyling.header}>LOG OUT</Text>
     </TouchableOpacity>
   );
 };

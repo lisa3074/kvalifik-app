@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-const CBS_blue_text = "#32305D";
 const CBS_blue = "#5050A5";
 const CBS_blue2 = "#32305D";
 const CBS_disabled = "#BABADD";
@@ -127,6 +126,13 @@ const MainScreenStyling = StyleSheet.create({
       height: 1,
       width: 0,
     },
+  },
+    line: {
+    borderBottomColor: "#AAAAAA",
+    borderBottomWidth: 1,
+    marginTop: 32,
+    marginBottom: 32,
+    opacity: 0.2,
   },
 });
 

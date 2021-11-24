@@ -1,17 +1,24 @@
+//INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import MainScreenStyling from "../../styling/MainScreenStyling";
-import Input from "../reusableComponents/Input";
 import { useSelector, useDispatch } from "react-redux";
-import { editUser, deleteUser } from "../User/userStore/UserAction";
-import ProfileImage from "../reusableComponents/ProfileImage";
+
+//APP COMPONENTS
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import Input from "../REUSABLE_COMPONENTS/Input";
+import { editUser, deleteUser } from "./userStore/UserAction";
+import ProfileImage from "../REUSABLE_COMPONENTS/ProfileImage";
 
 const EditProfile = props => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  //Get redux states
   const loggedInUser = useSelector(state => state.user.loggedInUser);
   const token = useSelector(state => state.user.token);
-  const dispatch = useDispatch();
 
+  //State variables
   const [firstName, setFirstName] = useState(loggedInUser.firstname);
   const [isFirstNameValid, setIsFirstNameValid] = useState(true);
   const [lastName, setLastName] = useState(loggedInUser.lastname);
@@ -21,14 +28,18 @@ const EditProfile = props => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isTouched, setIsTouched] = useState(false);
 
+  //If button is touched while disabled
   const handleDisabled = () => {
     setIsTouched(true);
   };
+
+  //Call deleteUser (redux acition)
   const handleDelete = () => {
     console.log("handleDelete");
     dispatch(deleteUser(token, loggedInUser.id));
   };
 
+  //Set disabled/touched whenever isFirstNameValid, isLastNameValid and isProgrammValid changes
   useEffect(
     function handleEditBtn() {
       //if password or email is not valid, set login button to disabled
@@ -39,9 +50,8 @@ const EditProfile = props => {
     [isFirstNameValid, isLastNameValid, isProgrammValid]
   );
 
-  const navigation = useNavigation();
+  //Call editUser (redux acition) and navigate to profile
   const HandleSave = () => {
-    console.log("handleSave");
     dispatch(editUser(firstName, lastName, programme, loggedInUser.id, token));
     navigation.navigate(props.action);
   };
@@ -50,6 +60,7 @@ const EditProfile = props => {
     <ScrollView style={styles.container}>
       <ProfileImage />
       <View style={MainScreenStyling.input}>
+        {/* Reusable component */}
         <Input
           label={"What is your first name?"}
           placeholder={"Type your first name"}
@@ -61,6 +72,7 @@ const EditProfile = props => {
         />
       </View>
       <View style={MainScreenStyling.input}>
+        {/* Reusable component */}
         <Input
           label={"What is your last name?"}
           placeholder={"Type your last name"}
@@ -72,6 +84,7 @@ const EditProfile = props => {
         />
       </View>
       <View style={[MainScreenStyling.input, styles.inputHigh]}>
+        {/* Reusable component */}
         <Input
           label={"Study programme"}
           placeholder={"Type your study programme"}
@@ -82,14 +95,19 @@ const EditProfile = props => {
           error={""}
         />
       </View>
+      {/* Only show error if */}
       {isDisabled && isTouched && (!isFirstNameValid || !isLastNameValid || isProgrammValid) && (
         <Text style={MainScreenStyling.error}>You need to fill out all fields</Text>
       )}
+
+      {/* Only save if button is not disabled */}
       <TouchableOpacity
         style={[MainScreenStyling.button, styles.save, isDisabled && MainScreenStyling.disabled]}
         onPress={isDisabled ? handleDisabled : HandleSave}>
         <Text style={MainScreenStyling.darkBtnTxt}>Save changes</Text>
       </TouchableOpacity>
+
+      {/* Only delete if button is not disabled */}
       <TouchableOpacity style={[MainScreenStyling.button, styles.delete]} onPress={handleDelete}>
         <Text style={[MainScreenStyling.lightBtnTxt, styles.deleteText]}>Delete profile</Text>
       </TouchableOpacity>

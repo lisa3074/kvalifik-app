@@ -1,17 +1,21 @@
+//INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { postUserToDb, userLogin, getUser } from "./userStore/UserAction";
-import { refreshToken, restoreUser } from "./userStore/UserAction";
-import * as SecureStore from "expo-secure-store";
-import Input from "../reusableComponents/Input";
-import MainScreenStyling from "../../styling/MainScreenStyling";
 import { useNavigation } from "@react-navigation/core";
-import logo from '../../static/images/CBS_logo.png';
+import * as SecureStore from "expo-secure-store";
+
+//APP COMPONENTS
+import { userLogin } from "./userStore/UserAction";
+import Input from "../REUSABLE_COMPONENTS/Input";
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import logo from "../../static/images/CBS_logo.png";
 
 const Login = props => {
   const { storedUser } = props;
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
+  //State variables
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -20,16 +24,18 @@ const Login = props => {
   const [isTouched, setIsTouched] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(storedUser);
+  //Call userLogin (redux acition)
   const handleLogin = () => {
-    dispatch(userLogin(loginEmail, loginPassword));
-    //dispatch(userLogin("lisa@lisa.dk", "password"));
+    //dispatch(userLogin(loginEmail, loginPassword));
+    dispatch(userLogin("lisa@lisa.dk", "password"));
   };
 
+  //If button is touched
   const handleDisabled = () => {
     setIsTouched(true);
   };
 
+  //Set disabled/touched whenever isEmailValid and isPasswordValid changes
   useEffect(
     function handleLoginBtn() {
       //if password or email is not valid, set login button to disabled
@@ -40,16 +46,15 @@ const Login = props => {
     [isEmailValid, isPasswordValid]
   );
 
-  //SetToken();
-
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo}/>
+      <Image source={logo} style={styles.logo} />
       <View>
         <Text style={styles.heading}>Log in</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.input}>
+          {/* Reusable component */}
           <Input
             placeholder={"Write your email"}
             label={"E-mail"}
@@ -62,6 +67,7 @@ const Login = props => {
         </View>
         <View style={styles.line}></View>
         <View style={styles.input}>
+          {/* Reusable component */}
           <Input
             placeholder={"Write your password"}
             label={"Password"}
@@ -76,6 +82,7 @@ const Login = props => {
       <Text style={styles.alignCenter}>Forgot password?</Text>
       <TouchableOpacity
         style={[MainScreenStyling.button, styles.button, isDisabled && styles.disabled]}
+        //Only go to handleLogin if not disabled
         onPress={isDisabled ? handleDisabled : handleLogin}>
         <Text style={MainScreenStyling.darkBtnTxt}>Log in</Text>
       </TouchableOpacity>
@@ -83,11 +90,14 @@ const Login = props => {
       {isDisabled && isTouched && (!isEmailValid || !isPasswordValid) && (
         <Text style={styles.error}>You need to fill out email and password</Text>
       )}
-         <Text onPress={() => {
+      {/* Go to onboarding flow */}
+      <Text
+        onPress={() => {
           navigation.navigate(props.action);
-          }} style={[styles.alignCenter, styles.thinFont]}>    
-           Don't have an account? <Text style={styles.bold}>Sign up</Text>
-        </Text>
+        }}
+        style={[styles.alignCenter, styles.thinFont]}>
+        Don't have an account? <Text style={styles.bold}>Sign up</Text>
+      </Text>
     </View>
   );
 };
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: "100%",
     padding: 16,
-    paddingTop: 50
+    paddingTop: 50,
   },
   inputContainer: {
     borderColor: CBS_border,
@@ -115,23 +125,22 @@ const styles = StyleSheet.create({
       width: 0,
     },
   },
-    bold: {
-    fontWeight: '600'
+  bold: {
+    fontWeight: "600",
   },
-      alignCenter: {
-    textAlign: 'center',
+  alignCenter: {
+    textAlign: "center",
     color: CBS_blue_text,
-        fontSize: 12,
-       marginBottom: 46,
+    fontSize: 12,
+    marginBottom: 46,
     color: CBS_blue_text,
     fontWeight: "600",
-    
   },
   input: {
     height: 60,
   },
   thinFont: {
-    fontWeight: '400'
+    fontWeight: "400",
   },
   line: {
     borderBottomColor: CBS_border,
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     marginBottom: 32,
     alignItems: "flex-start",
-    paddingBottom: 16
+    paddingBottom: 16,
   },
   disabled: {
     backgroundColor: CBS_disabled,
@@ -157,14 +166,14 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 8,
   },
-   logo: {
+  logo: {
     width: 100,
     height: 100,
-      borderRadius: 100,
+    borderRadius: 100,
     marginBottom: 24,
-      marginRight: 8,
-    alignSelf: 'center'
-    },
+    marginRight: 8,
+    alignSelf: "center",
+  },
 });
 
 export default Login;

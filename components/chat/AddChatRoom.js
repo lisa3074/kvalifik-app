@@ -1,31 +1,31 @@
+//INSTALLED PACKAGES
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+
+//APP COMPONENTS
 import { newChatRoom, deleteChatRoom } from "./chatStore/ChatAction";
 import MainScreenStyling from "../../styling/MainScreenStyling";
 
 const AddChatRoom = props => {
+  const dispatch = useDispatch();
+
+  //State variables
   const [text, setText] = useState("");
 
-  const dispatch = useDispatch();
+  //Call newChatRoom or deleteChatRomm in response to type (redux action)
+  const handleSubmit = type => {
+    dispatch(type === "new" ? newChatRoom(text) : deleteChatRoom(text));
+    setText("");
+  };
 
   return (
     <View style={styles.row}>
       <TextInput style={styles.textInput} onChangeText={setText} value={text} placeholder="Add / delete chat room" />
-      <TouchableOpacity
-        style={[MainScreenStyling.button, styles.button]}
-        onPress={() => {
-          dispatch(newChatRoom(text));
-          setText("");
-        }}>
+      <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={() => handleSubmit("new")}>
         <Text style={MainScreenStyling.darkBtnTxt}>Add</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={[MainScreenStyling.button, styles.button]}
-        onPress={() => {
-          dispatch(deleteChatRoom(text));
-          setText("");
-        }}>
+      <TouchableOpacity style={[MainScreenStyling.button, styles.button]} onPress={() => handleSubmit("delete")}>
         <Text style={MainScreenStyling.darkBtnTxt}>Delete</Text>
       </TouchableOpacity>
     </View>

@@ -1,27 +1,35 @@
+//INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
-import MainScreenStyling from "../../styling/MainScreenStyling";
-import CheckBox from "../reusableComponents/Checkbox";
-import Logout from "../User/Logout";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { editNotifications } from "../User/userStore/UserAction";
-import { useDispatch } from "react-redux";
+
+//APP COMPONENTS
+import Logout from "./Logout";
+import CheckBox from "../REUSABLE_COMPONENTS/Checkbox";
+import MainScreenStyling from "../../styling/MainScreenStyling";
+import { editNotifications } from "./userStore/UserAction";
 import placeholder from "../../static/images/placeholder.png";
 
 const Menu = props => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  //get redux states
   const loggedInUser = useSelector(state => state.user.loggedInUser);
   const token = useSelector(state => state.user.token);
-  const dispatch = useDispatch();
 
-  const navigation = useNavigation();
+  //State variables
+  const [isChatChecked, setIsChatChecked] = useState(loggedInUser.chatNotifications);
+  const [isEventChecked, setIsEventChecked] = useState(loggedInUser.eventNotifications);
+
+  //Go to edit profile
   const HandleEdit = () => {
-    console.log("handleEdit");
     navigation.navigate(props.action);
   };
 
-  //Finding first and last name.
+  //Finding first and last name to display on profile.
   const firstName = loggedInUser.firstname;
   const lastName = loggedInUser.lastname;
   const firstSpace = firstName.indexOf(" ");
@@ -33,13 +41,10 @@ const Menu = props => {
   } else {
     firstFirstName = firstName;
   }
-
   const lastLastName = lastName.substring(lastSpace, 1000);
   const newFullName = firstFirstName.trim() + " " + lastLastName.trim();
-  const [isChatChecked, setIsChatChecked] = useState(loggedInUser.chatNotifications);
-  const [isEventChecked, setIsEventChecked] = useState(loggedInUser.eventNotifications);
-  //const [isTouched, setIsTouched] = useState(false);
 
+  //Call editNotifications whenever isChatChecked or isEventChecked changes
   useEffect(() => {
     dispatch(editNotifications(isChatChecked, isEventChecked, loggedInUser.id, token));
   }, [isChatChecked, isEventChecked]);
@@ -66,13 +71,20 @@ const Menu = props => {
               <Text style={styles.heading}>Chat</Text>
               <Text style={MainScreenStyling.paragraphSmall}>When you recieve a new message</Text>
             </View>
-            <CheckBox label={""} isChecked={isChatChecked} setIsChecked={setIsChatChecked} type={"switch"} error={""} />
+            {/* Reusable compoent */}
+            <CheckBox l
+              abel={""}
+              isChecked={isChatChecked}
+              setIsChecked={setIsChatChecked}
+              type={"switch"}
+              error={""} />
           </View>
           <View style={styles.notificationContainer}>
             <View>
               <Text style={styles.heading}>Event reminder</Text>
               <Text style={MainScreenStyling.paragraphSmall}>An hour before events you are ‘going to’</Text>
             </View>
+            {/* Reusable compoent */}
             <CheckBox
               label={""}
               isChecked={isEventChecked}

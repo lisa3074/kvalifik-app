@@ -3,8 +3,8 @@ import { View, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 /* 
-###### TO USE ######
-import Checkbox from '../reusableComponents/Checkbox';'
+###### TO USE EXAMPLE ######
+import Checkbox from '../REUSABLE_COMPONENTS/Checkbox';'
 const [isChecked, setIsChecked] = useState(false);
 
       <Checkbox
@@ -16,6 +16,7 @@ const [isChecked, setIsChecked] = useState(false);
       />
 */
 
+//Set types on props passed from parent component
 interface Props {
   label: string;
   isChecked: boolean;
@@ -25,16 +26,21 @@ interface Props {
 }
 
 const Input = ({ label, isChecked, setIsChecked, type, error }: Props) => {
+  //State variable
   const [isTouched, setIsTouched] = useState(false);
+
+  //Set isCheked and send back to parent component for further use, mark input as touched
   const toggleCheckbox = (checked: boolean) => {
     setIsChecked(checked);
     setIsTouched(true);
   };
 
+  //Set component up with props passed from parent component
   return (
     <View>
       <View style={styles.container}>
         <TouchableOpacity
+          //Check for type and if checked for styling purposes
           style={[
             type === "check"
               ? isChecked
@@ -45,12 +51,15 @@ const Input = ({ label, isChecked, setIsChecked, type, error }: Props) => {
               : styles.switchContainer,
           ]}
           onPress={() => toggleCheckbox(!isChecked)}>
+          {/* Show if checkbox */}
           {type === "check" && <Text style={styles.v}>✓</Text>}
+          {/* Show if switch */}
           {type === "switch" && <View style={[styles.switch, isChecked && styles.switchChecked]}></View>}
         </TouchableOpacity>
         <Text style={styles.labelStyle}>{label}</Text>
       </View>
-      {!isChecked && isTouched && <Text style={styles.error}>{error}</Text>}
+      {/* Show only if not checked and touched and only if the error is not nothing */}
+      {!isChecked && isTouched && error != '' && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
