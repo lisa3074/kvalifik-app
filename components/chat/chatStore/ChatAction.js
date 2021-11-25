@@ -35,7 +35,7 @@ export const newChatRoom = chatroomName => {
       //There was a problem..
       console.error("ERROR in response, ", response);
     } else {
-      //create new object
+      //create new object //data.name === id
       const newChatRoom = new ChatRoom(data.name, data.image, chatroomName, [], data.read);
         //Make sure a dispacth is called, otherwise function won't work => send to reducer
       dispatch({ type: NEW_CHATROOM, payload: newChatRoom });

@@ -1,7 +1,7 @@
 //INSTALLED PACKAGES
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import * as SecureStore from "expo-secure-store";
 

@@ -57,6 +57,10 @@ const Menu = props => {
     }
   }, [isChatChecked, isEventChecked]);
 
+  /* const handleChange = () => {
+    console.log("handleChange")
+  } */
+
   return (
     <ScrollView>
       <View style={styles.container}>

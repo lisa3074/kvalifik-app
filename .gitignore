@@ -1,3 +1,8 @@
+# API
+apiKeys/
+/apiKeys
+apiKeys/apiKey.js
+
 # OSX
 #
 .DS_Store
